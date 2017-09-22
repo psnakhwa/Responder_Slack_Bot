@@ -13,7 +13,7 @@ Team Members:
 ### Design Sketches
 ### Wireframe
 This wireframe shows the interaction between Manager and BugBot in a Slack GUI. This interaction covers all 3 use cases mentioned above : </br>
-<img src="../images/wireframe.PNG"/>
+<img src="/images/wireframe.PNG"/>
 
 
 ### Storyboard
