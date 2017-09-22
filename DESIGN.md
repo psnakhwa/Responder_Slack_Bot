@@ -60,3 +60,5 @@ This wireframe shows the interaction between Manager and BugBot in a Slack GUI. 
 ### Storyboard
 ### Architecture Design
 ### Additional Patterns
+##### Adapter Pattern
+Adapter can simply be defined as a bridge that connects 2 interface which are otherwise incompatible. In this scenario we can consider the bot as an adapter as it is helping to execute commands which the user inputs on slack interface and executes those commands on the target Github interface.
