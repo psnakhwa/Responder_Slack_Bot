@@ -13,6 +13,7 @@ Nowadays, one of the major concerns in software industry is efficient utilizatio
 The Bugbot would be a great solution for all the problems we mentioned above. It’s main aim would be to reduce manager’s workload by seamlessly automating the monotonous process of tracking issues and recommending appropriate assignees.
 
 The bugbot will have the following workflows:
+
 Manager asks for all issues → BugBot provides a list →  Manager provides a particular issue name → BugBot uses text mining to extract the critical information from the issue name and maps it with commit history of all the developers to  recommend the best possible assignee for that issue → BugBot provides a list of best possible assignees to the manager. → Manager selects one name from that list → BugBot assigns the issue to that developer and notifies him accordingly.
 
 Manager provides a filename → BugBot provides a list of developers who committed on that file in the past → Manager provides a name of one developer → BugBot assigns the issue to that developer and notifies him/her.
