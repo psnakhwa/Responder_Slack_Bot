@@ -9,4 +9,4 @@ Team Members:
 
 ## Design Document:
 
-[This](DESGIN.md) is the Design document for the project.
+[This](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/DESIGN.md) is the Design document for the project.
