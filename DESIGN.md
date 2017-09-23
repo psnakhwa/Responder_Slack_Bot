@@ -74,6 +74,12 @@ This wireframe shows the interaction between Manager and BugBot in a Slack GUI. 
 ### Architecture Design
 ### Additional Patterns
 
+**Component Diagram**     
+  
+  
+<img src="/images/component.PNG"/>  
+
+
 * We will require a mixture of patterns in order to make the BugBot work efficiently and accurately. 
 * Two main patterns that we are going to use are Conversationists and Singleton Design pattern and these are the most used design patterns used for bit design. 
 * As mentioned in [Conversationist pattern](http://willschenk.com/bot-design-patterns/#conversationists) we want to create this bugbot which will
