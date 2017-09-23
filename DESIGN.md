@@ -12,7 +12,7 @@ Team Members:
 ### Use Cases
 
 ```
-Use Case: Recommend an assignee for a new github issue to a manager based on employee’s skill set.
+Use Case 1: Recommend an assignee for a new github issue to a manager based on employee’s skill set.
 1 Preconditions:
   Manager must have Slack and github tokens on the system.
 2 Main Flow:
@@ -26,7 +26,7 @@ Use Case: Recommend an assignee for a new github issue to a manager based on emp
 [E2] Issue already in closed state.
 ```
 ```
-Use Case: Providing the manager with a list of major contributors for a buggy code.
+Use Case 2: Providing the manager with a list of major contributors for a buggy code.
 1 Preconditions
   Manager must have Slack and github tokens on the system. Manager must know the filename where the buggy code lies.
 2 Main Flow
@@ -39,7 +39,7 @@ Use Case: Providing the manager with a list of major contributors for a buggy co
 [E1] No such file exists in the repository.
 ```
 ```
-Use Case: Provide list of issues that are due to be solved in the next given number of days
+Use Case 3: Provide list of issues that are due to be solved in the next given number of days
 1 Preconditions
   Manager must have Slack and github tokens on the system.
 2 Main Flow
@@ -72,13 +72,15 @@ This wireframe shows the interaction between Manager and BugBot in a Slack GUI. 
   <img src="/images/Storyboard/case3.PNG"/>
 
 ### Architecture Design
-Architecture best represents a repository architecture pattern, in which the data for all the issues, every developer's’ past issue work and commit history are being pulled more often than pushed (like creating and assigning an issue) to Github. The users will use slack(Bot UI) as an interface to communicate with bot, which will process the commands given by user and will get all the required data from github and provide user the output in a predefined format and may notify users based on the requirement. Node.js will be used as a backend with third-party libraries. 
+Architecture best represents a repository architecture pattern, in which the data for all the issues, every developer's’ past issue work and commit history are being pulled more often than pushed (like creating and assigning an issue) to Github. 
+
+The users will use slack(Bot UI) as an interface to communicate with the bot, which will process the commands given by user and will get all the required data from github and provide user the output in a predefined format and may notify users based on the requirement. Node.js will be used as a backend with third-party libraries. 
 
 <img src="/images/arch.jpg"/>
 
-We will use Github REST api as an API gateway between bot and Github. Our project repository will be saved on the github. When bot receives a command it (Node.js script) will call REST apis to request a required information (eg. people who can solve an issue, people who can be responsible for a bug, list of issues within deadline). As per the command bot will run an algorithm to find the right set of people to solve an issue (using issue heading, description, user's commit history, and labels) or an algorithm to find people who might be responsible for introducing or fixing a particular bug (may be using git blame). Through this bot will try to find a best possible matches.
+We will use Github REST api as an API gateway between bot and Github. Our project repository will be saved on the github. When bot receives a command, it (Node.js script) will call REST apis to request a required information (eg. people who can solve an issue, people who can be responsible for a bug, list of issues within deadline). As per the command bot will run an algorithm to find the right set of people to solve an issue (using issue heading, description, user's commit history, and labels) or an algorithm to find people who might be responsible for introducing or fixing a particular bug (may be using git blame and other ways). Through this bot will try to find a best possible matches.
 
-AWS cloud (may be EC2 instance) will have our bot deployed. This is the component where all the parsing, analysis and processing will be done. Bot will parse a command given by user to determine what action it is supposed to execute. These actions may involve pulling required data from github or pushing changes to modify issues (eg. add or change assignee, create an issue)
+AWS EC2 instance will have our bot deployed. This is the component where all the parsing, analysis and processing will be done. Bot will parse a command given by user to determine what action it is supposed to execute. These actions may involve pulling required data from github or pushing changes to modify issues (eg. add or change assignee, create an issue)
 
 
 **Component Diagram**     
