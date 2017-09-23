@@ -102,11 +102,9 @@ AWS EC2 instance will have our bot deployed. This is the component where all the
 
 ## Additional Patterns
 * We will require a mixture of patterns in order to make the BugBot work efficiently and accurately. 
-* Two main patterns that we are going to use are Conversationists and Singleton Design pattern and these are the most used design patterns used for bit design. 
-* As mentioned in [Conversationist pattern](http://willschenk.com/bot-design-patterns/#conversationists) we want to create this bugbot which will
-React to messages : 
-  -It will reply to messages which are tagged to him. (eg. message > @BugBot give me a list of employees.
-  -Knows who they are talking to : BugBot will know who sent him the message and will tag on appropriate messages. (not all responses).
+* Two main patterns that we are going to use are Adapter and Singleton Design pattern and these are the most used design patterns used for bit design. 
+
+* Our bot will act as an Adapter between Manager and GitHub issues. The manager will give certain commands to the BugBot and the BugBot will make the changes accordingly in the GitHub issues thus acting as a mediator.
 
 * Second pattern that we are going to use is Singleton design pattern.  As we know Singleton: defines an instance operation that lets clients access its unique interface and clients access a Singleton instance solely through Singleton’s Instance operation.
 * Obviously we cannot have > 1 instance of bot as we want to avoid race condition of multiple bots working on same command from the manager. So one client --> one interface --> one bot. Client here is not individual users, infact we can say client is “one channel with a group of managers”.
