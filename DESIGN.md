@@ -87,7 +87,7 @@ AWS EC2 instance will have our bot deployed. This is the component where all the
 **Component Diagram**     
   
   
-<img src="/images/component.PNG"/>  
+<img src="/images/component.PNG" height="375" width="550"/>  
 
 ### Additional Patterns
 * We will require a mixture of patterns in order to make the BugBot work efficiently and accurately. 
