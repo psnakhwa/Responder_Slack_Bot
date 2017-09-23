@@ -59,9 +59,16 @@ This wireframe shows the interaction between Manager and BugBot in a Slack GUI. 
 
 ### Storyboard
 
-**case 1: ** ()
-**case 2: ** ()
-**case 3: ** ()
+**case 1: Recommend an assignee for a new github issue to a manager based on employee’s skill set**     
+  
+  
+<img src="/images/Storyboard/case1.PNG"/>
+**case 2: Providing the Employee with a list of major contributors for a buggy code**   
+  
+<img src="/images/Storyboard/case2.PNG"/>
+**case 3: Provide list of issues that are due to be solved in the next given number of days**   
+  
+  <img src="/images/Storyboard/case3.PNG"/>
 
 ### Architecture Design
 ### Additional Patterns
