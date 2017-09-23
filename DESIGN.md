@@ -58,6 +58,11 @@ This wireframe shows the interaction between Manager and BugBot in a Slack GUI. 
 
 
 ### Storyboard
+
+**case 1: ** ()
+**case 2: ** ()
+**case 3: ** ()
+
 ### Architecture Design
 ### Additional Patterns
 
