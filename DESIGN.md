@@ -63,7 +63,7 @@ This wireframe shows the interaction between Manager and BugBot in a Slack GUI. 
 
 * We will require a mixture of patterns in order to make the BugBot work efficiently and accurately. 
 * Two main patterns that we are going to use are Conversationists and Singleton Design pattern and these are the most used design patterns used for bit design. 
-* As mentioned here : [Conversationist pattern](http://willschenk.com/bot-design-patterns/#conversationists) we want to create this bugbot which will
+* As mentioned in [Conversationist pattern](http://willschenk.com/bot-design-patterns/#conversationists) we want to create this bugbot which will
 React to messages : 
   -It will reply to messages which are tagged to him. (eg. message > @BugBot give me a list of employees.
   -Knows who they are talking to : BugBot will know who sent him the message and will tag on appropriate messages. (not all responses).
