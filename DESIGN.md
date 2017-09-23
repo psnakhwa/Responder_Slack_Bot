@@ -107,7 +107,7 @@ AWS EC2 instance will have our bot deployed. This is the component where all the
 React to messages : 
   -It will reply to messages which are tagged to him. (eg. message > @BugBot give me a list of employees.
   -Knows who they are talking to : BugBot will know who sent him the message and will tag on appropriate messages. (not all responses).
-  -Can learn from what was said : For example, if bot has already notified the developer and the manager commands again then bot won’t do it.
+
 * Second pattern that we are going to use is Singleton design pattern.  As we know Singleton: defines an instance operation that lets clients access its unique interface and clients access a Singleton instance solely through Singleton’s Instance operation.
 * Obviously we cannot have > 1 instance of bot as we want to avoid race condition of multiple bots working on same command from the manager. So one client --> one interface --> one bot. Client here is not individual users, infact we can say client is “one channel with a group of managers”.
 
