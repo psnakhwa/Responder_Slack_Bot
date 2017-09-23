@@ -21,7 +21,7 @@ Manager provide “number of days” as a parameter to the bot → BugBot provid
 
 These workflows will save the manager’s time and improve productivity of the team. The BugBot will have conversation with the manager and will notify the manager as well as the developers of all the important events. BugBot would best fit into the Responder bot category since it will respond to an event created by the manager and then make api calls to fetch data, process it and provide its response. The bot will behave differently for the managers and the employees as it will maintain some information about the user. The BugBot can be considered as a combination of a Chatbot and a Code Drone as it will have a conversation with the manager and perform repetitive programming tasks in an autonomous manner. It will only need manager input to confirm the assignment.
 
-### Use Cases
+## Use Cases
 
 ```
 Use Case 1: Recommend an assignee for a new github issue to a manager based on employee’s skill set.
@@ -63,7 +63,7 @@ Use Case 3: Provide list of issues that are due to be solved in the next given n
 4 Alternative Flows
 [E1] No issue due within the given time frame.
 ```
-### Design Sketches
+## Design Sketches
 ### Wireframe
 This wireframe shows the interaction between Manager and BugBot in a Slack GUI. This interaction covers all 3 use cases mentioned above : </br>
 <img src="/images/wireframe.PNG"/>
@@ -84,7 +84,7 @@ This wireframe shows the interaction between Manager and BugBot in a Slack GUI. 
   
  <img src="/images/Storyboard/case3.PNG" height="375" width="600"/>
 
-### Architecture Design
+## Architecture Design
 Architecture best represents a repository architecture pattern, in which the data for all the issues, every developer's’ past issue work and commit history are being pulled more often than pushed (like creating and assigning an issue) to Github. 
 
 The users will use slack(Bot UI) as an interface to communicate with the bot, which will process the commands given by user and will get all the required data from github and provide user the output in a predefined format and may notify users based on the requirement. Node.js will be used as a backend with third-party libraries. 
@@ -101,7 +101,7 @@ AWS EC2 instance will have our bot deployed. This is the component where all the
   
 <img src="/images/component.PNG" height="375" width="550"/>  
 
-### Additional Patterns
+## Additional Patterns
 * We will require a mixture of patterns in order to make the BugBot work efficiently and accurately. 
 * Two main patterns that we are going to use are Conversationists and Singleton Design pattern and these are the most used design patterns used for bit design. 
 * As mentioned in [Conversationist pattern](http://willschenk.com/bot-design-patterns/#conversationists) we want to create this bugbot which will
