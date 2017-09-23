@@ -8,7 +8,19 @@ Team Members:
 5. Darshit Pandit (dupandit)
 
 ## Problem statement
+Nowadays, one of the major concerns in software industry is efficient utilization of company’s resources.  The time which developers spend doing nothing can add up pretty quickly which indirectly slows the product development. For example, ensuring that all the employees are working on some issue or the other at all times is an important task of product manager. Neglecting this will surely bring down company’s growth rate. Moreover, even if the managers decide to keep a track of each and every employee’s current progress, it is a very tiresome and complex task to do this manually. Also, just ensuring that all the employees are working on some issue is not good enough. The manager must also ensure that all the employees are working on the issues which are the best possible assignment for them according to their potential. Under utilization of an employee’s potential can also be considered as a wastage of critical company resources. Finally, the manager himself has more important tasks to work on instead of this repetitive task. So the time manager spends on tracking other employees’ progress is a wastage of his own precious time. So, it is better for the company that it’s product manager spends least possible time on such trivial tasks. These are some crucial software engineering problems which need to be addressed as effectively as possible.
 ## Bot Description
+The Bugbot would be a great solution for all the problems we mentioned above. It’s main aim would be to reduce manager’s workload by seamlessly automating the monotonous process of tracking issues and recommending appropriate assignees.
+
+The bugbot will have the following workflows:
+Manager asks for all issues → BugBot provides a list →  Manager provides a particular issue name → BugBot uses text mining to extract the critical information from the issue name and maps it with commit history of all the developers to  recommend the best possible assignee for that issue → BugBot provides a list of best possible assignees to the manager. → Manager selects one name from that list → BugBot assigns the issue to that developer and notifies him accordingly.
+
+Manager provides a filename → BugBot provides a list of developers who committed on that file in the past → Manager provides a name of one developer → BugBot assigns the issue to that developer and notifies him/her.
+
+Manager provide “number of days” as a parameter to the bot → BugBot provides a list of issues which are due before that deadline.
+
+These workflows will save the manager’s time and improve productivity of the team. The BugBot will have conversation with the manager and will notify the manager as well as the developers of all the important events. BugBot would best fit into the Responder bot category since it will respond to an event created by the manager and then make api calls to fetch data, process it and provide its response. The bot will behave differently for the managers and the employees as it will maintain some information about the user. The BugBot can be considered as a combination of a Chatbot and a Code Drone as it will have a conversation with the manager and perform repetitive programming tasks in an autonomous manner. It will only need manager input to confirm the assignment.
+
 ### Use Cases
 
 ```
