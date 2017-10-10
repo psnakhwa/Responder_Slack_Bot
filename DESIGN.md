@@ -65,7 +65,7 @@ Use Case 3: Provide list of issues that are due to be solved in the next given n
 ## Design Sketches
 ### Wireframe
 This wireframe shows the interaction between Manager and BugBot in a Slack GUI. This interaction covers all 3 use cases mentioned above : </br>
-<img src="/images/wireframe.PNG"/>
+<img src="/images/wireframe_design.PNG"/>
 
 
 ### Storyboard
