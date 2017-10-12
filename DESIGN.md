@@ -75,9 +75,9 @@ This wireframe shows the interaction between Manager and Bot in a Slack GUI. Thi
   
 <img src="/images/Storyboard/case1.PNG" height="375" width="600"/>  
   
-**case 2: Providing the Employee with a list of major contributors for a buggy code**   
+**case 2: Providing the Employee with a list of major contributors for a set of code**   
   
-<img src="/images/Storyboard/case2.PNG" height="375" width="600"/>  
+<img src="/images/Storyboard/usecase2.PNG" height="375" width="600"/>  
 
 **case 3: Provide list of reviewers required to review a set of code**   
   
