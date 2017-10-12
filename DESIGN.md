@@ -79,9 +79,9 @@ This wireframe shows the interaction between Manager and Bot in a Slack GUI. Thi
   
 <img src="/images/Storyboard/case2.PNG" height="375" width="600"/>  
 
-**case 3: Provide list of issues that are due to be solved in the next given number of days**   
+**case 3: Provide list of reviewers required to review a set of code**   
   
- <img src="/images/Storyboard/case3.PNG" height="375" width="600"/>
+ <img src="/images/Storyboard/usecase3.PNG" height="375" width="600"/>
 
 ## Architecture Design
 Architecture best represents a repository architecture pattern, in which the data for all the issues, every developer's’ past issue work and commit history are being pulled more often than pushed (like creating and assigning an issue) to Github. 
