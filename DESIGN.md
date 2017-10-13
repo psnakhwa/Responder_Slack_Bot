@@ -1,10 +1,10 @@
 # Design Document
 
 ## Problem statement
-What is the problem?
+#### What is the problem?
 Nowadays, a major concern for all the managers in any software company is to find the people to work on new as well as existing issues in a project. It is also an extremely tedious task for the manager to manually ensure that all the employees are not just assigned to an issue but are also working on the issues which are the best possible assignment for them as per their potential. Under utilization (inefficient resource allocation) of an employee’s potential can be considered as a wastage of critical company resources. Secondly, when an employee is assigned to work on an existing issue he/she needs an understanding of the code and associated errors previously worked upon by another team member which becomes tough for him to identify. A solution for this will quickly ensure peer-mapping and reduce effort to understand the code. Thirdly, it is hard to find the right developer who can review the code written by other employees. Code review is critical to maintain the standard of code that goes in production. So, to find the right person for a particular task is a major challenge that needs to be addressed as effectively as possible.
 
-Why is this a problem? 
+#### Why is this a problem? 
 Currently, the managers find assignees for issues manually by checking individual calendars and skills. Also, there is no standard procedure to find the code reviewer. Finding people is a task for the manager which needs to be done repeatedly. The time manager spends on this repetitive task of allocating and mapping people to issues and deliverables is a wastage of the manager’s precious time as well as crucial company resources. So, it is better for the company that it’s manager spends the least possible time on these tasks. There are few factors which contributes to the choice of assignees: 
 Who is experienced in working with these kinds of issues?
 What skill set does the employee possess?
