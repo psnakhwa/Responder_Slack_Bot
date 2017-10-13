@@ -1,66 +1,74 @@
 # Design Document
 
 ## Problem statement
-Nowadays, one of the major concerns in software industry is efficient utilization of company’s resources.  The time which developers spend doing nothing can add up pretty quickly which indirectly slows the product development. For example, ensuring that all the employees are working on some issue or the other at all times is an important task of product manager. Neglecting this will surely bring down company’s growth rate. 
+What is the problem?
+Nowadays, a major concern for all the managers in any software company is to find the people to work on new as well as existing issues in a project. It is also an extremely tedious task for the manager to manually ensure that all the employees are not just assigned to an issue but are also working on the issues which are the best possible assignment for them as per their potential. Under utilization (inefficient resource allocation) of an employee’s potential can be considered as a wastage of critical company resources. Secondly, when an employee is assigned to work on an existing issue he/she needs an understanding of the code and associated errors previously worked upon by another team member which becomes tough for him to identify. A solution for this will quickly ensure peer-mapping and reduce effort to understand the code. Thirdly, it is hard to find the right developer who can review the code written by other employees. Code review is critical to maintain the standard of code that goes in production. So, to find the right person for a particular task is a major challenge that needs to be addressed as effectively as possible.
 
-Moreover, even if the managers decide to keep a track of each and every employee’s current progress, it is a very tiresome and complex task to do this manually. Also, just ensuring that all the employees are working on some issue is not good enough. The manager must also ensure that all the employees are working on the issues which are the best possible assignment for them according to their potential. Under utilization of an employee’s potential can also be considered as a wastage of critical company resources. 
-
-Finally, the manager himself has more important tasks to work on instead of this repetitive task. So the time manager spends on tracking other employees’ progress is a wastage of his own precious time. So, it is better for the company that it’s product manager spends least possible time on such trivial tasks. These are some crucial software engineering problems which need to be addressed as effectively as possible.
+Why is this a problem? 
+Currently, the managers find assignees for issues manually by checking individual calendars and skills. Also, there is no standard procedure to find the code reviewer. Finding people is a task for the manager which needs to be done repeatedly. The time manager spends on this repetitive task of allocating and mapping people to issues and deliverables is a wastage of the manager’s precious time as well as crucial company resources. So, it is better for the company that it’s manager spends the least possible time on these tasks. There are few factors which contributes to the choice of assignees: 
+Who is experienced in working with these kinds of issues?
+What skill set does the employee possess?
+Who has the capability to review the code?
+As this assignment involves certain factors which has to be considered every single time an issue needs to be assigned, this process has to be automated in an efficient way to assist the manager in mapping assignees to issues.
 
 ## Bot Description
-The Bugbot would be a great solution for all the problems we mentioned above. It’s main aim would be to reduce manager’s workload by seamlessly automating the monotonous process of tracking issues and recommending appropriate assignees.
+The Traži Bot would be a great solution for all the problems we mentioned above. It’s main aim would be to find appropriate assignees for various issues as well as code reviews and recommend them to the manager and thus reduce manager’s workload.
 
-The bugbot will have the following workflows:
+The bot will have the following workflows:
 
-Manager asks for all issues → BugBot provides a list →  Manager provides a particular issue name → BugBot uses text mining to extract the critical information from the issue name and maps it with commit history of all the developers to  recommend the best possible assignee for that issue → BugBot provides a list of best possible assignees to the manager. → Manager selects one name from that list → BugBot assigns the issue to that developer and notifies him accordingly.
+Manager asks for all issues → Bot provides a list →  Manager provides a particular issue name → Bot uses text mining to extract the critical information from the issue name and maps it with commit history of all the developers to  recommend the best possible assignee for that issue → Bot provides a list of best possible assignees to the manager. → Manager selects one name from that list → Bot assigns the issue to that developer and notifies him accordingly.
 
-Manager provides a filename → BugBot provides a list of developers who committed on that file in the past → Manager provides a name of one developer → BugBot assigns the issue to that developer and notifies him/her.
+Developer provides a filename → Bot provides a list of employees who made modifications on that file in the past → Developer instructs the bot to notify those employees → Bot notifies the employees.
 
-Manager provide “number of days” as a parameter to the bot → BugBot provides a list of issues which are due before that deadline.
+Developer provides a filename to the Bot and asks for potential reviewers  → Bot provides a list of potential reviewers → Developer selects the reviewer which he/she wants → Bot notifies those reviewers.
 
-These workflows will save the manager’s time and improve productivity of the team. The BugBot will have conversation with the manager and will notify the manager as well as the developers of all the important events. BugBot would best fit into the Responder bot category since it will respond to an event created by the manager and then make api calls to fetch data, process it and provide its response. The BugBot will follow a Reactor design pattern as it will respond to the events generated by the manager. The BugBot can be considered as a combination of a Chatbot and a Code Drone as it will have a conversation with the manager and perform repetitive programming tasks in an autonomous manner. It will only need manager input to confirm the assignment.
+These workflows will save the manager’s time and improve productivity of the team. The Bot will have conversation with the manager as well as the developers and will notify them of all the important events. Traži Bot would best fit into the Responder bot category since it will respond to an event created by the manager and then make api calls to fetch data, process it and provide its response. The Bot will follow a Reactor design pattern as it will respond to the events generated by the manager. The Bot can be considered as a combination of a Chatbot and a Code Drone as it will have a conversation with the manager and perform repetitive programming tasks in an autonomous manner. It will only need manager input to confirm the assignment.
 
 ## Use Cases
 
 ```
-Use Case 1: Recommend an assignee for a new github issue to a manager based on employee’s skill set.
+Use Case 1: Finding an employee for a new issue based on his/her skill set and deadline of issues they are currently working on
 1 Preconditions:
-  Manager must have Slack and github tokens on the system.
+  Manager must have Slack and github tokens on the system. Manager must know the issue number for which an employee needs to be find.
 2 Main Flow:
-  A manager requests for a list of employees that can best solve a particular open issue. Bot will return a list of employees whose skill set match the ones required to solve that issue. Manager selects an employee, the bot assigns the issue to that employee.
+  A manager requests for a list of employees that can best solve a particular open issue. Bot will return a list which will contain the the employees ordered on the basis of their skill set and the deadline of the issues they are currently working on. Manager selects an employee, the bot assigns the issue to that employee.
 3 Subflows:
 [S1] Manager requests for a list of employees to solve an issue.
 [S2] Bot returns a list of employees most appropriate to solve that issue. Manager selects an employee.
 [S3] Bot assigns the issue to the selected employee.
 4 Alternative Flows
-[E1] Issue does not exist.
-[E2] Issue already in closed state.
+ [E1] Issue does not exist.
+ [E2] Issue already in closed state.
+
 ```
 ```
-Use Case 2: Providing the manager with a list of major contributors for a buggy code.
+Use Case 2: Finding major contributor who is responsible for past modifications in the code 
 1 Preconditions
-  Manager must have Slack and github tokens on the system. Manager must know the filename where the buggy code lies.
+  Employee must have Slack and github tokens on the system. Employee must know the filename where more modifications are needed.
 2 Main Flow
-  Manager provides the filename of the code where bug has been reported. Bot returns a list of employees who have made major commits to that file in recent times. Manager selects an employee, bot creates an issue for the same and assigns it to that employee.
+  Employee provides the filename of the code requiring modifications. Bot returns contributor’s username who made major commits to that file previously. Employee asks bot to notify the contributor(concerned employee) about the same.
 3 Subflows
-[S1] Manager provides filename of buggy code
-[S2] Return list of major contributors of that code. Manager selects an employee.
-[S3] An issue is created for the bug and assigned to the selected employee. 
+[S1] Employer provides filename of code requiring modifications
+[S2] Return major contributor of that code.
+[S3] That contributor is notified about requiring modifications.
 4 Alternative Flows
 [E1] No such file exists in the repository.
+
 ```
 ```
-Use Case 3: Provide list of issues that are due to be solved in the next given number of days
+Use Case 3: Finding a code reviewer for an issue.
 1 Preconditions
   Manager must have Slack and github tokens on the system.
 2 Main Flow
-  Bot will return a list of issues and the assignees of the issues that are supposed to get closed within the specified number of days. Bot will ask the manager if he wants to notify any of the mentioned assignees.  
+  A manager or an employee requests for a list of most suitable reviewers for a new commit. Bot finds the employees based on their previous experience on reviewing similar issues and the number of commits they have previously made which further shows  they can be good reviewers. 
 3 Subflows
-[S1] Manager provides a number of days to find the issues that are due within those many days.
-[S2] Bot returns a list of issues and the employees working on those issues.
-[S3] If the manager chooses to notify any employee about the upcoming deadline, the bot notifies the employees about the same.
+[S1] An employee requests for a list of suitable reviewers for a recent commit.
+[S2] Bot returns a list of employees who can best review the code.
+[S3] The employee selects all the employees from that list for reviewing the commit.
+[S4] Bot notifies those employees who have been selected for the review.
 4 Alternative Flows
-[E1] No issue due within the given time frame.
+[E1] Issue does not exist.
+
 ```
 ## Design Sketches
 ### Wireframe
@@ -101,11 +109,11 @@ AWS EC2 instance will have our bot deployed. This is the component where all the
 <img src="/images/component.PNG" height="375" width="550"/>  
 
 ## Additional Patterns
-* We will require a mixture of patterns in order to make the BugBot work efficiently and accurately. 
+* We will require a mixture of patterns in order to make the Bot work efficiently and accurately. 
 * Two main patterns that we are going to use are Adapter and Singleton Design pattern and these are the most used design patterns used for bit design. 
 
-* Our bot will act as an Adapter between Manager and GitHub issues. The manager will give certain commands to the BugBot and the BugBot will make the changes accordingly in the GitHub issues thus acting as a mediator.
+* Our bot will act as an Adapter between Manager and GitHub issues. The manager will give certain commands to the Bot and the Bot will make the changes accordingly in the GitHub issues thus acting as a mediator.
 
 * Second pattern that we are going to use is Singleton design pattern.  As we know Singleton: defines an instance operation that lets clients access its unique interface and clients access a Singleton instance solely through Singleton’s Instance operation.
-* Obviously we cannot have > 1 instance of bot as we want to avoid race condition of multiple bots working on same command from the manager. So one client --> one interface --> one bot. Client here is not individual users, infact we can say client is “one channel with a group of managers”.
+* Obviously we cannot have more than one instance of a bot as we want to avoid race condition of multiple bots working on same command from the manager. So one client --> one interface --> one bot. Client here is not individual users, infact we can say client is “one channel with a group of managers”.
 
