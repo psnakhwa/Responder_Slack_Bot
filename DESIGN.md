@@ -115,5 +115,5 @@ AWS EC2 instance will have our bot deployed. This is the component where all the
 * Our bot will act as an Adapter between Manager and GitHub issues. The manager will give certain commands to the Bot and the Bot will make the changes accordingly in the GitHub issues thus acting as a mediator.
 
 * Second pattern that we are going to use is Singleton design pattern.  As we know Singleton: defines an instance operation that lets clients access its unique interface and clients access a Singleton instance solely through Singleton’s Instance operation.
-* Obviously we cannot have more than one instance of a bot as we want to avoid race condition of multiple bots working on same command from the manager. So one client --> one interface --> one bot. Client here is not individual users, infact we can say client is “one channel with a group of managers”.
+* Obviously we cannot have more than one instance of a bot as we want to avoid race condition of multiple bots working on same command from the manager. So one client --> one interface --> one bot. Client here is not individual users, infact we can say client is “one channel with a group of managers and developers”.
 
