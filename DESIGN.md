@@ -2,13 +2,17 @@
 
 ## Problem statement
 #### What is the problem?
-Nowadays, a major concern for all the managers in any software company is to find the people to work on new as well as existing issues in a project. It is also an extremely tedious task for the manager to manually ensure that all the employees are not just assigned to an issue but are also working on the issues which are the best possible assignment for them as per their potential. Under utilization (inefficient resource allocation) of an employee’s potential can be considered as a wastage of critical company resources. Secondly, when an employee is assigned to work on an existing issue he/she needs an understanding of the code and associated errors previously worked upon by another team member which becomes tough for him to identify. A solution for this will quickly ensure peer-mapping and reduce effort to understand the code. Thirdly, it is hard to find the right developer who can review the code written by other employees. Code review is critical to maintain the standard of code that goes in production. So, to find the right person for a particular task is a major challenge that needs to be addressed as effectively as possible.
+Nowadays, a major concern for all the managers in any software company is to find the people to work on new as well as existing issues in a project. It is also an extremely tedious task for the manager to manually ensure that all the employees are not just assigned to an issue but are also working on the issues which are the best possible assignment for them as per their potential. Under utilization (inefficient resource allocation) of an employee’s potential can be considered as a wastage of critical company resources.
+
+Secondly, when an employee is assigned to work on an existing issue he/she needs an understanding of the code and associated errors previously worked upon by another team member which becomes tough for him to identify. A solution for this will quickly ensure peer-mapping and reduce effort to understand the code.
+
+Thirdly, it is hard to find the right developer who can review the code written by other employees. Code review is critical to maintain the standard of code that goes in production. So, to find the right person for a particular task is a major challenge that needs to be addressed as effectively as possible.
 
 #### Why is this a problem? 
-Currently, the managers find assignees for issues manually by checking individual calendars and skills. Also, there is no standard procedure to find the code reviewer. Finding people is a task for the manager which needs to be done repeatedly. The time manager spends on this repetitive task of allocating and mapping people to issues and deliverables is a wastage of the manager’s precious time as well as crucial company resources. So, it is better for the company that it’s manager spends the least possible time on these tasks. There are few factors which contributes to the choice of assignees: 
-Who is experienced in working with these kinds of issues?
-What skill set does the employee possess?
-Who has the capability to review the code?
+Currently, the managers find assignees for issues manually by checking individual calendars and skills. Also, there is no standard procedure to find the code reviewer. Finding people is a task for the manager which needs to be done repeatedly. The time manager spends on this repetitive task of allocating and mapping people to issues and deliverables is a wastage of the manager’s precious time as well as crucial company resources. So, it is better for the company that it’s manager spends the least possible time on these tasks. There are few factors which contributes to the choice of assignees:  
+Who is experienced in working with these kinds of issues?  
+What skill set does the employee possess?  
+Who has the capability to review the code?  
 As this assignment involves certain factors which has to be considered every single time an issue needs to be assigned, this process has to be automated in an efficient way to assist the manager in mapping assignees to issues.
 
 ## Bot Description
@@ -98,22 +102,19 @@ The users will use slack(Bot UI) as an interface to communicate with the bot, wh
 
 <img src="/images/arch.jpg"/>
 
-We will use Github REST api as an API gateway between bot and Github. Our project repository will be saved on the github. When bot receives a command, it (Node.js script) will call REST apis to request a required information (eg. people who can solve an issue, people who can be responsible for a bug, list of issues within deadline). As per the command bot will run an algorithm to find the right set of people to solve an issue (using issue heading, description, user's commit history, and labels) or an algorithm to find people who might be responsible for introducing or fixing a particular bug (may be using git blame and other ways). Through this bot will try to find a best possible matches.
+We will use Github REST api as an API gateway between bot and Github. Our project repository will be saved on the github. When bot receives a command, it (Node.js script) will call REST apis to request a required information (eg. people who can solve an issue, people who can be responsible for a bug, list of issues within deadline). As per the command bot will run an algorithm to find the right set of people to solve an issue (using issue heading, description, user's commit history, and labels) or an algorithm to find people who can be good fit for reviewing particular bug fix. Through this bot will try to find a best possible matches.
 
-AWS EC2 instance will have our bot deployed. This is the component where all the parsing, analysis and processing will be done. Bot will parse a command given by user to determine what action it is supposed to execute. These actions may involve pulling required data from github or pushing changes to modify issues (eg. add or change assignee, create an issue)
-
+AWS EC2 instance will have our bot deployed. This is the component where all the parsing, analysis and processing will be done. Bot will parse a command given by user to determine what action it is supposed to execute. These actions may involve pulling required data from github or pushing changes to modify issues (eg. add or change assignee, add reviewer etc)
 
 **Component Diagram**     
-  
   
 <img src="/images/component.PNG" height="375" width="550"/>  
 
 ## Additional Patterns
 * We will require a mixture of patterns in order to make the Bot work efficiently and accurately. 
-* Two main patterns that we are going to use are Adapter and Singleton Design pattern and these are the most used design patterns used for bit design. 
+* Two main patterns that we are going to use are singleton and command design pattern.
 
-* Our bot will act as an Adapter between Manager and GitHub issues. The manager will give certain commands to the Bot and the Bot will make the changes accordingly in the GitHub issues thus acting as a mediator.
+* First pattern that we are going to use is Singleton design pattern.  As we know Singleton: defines an instance operation that lets clients access its unique interface and clients access a Singleton instance solely through Singleton’s Instance operation.
+* Obviously we cannot have more than one instance of a bot as we want to avoid race condition of multiple bots working on same command from the manager.
 
-* Second pattern that we are going to use is Singleton design pattern.  As we know Singleton: defines an instance operation that lets clients access its unique interface and clients access a Singleton instance solely through Singleton’s Instance operation.
-* Obviously we cannot have more than one instance of a bot as we want to avoid race condition of multiple bots working on same command from the manager. So one client --> one interface --> one bot. Client here is not individual users, infact we can say client is “one channel with a group of managers and developers”.
-
+* Second pattern is command pattern. Command pattern is a data driven design pattern and falls under behavioral pattern category. A request is wrapped under an object as command and passed to invoker object. Invoker object looks for the appropriate object which can handle this command and passes the command to the corresponding object which executes the command. Our bot will take command from user and then will decide which action to take.
