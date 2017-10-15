@@ -113,8 +113,5 @@ AWS EC2 instance will have our bot deployed. This is the component where all the
 ## Additional Patterns
 * We will require a mixture of patterns in order to make the Bot work efficiently and accurately. 
 * Two main patterns that we are going to use are singleton and command design pattern.
-
-* First pattern that we are going to use is Singleton design pattern.  As we know Singleton: defines an instance operation that lets clients access its unique interface and clients access a Singleton instance solely through Singleton’s Instance operation.
-* Obviously we cannot have more than one instance of a bot as we want to avoid race condition of multiple bots working on same command from the manager.
-
+* First pattern that we are going to use is Singleton design pattern.  As we know Singleton: defines an instance operation that lets clients access its unique interface and clients access a Singleton instance solely through Singleton’s Instance operation. Obviously we cannot have more than one instance of a bot as we want to avoid race condition of multiple bots working on same command from the manager.
 * Second pattern is command pattern. Command pattern is a data driven design pattern and falls under behavioral pattern category. A request is wrapped under an object as command and passed to invoker object. Invoker object looks for the appropriate object which can handle this command and passes the command to the corresponding object which executes the command. Our bot will take command from user and then will decide which action to take.
