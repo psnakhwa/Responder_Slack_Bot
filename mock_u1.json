@@ -182,4 +182,22 @@
         "body": "This is a pending issue which needs to be solved by October 25,2017."
     }
 ]
+,
+
+"users":[
+    {
+        "name":"parag",
+        "id":"psnakhwa",
+        "skills":["JAVA","HTML"],
+        "availabilty":"4"
+    },
+    {
+        "name":"darshit",
+        "id":"dupandit",
+        "skills":["Python","JavaScript"],
+        "availabilty":"8"
+    }
+    
+]
 }
+
