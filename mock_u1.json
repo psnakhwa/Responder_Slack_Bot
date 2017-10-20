@@ -1,4 +1,5 @@
-{"issue-list":[
+{
+  "issue-List":[
     {
         "url": "https://github.ncsu.edu/api/v3/repos/dupandit/Sample-mock-repo/issues/2",
         "repository_url": "https://github.ncsu.edu/api/v3/repos/dupandit/Sample-mock-repo",
@@ -182,7 +183,7 @@
         "body": "This is a pending issue which needs to be solved by October 25,2017."
     }
 ]
-,
+},
 
 "users":[
     {
@@ -197,7 +198,6 @@
         "skills":["Python","JavaScript"],
         "availabilty":"8"
     }
-    
+
 ]
 }
-
