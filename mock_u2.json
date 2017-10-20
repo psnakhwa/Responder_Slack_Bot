@@ -1,5 +1,8 @@
-[
-    {
+
+{
+
+    "commits_of_a_file" = [
+	{
         "sha": "a5fcd7977b164dc63a086a4a6c117287ed445c3c",
         "commit": {
             "author": {
@@ -159,3 +162,4 @@
         ]
     }
 ]
+}
