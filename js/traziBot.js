@@ -1,3 +1,4 @@
+var helper = require("./helper.js")
 var os = require('os');
 
 if (!process.env.BOT_TOKEN) {
@@ -17,8 +18,32 @@ controller.spawn({
     token: process.env.BOT_TOKEN,
   }).startRTM()
 
-  controller.hears('weather',['mention', 'direct_mention','direct_message'], function(bot,message) 
-  {
+// controller.hears('weather',['mention', 'direct_mention','direct_message'], function(bot,message) 
+// {
+//     console.log(message);
+//     bot.reply(message,"The weather is great");
+// });
+
+controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+{ 
+    helper.getCollaborators();
+    findRelative
+});
+
+controller.hears('contributors file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+{
+
+});
+
+controller.hears('reviewer issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+{
+    
+});
+
+controller.hears(['.*'],['mention', 'direct_mention','direct_message'], function(bot,message) 
+{
     console.log(message);
-    bot.reply(message,"The weather is great");
-  });
+    bot.reply(message, "Wrong command");
+    bot.reply(message, "Valid commands are as follows:");
+    bot.reply(message, "weather");
+});
