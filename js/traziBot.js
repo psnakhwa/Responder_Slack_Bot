@@ -109,7 +109,7 @@ controller.hears('reviewer issue (.*)',['mention', 'direct_mention','direct_mess
                 bot.reply(message, "Emp Id: " + element.id + " Skills: " + element.skills);
                 //console.log(element.skills+ " "+element.id);
             }, this);
-            convo.ask("Whom do you want to select as a reviewer?", function(response, convo) {
+            convo.ask("Whom do you want to select as a reviewer? Provide comma separated ids", function(response, convo) {
                 helper.isValidUser(response.text, userList).then(function (userId){
                     console.log("assigning issue");
                     convo.ask('Do you want to assign ' + userId + ' as a reviewer for issue #?' + issueNumber + ' Please confirm', [
