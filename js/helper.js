@@ -15,14 +15,36 @@ function getCollaborators(){
 }
 
 /**
+ * @desc this will assign userId to issueNumber
+ * @param userId emp to whom we will assign an issue
+ * @param issueNumber issue to assigned
+ * @return 
+ */
+function assignIssueToEmp(userId, issueNumber){
+    console.log("assignIssueToEmp start");
+    return new Promise(function(resolve, reject){
+        resolve("Issue " + issueNumber + " assigned to " + userId);
+    });
+    console.log("assignIssueToEmp end");
+} 
+
+
+/**
  * @desc  
  * @param 
  * @return 
  */
-function assignIssueToEmp(){
-    console.log("assignIssueToEmp start");
-    console.log("assignIssueToEmp end");
-} 
+function assignReviewerForIssue(userId, issueNumber){
+    console.log("assignReviewerForIssue start");
+    return new Promise(function(resolve, reject){
+        resolve("Reviewer " + userId + " assigned to issue #" + issueNumber);
+    });
+    console.log("assignReviewerForIssue end");
+}
+
+function getPossibleAssignees(issueNumber){
+
+}
 
 function isValidUser(userId, userList){
     console.log("isValidUser start");
@@ -43,3 +65,5 @@ function isValidUser(userId, userList){
 exports.getCollaborators = getCollaborators;
 exports.assignIssueToEmp = assignIssueToEmp;
 exports.isValidUser = isValidUser;
+exports.getPossibleAssignees = getPossibleAssignees;
+exports.assignReviewerForIssue = assignReviewerForIssue;

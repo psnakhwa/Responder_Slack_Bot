@@ -25,12 +25,18 @@ controller.spawn({
 //     bot.reply(message,"The weather is great");
 // });
 
+/**
+ * Use Case 1
+ * @desc Finding assignee for given issue
+ * @param issueNumber issue for which assinee suggestion is required
+ */
 controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 { 
-    // helper.getCollaborators();
+    var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
             console.log(message);
+            //helper.getPossibleAssignees(issueNumber);
             var response = fs.readFileSync('../mock_u1.json');
             var assigneeData = JSON.parse(response);
             var assignee = assigneeData.users;
@@ -48,21 +54,37 @@ controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_mess
                     {
                         pattern: 'yes',
                         callback: function(response, convo) {
-                            convo.say("Issue assigned to " + userId);
+                            //convo.say("Issue assigned to " + userId);
+                            helper.assignIssueToEmp(userId, issueNumber).then(function(response){
+                                console.log("issue assign true");
+                                bot.reply(message, response);
+                            }).catch(function(err){
+                                bot.reply(message, error);
+                            });
+                            convo.next();
+                        }
+                    },
+                    {
+                        pattern: 'no',
+                        callback: function(response, convo) {
+                            convo.stop();
+                        }
+                    },
+                    {
+                        default: true,
+                        callback: function(response, convo) {
+                            convo.repeat();
                             convo.next();
                         }
                     }]);
                     convo.next();
                 }).catch(function (e){
-                    bot.reply(message, "user not from recommendations");
+                    bot.reply(message, "User not from given recommendations");
                 });
                     
             });
         });
     });
-    // findRelative
-    
-    //bot.reply(message, assigneeData.users);
 });
 
 controller.hears('contributors file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
@@ -72,7 +94,59 @@ controller.hears('contributors file (.*)',['mention', 'direct_mention','direct_m
 
 controller.hears('reviewer issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
-    
+    var issueNumber = message.match[1];
+    controller.storage.users.get(message.user, function(err, user) {
+        bot.startConversation(message, function(err, convo) {
+            console.log(message);
+            //helper.getPossibleAssignees(issueNumber);
+            var response = fs.readFileSync('../mock_u3.json');
+            var reviewerData = JSON.parse(response);
+            var reviewers = reviewerData.reviewers;
+            //console.log(assignee);
+            var userList = [];
+            reviewers.forEach(function(element) {
+                userList.push(element.id);
+                bot.reply(message, "Emp Id: " + element.id + " Skills: " + element.skills);
+                //console.log(element.skills+ " "+element.id);
+            }, this);
+            convo.ask("Whom do you want to select as a reviewer?", function(response, convo) {
+                helper.isValidUser(response.text, userList).then(function (userId){
+                    console.log("assigning issue");
+                    convo.ask('Do you want to assign ' + userId + ' as a reviewer for issue #?' + issueNumber + ' Please confirm', [
+                    {
+                        pattern: 'yes',
+                        callback: function(response, convo) {
+                            //convo.say("Issue assigned to " + userId);
+                            helper.assignReviewerForIssue(userId, issueNumber).then(function(response){
+                                console.log("issue reviewer true");
+                                bot.reply(message, response);
+                            }).catch(function(err){
+                                bot.reply(message, error);
+                            });
+                            convo.next();
+                        }
+                    },
+                    {
+                        pattern: 'no',
+                        callback: function(response, convo) {
+                            convo.stop();
+                        }
+                    },
+                    {
+                        default: true,
+                        callback: function(response, convo) {
+                            convo.repeat();
+                            convo.next();
+                        }
+                    }]);
+                    convo.next();
+                }).catch(function (e){
+                    bot.reply(message, "User not from given recommendations");
+                });
+                    
+            });
+        });
+    });
 });
 
 controller.hears(['.*'],['mention', 'direct_mention','direct_message'], function(bot,message) 
