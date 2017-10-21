@@ -24,5 +24,22 @@ function assignIssueToEmp(){
     console.log("assignIssueToEmp end");
 } 
 
+function isValidUser(userId, userList){
+    console.log("isValidUser start");
+    // if(userList.indexOf(userId)>-1){
+    //     return true;
+    // }
+    // return false;
+    // console.log("isValidUser end");
+    return new Promise(function (resolve, reject)
+	{
+         if(userList.indexOf(userId)>-1){
+            resolve(userId);
+        }
+        reject(userId);
+    });
+}
+
 exports.getCollaborators = getCollaborators;
 exports.assignIssueToEmp = assignIssueToEmp;
+exports.isValidUser = isValidUser;

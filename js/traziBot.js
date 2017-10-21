@@ -1,5 +1,6 @@
 var helper = require("./helper.js")
 var os = require('os');
+var fs = require('fs');
 
 if (!process.env.BOT_TOKEN) {
     console.log('Error: Specify token in environment');
@@ -26,8 +27,42 @@ controller.spawn({
 
 controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 { 
-    helper.getCollaborators();
-    findRelative
+    // helper.getCollaborators();
+    controller.storage.users.get(message.user, function(err, user) {
+        bot.startConversation(message, function(err, convo) {
+            console.log(message);
+            var response = fs.readFileSync('../mock_u1.json');
+            var assigneeData = JSON.parse(response);
+            var assignee = assigneeData.users;
+            //console.log(assignee);
+            var userList = [];
+            assignee.forEach(function(element) {
+                userList.push(element.id);
+                bot.reply(message, "Emp Id: " + element.id + " Skills: " + element.skills);
+                //console.log(element.skills+ " "+element.id);
+            }, this);
+            convo.ask("Whom do you want to assign this issue?", function(response, convo) {
+                helper.isValidUser(response.text, userList).then(function (userId){
+                    console.log("assigning issue");
+                    convo.ask('Do you want to assign issue to ' + userId + '? Please confirm', [
+                    {
+                        pattern: 'yes',
+                        callback: function(response, convo) {
+                            convo.say("Issue assigned to " + userId);
+                            convo.next();
+                        }
+                    }]);
+                    convo.next();
+                }).catch(function (e){
+                    bot.reply(message, "user not from recommendations");
+                });
+                    
+            });
+        });
+    });
+    // findRelative
+    
+    //bot.reply(message, assigneeData.users);
 });
 
 controller.hears('contributors file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
