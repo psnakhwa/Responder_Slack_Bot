@@ -183,24 +183,4 @@
         "body": "This is a pending issue which needs to be solved by October 25,2017."
     }
 ]
-<<<<<<< HEAD:mock_u1.json
-,
-
-"users":[
-    {
-        "name":"parag",
-        "id":"psnakhwa",
-        "skills":["JAVA","HTML"],
-        "availabilty":"4"
-    },
-    {
-        "name":"darshit",
-        "id":"dupandit",
-        "skills":["Python","JavaScript"],
-        "availabilty":"8"
-    }
-
-]
-=======
->>>>>>> 96b42fc4a7cc8da7c6a20e20db3387789791d07b:mock_data/Ucase1_listofissues_labels_mock.json
 }
