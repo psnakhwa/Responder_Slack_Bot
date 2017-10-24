@@ -4,9 +4,7 @@
 
 ## Milestone 2 
 
-We have used Trello for worksheet and teamwork. Kindly find trello cards at this
-
-[Trello Link](https://trello.com/b/Bvs2VQ3O/milestone-2) Credentials are Username : tester1  Password : pass@1234
+We have used Trello for worksheet and teamwork. Kindly find trello cards at this [Trello Link](https://trello.com/b/Bvs2VQ3O/milestone-2) Credentials are Username : tester1  Password : pass@1234
 
 
 
@@ -43,13 +41,13 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 
 ## Week 3 : Oct 23 to Oct 25
 
-|   | Deliverable           |               | Item/Status                               | Issues/Tasks | Team Members | Estimated Date        | Actual Date |        |
+|   | Deliverable           |  Sub Tasks     | Item/Status                               | Issues/Tasks | Team Members | Estimated Date        | Actual Date |        |
 |---|--------------------|------------------|-------------------------------------------|--------------|--------------|-----------------------|-------------|--------|
-| 1 | Write acceptance test scripts        | Testing                                   |              | #5           | Aayush, Parag           | 24-Oct      | 24-Oct |
-| 2 | Screencast                           | Makng screencast                          |              | #10          | Darshit, Sushant         | 24-Oct      | 24-Oct |
-| 3 | Deployment and running bot   forever | Modifying script to run the bot   forever |              | #11          | All | 28-Nov      | 24-Oct |
-|   |                                      | Testing bot on the server                 |              | #12          | Shrikant, Aayush           | 24-Oct      | 24-Oct |
-| 4 | Deployment delivery                  |                                           |              | #14          | All                   | 24-Oct      | 24-Oct |
+| 1 | Integrate and test for the bot working        | Functioning of the Bot           |In progress              | [#17](https://trello.com/c/FgK1q8ZI)           | ALL          | 24-Oct      | 25-Oct |
+| 2 | Screencast                           | Makng screencast                          |  Not Yet Started            | [#11](https://trello.com/c/SQBDLMix)          | ALL         | 24-Oct      | 24-Oct |
+| 3 | Write-up for describing how are the changes done | Modifying script to run the bot   forever |              | [#15](https://trello.com/c/I7X3rIdY)          | Aayush and Darshit | 24-Oct      | 25-Oct |
+| 4 | Prepare the Worksheet.md file                                      | Integrate Trello and Worksheet.md | Done  | [#18](https://trello.com/c/EB99r64U)          | Sushant           | 17-Oct      | 25-Oct |
+| 4 | Deployment delivery                  |                                           |              | [#19](https://trello.com/c/UUKePlfD)          | All                   | 25-Oct      | 25-Oct |
 
 =======
 >>>>>>> 96b42fc4a7cc8da7c6a20e20db3387789791d07b
