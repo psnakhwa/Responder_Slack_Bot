@@ -22,6 +22,12 @@ controller.spawn({
     token: process.env.BOT_TOKEN,
   }).startRTM()
 
+  // Intro
+controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
+  {   
+      
+  });
+  
 /**
  * Use Case 1
  * @desc Finding assignee for given issue
@@ -42,33 +48,18 @@ controller.hears('(.*) collaborators',['mention','direct_mention','direct_messag
     });
 });
 
-controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
-{   
-    controller.storage.users.get(message.user, function(err, user) {
-        bot.startConversation(message, function(err, convo) {
-            bot.reply(message, "Hey ! How may I help you ? ");            
-            convo.stop();
-        });
-    });
-});
-
-
 controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {   
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
             console.log(message);
-            //helper.getPossibleAssignees(issueNumber);
-            var response = fs.readFileSync('../mock_data/Ucase1_Developer_skills_and_availability_mock.json');
-            var assigneeData = JSON.parse(response);
-            var assignee = assigneeData.users;
-            //console.log(assignee);
+            var assignee = helper.getPossibleAssignees(issueNumber);
+            console.log(assignee);
             var userList = [];
             assignee.forEach(function(element) {
                 userList.push(element.id);
                 bot.reply(message, "Emp Id: " + element.id + " Skills: " + element.skills);
-                //console.log(element.skills+ " "+element.id);
             }, this);
             convo.ask("Whom do you want to assign this issue?", function(response, convo) {
                 helper.isValidUser(response.text, userList).then(function (userId){

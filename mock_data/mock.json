@@ -12,8 +12,25 @@
             "id":"dupandit",
             "skills":["Python","JavaScript"],
             "availabilty_in_days":"8"
+        },
+        {
+            "name":"shrikant",
+            "id":"sbshete",
+            "skills":["PHP","HTML"],
+            "availabilty_in_days":"4"
+        },
+        {
+            "name":"aayush",
+            "id":"asagarwa",
+            "skills":["Node","JavaScript"],
+            "availabilty_in_days":"1"
+        },
+        {
+            "name":"sushant",
+            "id":"sagupta",
+            "skills":["SQL","C#"],
+            "availabilty_in_days":"8"
         }
-    
     ],
     
     "collaborators":[
@@ -490,7 +507,7 @@
             ]
         }
     ],
-    
+
     "reviewers":[
         {
             "name":"parag",

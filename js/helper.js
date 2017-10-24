@@ -14,17 +14,17 @@ var mockIssueList = nock("https://github.ncsu.edu/api/v3")
 .get("/repos/dupandit/Sample-mock-repo/issues")
 .reply(200, JSON.stringify(data.issueList) );
 
+var mockCollaborators = nock("https://github.ncsu.edu/api/v3")
+.persist() // This will persist mock interception for lifetime of program.
+.get("/repos/dupandit/Sample-mock-repo/collaborators")
+.reply(200, JSON.stringify(data.collaborators) );
+
 /**
  * @desc  
  * @param 
  * @return 
  */
 function getCollaborators(owner,repo){
-
-    var mockCollaborators = nock("https://github.ncsu.edu/api/v3")
-    .persist() // This will persist mock interception for lifetime of program.
-    .get("/repos/dupandit/Sample-mock-repo/collaborators")
-    .reply(200, JSON.stringify(data.collaborators) );
     
     var options = { 
         url: urlRoot + "/repos/" + owner + "/" + repo + "/collaborators",  
@@ -53,7 +53,8 @@ function getCollaborators(owner,repo){
  * @return 
  */
 function assignIssueToEmp(userId, issueNumber){
-    console.log("assignIssueToEmp start");
+
+    
     return new Promise(function(resolve, reject){
         resolve("Issue " + issueNumber + " assigned to " + userId);
     });
@@ -75,16 +76,12 @@ function assignReviewerForIssue(userId, issueNumber){
 }
 
 function getPossibleAssignees(issueNumber){
-
+    var assignees = data.users;
+    return assignees;
 }
 
 function isValidUser(userId, userList){
-    console.log("isValidUser start");
-    // if(userList.indexOf(userId)>-1){
-    //     return true;
-    // }
-    // return false;
-    // console.log("isValidUser end");
+
     return new Promise(function (resolve, reject)
 	{
          if(userList.indexOf(userId)>-1){
