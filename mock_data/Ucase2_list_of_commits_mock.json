@@ -5,7 +5,7 @@
 	{
         "sha": "a5fcd7977b164dc63a086a4a6c117287ed445c3c",
         "commit": {
-            "author": {
+            "author": {  
                 "name": "dupandit",
                 "email": "dupandit@ncsu.edu",
                 "date": "2017-10-20T00:18:37Z"

@@ -37,7 +37,7 @@ controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_mess
         bot.startConversation(message, function(err, convo) {
             console.log(message);
             //helper.getPossibleAssignees(issueNumber);
-            var response = fs.readFileSync('../mock_u1.json');
+            var response = fs.readFileSync('./mock_data/Ucase1_Developer_skills_and_availability_mock.json');
             var assigneeData = JSON.parse(response);
             var assignee = assigneeData.users;
             //console.log(assignee);
@@ -79,7 +79,7 @@ controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_mess
                     }]);
                     convo.next();
                 }).catch(function (e){
-                    bot.reply(message, "User not from given recommendations");
+                    bot.reply(message, "Cannot assign issue to given user, since it is not from given recommendation(s)");
                 });
                     
             });
@@ -87,9 +87,26 @@ controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_mess
     });
 });
 
-controller.hears('contributors file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+controller.hears('contri file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
-
+    controller.storage.users.get(message.user, function(err, user) {
+        bot.startConversation(message, function(err, convo) {
+            console.log(message);
+            //helper.getPossibleAssignees(issueNumber);
+            var response = fs.readFileSync('./mock_data/Ucase2_list_of_commits_mock.json');
+            var contriData = JSON.parse(response);
+            var contributors = contriData.commits_of_a_file;
+            //console.log(assignee);
+            var userList = [];
+            contributors.forEach(function(element) {
+                userList.push(element.commit.author.name);
+                bot.reply(message, "Emp Id: " + element.commit.author.name +
+                                   "\nDate: " + element.commit.author.date + 
+                                   "\nCommit Message: " + element.commit.message);
+                //console.log(element.skills+ " "+element.id);
+            }, this);
+        });
+    });
 });
 
 controller.hears('reviewer issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
@@ -99,7 +116,7 @@ controller.hears('reviewer issue (.*)',['mention', 'direct_mention','direct_mess
         bot.startConversation(message, function(err, convo) {
             console.log(message);
             //helper.getPossibleAssignees(issueNumber);
-            var response = fs.readFileSync('../mock_u3.json');
+            var response = fs.readFileSync('./mock_data/Ucase3_list_of_reviewers.json');
             var reviewerData = JSON.parse(response);
             var reviewers = reviewerData.reviewers;
             //console.log(assignee);
@@ -141,7 +158,7 @@ controller.hears('reviewer issue (.*)',['mention', 'direct_mention','direct_mess
                     }]);
                     convo.next();
                 }).catch(function (e){
-                    bot.reply(message, "User not from given recommendations");
+                    bot.reply(message, "Cannot mark this user as a reviewer since it is not from given recommendation(s)");
                 });
                     
             });
