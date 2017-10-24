@@ -1,0 +1,15 @@
+{
+  "name": "trazibot",
+  "version": "1.0.0",
+  "description": "initial setup",
+  "main": "trazibot.js",
+  "dependencies": {
+    "file": "latest"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Shrikant",
+  "license": "ISC"
+}

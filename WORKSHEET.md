@@ -1,4 +1,5 @@
 ## Task split
+<<<<<<< HEAD
 
 
 ## Milestone 2 
@@ -42,3 +43,5 @@ https://trello.com/b/ Credentials are Username : username Password : pass@123
 |   |                                      | Testing bot on the server                 |              | #12          | Shrikant, Aayush           | 24-Oct      | 24-Oct |
 | 4 | Deployment delivery                  |                                           |              | #14          | All                   | 24-Oct      | 24-Oct |
 
+=======
+>>>>>>> 96b42fc4a7cc8da7c6a20e20db3387789791d07b
