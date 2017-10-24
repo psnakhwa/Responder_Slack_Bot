@@ -23,12 +23,6 @@ controller.spawn({
     token: process.env.BOT_TOKEN,
   }).startRTM()
 
-// controller.hears('weather',['mention', 'direct_mention','direct_message'], function(bot,message) 
-// {
-//     console.log(message);
-//     bot.reply(message,"The weather is great");
-// });
-
 /**
  * Use Case 1
  * @desc Finding assignee for given issue

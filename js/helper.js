@@ -6,7 +6,7 @@ var nock = require("nock");
 var _ = require("underscore");
 var request = require("request");
 var querystring = require('querystring');
-//var Promise = require("bluebird");'
+var Promise = require("bluebird");
 
 //console.log(data);
 var mockIssueList = nock("https://github.ncsu.edu/api/v3")
