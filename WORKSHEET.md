@@ -26,19 +26,19 @@ https://trello.com/b/ Credentials are Username : tester1  Password : pass@1234
 
 |   | Deliverable        |      Sub Tasks      | Item/Status                                            | Task number   | Team Members | Start Date   | Estimated Date |        |
 |---|-----------------------|---------|--------------------------------------------------------|----------------|--------------|------------------|-------------|--------|
-| 1 | Prepare Mocking Data | Brainstorm about API calls and data columns                       | Brainstorming/ Done  | #5           | All      | 16-Oct      | 17-Oct |
-|   | 					   | Structuring Json from slack messages                            | Structuring/ Done  | #5           | All      | 17-Oct      | 22-Oct |
-|   | 					   | Code helper.js                            | Coding/ Done  | #5           | All      | 18-Oct      | 22-Oct |
-| 2 | Bot Implementation using Mock Data | Write the basic code for interaction                                         | Bot Interaction/ Done  | #5           | All      | 16-Oct      | 17-Oct |
-|  |  | Write code for Use-Case 1: Finding Employee for a new Issue                                          | use-case 1/ Done  | #5           | All      | 16-Oct      | 17-Oct |
-|  |  | Write code for Use-Case 2: Finding a major contributor for a file                                    | use-case 2/ Done  | #5           | All      | 16-Oct      | 17-Oct |
-|  |  | Write code for Use-Case 3: Finding a code reviewer for the project                                         | use-case 3/ Done  | #5           | All      | 16-Oct      | 17-Oct |
-| 3 | Selenium Test cases for the bot            | Happy Path for use-case 1       | use case 1/ Done               | #5           | Aayush            | 18-Oct      | 22-Oct |
-|   |                                | Alternate path for use-case 1               | use case 1/ Done        | #6           | Aayush              | 18-Oct      | 22-Oct |
-|   |                                | Happy Path for use-case 2                   | use case 2/ In Progress                | #7           | Aayush           | 20-Oct      | 24-Oct |
-|   |                                | Alternate path for use-case 2               | use case 2/ In Progress                | #8           | Aayush              | 20-Oct      | 24-Oct |
-|  |          | Happy Path for use-case 3   									   | use case 3/ Done        | #9           | Aayush | 20-Oct      | 23-Oct |
-|   |                                | Alternate path for use-case 3               | use case 3/ Done                | #8           | Aayush              | 20-Oct      | 23-Oct |
+| 1 | Prepare Mocking Data | Brainstorm about API calls and data columns                       | Brainstorming/ Done  | [#4](https://trello.com/c/I1iIbFEV)           | All      | 16-Oct      | 17-Oct |
+|   | 					   | Structuring Json from slack messages                            | Structuring/ Done  | [#4](https://trello.com/c/I1iIbFEV)           | All      | 17-Oct      | 22-Oct |
+|   | 					   | Code helper.js                            | Coding/ Done  | [#4](https://trello.com/c/I1iIbFEV)           | All      | 18-Oct      | 22-Oct |
+| 2 | Bot Implementation using Mock Data | Write the basic code for interaction                                         | Bot Interaction/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | All      | 16-Oct      | 17-Oct |
+|  |  | Write code for Use-Case 1: Finding Employee for a new Issue                                          | use-case 1/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | All      | 16-Oct      | 17-Oct |
+|  |  | Write code for Use-Case 2: Finding a major contributor for a file                                    | use-case 2/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | All      | 16-Oct      | 17-Oct |
+|  |  | Write code for Use-Case 3: Finding a code reviewer for the project                                         | use-case 3/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | All      | 16-Oct      | 17-Oct |
+| 3 | Selenium Test cases for the bot            | Happy Path for use-case 1       | use case 1/ Done               | [#6](https://trello.com/c/63KibfIG)           | Aayush            | 18-Oct      | 22-Oct |
+|   |                                | Alternate path for use-case 1               | use case 1/ Done        | [#6](https://trello.com/c/63KibfIG)           | Aayush              | 18-Oct      | 22-Oct |
+|   |                                | Happy Path for use-case 2                   | use case 2/ In Progress                | [#6](https://trello.com/c/63KibfIG)           | Aayush           | 20-Oct      | 24-Oct |
+|   |                                | Alternate path for use-case 2               | use case 2/ In Progress                | [#6](https://trello.com/c/63KibfIG)           | Aayush              | 20-Oct      | 24-Oct |
+|  |          | Happy Path for use-case 3   									   | use case 3/ Done        | [#6](https://trello.com/c/63KibfIG)           | Aayush | 20-Oct      | 23-Oct |
+|   |                                | Alternate path for use-case 3               | use case 3/ Done                | [#6](https://trello.com/c/63KibfIG)           | Aayush              | 20-Oct      | 23-Oct |
 
 
 ## Week 3 : Oct 23 to Oct 25
