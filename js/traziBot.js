@@ -24,15 +24,17 @@ controller.spawn({
 
   // Intro
 controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
-  {   
-      
-  });
+{   
+    bot.api.users.info({user:message.user}, function(err, response) {
+        let {name, real_name} = response.user;        
+        bot.startConversation(message, function(err, convo) {
+            bot.reply(message,"Hello "+name+"! What can I do for you?");
+            convo.stop();
+        });
+    });
+});
   
-/**
- * Use Case 1
- * @desc Finding assignee for given issue
- * @param issueNumber issue for which assinee suggestion is required
- */
+// Collaborators
 controller.hears('(.*) collaborators',['mention','direct_mention','direct_message'],function(bot,message)
 {   
     controller.storage.users.get(message.user, function(err, user) {
@@ -48,14 +50,17 @@ controller.hears('(.*) collaborators',['mention','direct_mention','direct_messag
     });
 });
 
+/**
+ * Use Case 1
+ * @desc Finding assignee for given issue
+ * @param issueNumber issue for which assinee suggestion is required
+ */
 controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {   
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
-            console.log(message);
             var assignee = helper.getPossibleAssignees(issueNumber);
-            console.log(assignee);
             var userList = [];
             assignee.forEach(function(element) {
                 userList.push(element.id);
@@ -63,7 +68,6 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
             }, this);
             convo.ask("Whom do you want to assign this issue?", function(response, convo) {
                 helper.isValidUser(response.text, userList).then(function (userId){
-                    console.log("assigning issue");
                     convo.ask('Do you want to assign issue to ' + userId + '? Please confirm', [
                     {
                         pattern: 'yes',
@@ -81,6 +85,7 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
                     {
                         pattern: 'no',
                         callback: function(response, convo) {
+                            bot.reply(message,"Ok! Ping me if you need anything!");
                             convo.stop();
                         }
                     },
@@ -93,7 +98,7 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
                     }]);
                     convo.next();
                 }).catch(function (e){
-                    bot.reply(message, "User not from given recommendations");
+                    bot.reply(message, "User not from given recommendations, enter valid id.");
                 });
                     
             });
@@ -101,64 +106,69 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
     });
 });
 
+// USE CASE 2
 controller.hears('find contributors for file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
-{
-
+{   bot.startConversation(message, function(err,convo){
+    helper.listOfCommits("dupandit","Sample-mock-repo").then(function (commits_of_a_file)
+        {
+            var comm = _.pluck(commits_of_a_file,"commit");
+            console.log("The commits are done by:" + comm[0].author.name + ' ' + comm[1].author.name + ' ' + comm[2].author.name );
+            bot.reply(message,"The major contributors are: " + comm[0].author.name + ',' + comm[1].author.name + ',' + comm[2].author.name);
+        });
+    convo.stop();
+    });
 });
 
+// USE CASE 3
 controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
-            console.log(message);
-            //helper.getPossibleAssignees(issueNumber);
-            var response = fs.readFileSync('../mock_u3.json');
-            var reviewerData = JSON.parse(response);
-            var reviewers = reviewerData.reviewers;
-            //console.log(assignee);
+
+            var reviewers = helper.getPossibleReviewers(issueNumber);
             var userList = [];
             reviewers.forEach(function(element) {
                 userList.push(element.id);
                 bot.reply(message, "Emp Id: " + element.id + " Skills: " + element.skills);
                 //console.log(element.skills+ " "+element.id);
-            }, this);
-            convo.ask("Whom do you want to select as a reviewer? Provide comma separated ids", function(response, convo) {
-                helper.isValidUser(response.text, userList).then(function (userId){
-                    console.log("assigning issue");
-                    convo.ask('Do you want to assign ' + userId + ' as a reviewer for issue #?' + issueNumber + ' Please confirm', [
-                    {
-                        pattern: 'yes',
-                        callback: function(response, convo) {
-                            //convo.say("Issue assigned to " + userId);
-                            helper.assignReviewerForIssue(userId, issueNumber).then(function(response){
-                                console.log("issue reviewer true");
-                                bot.reply(message, response);
-                            }).catch(function(err){
-                                bot.reply(message, error);
-                            });
-                            convo.next();
-                        }
-                    },
-                    {
-                        pattern: 'no',
-                        callback: function(response, convo) {
-                            convo.stop();
-                        }
-                    },
-                    {
-                        default: true,
-                        callback: function(response, convo) {
-                            convo.repeat();
-                            convo.next();
-                        }
-                    }]);
-                    convo.next();
-                }).catch(function (e){
-                    bot.reply(message, "User not from given recommendations");
+            }, this)
+                convo.ask("Whom do you want to select as a reviewer? ", function(response, convo) {
+                    helper.isValidUser(response.text, userList).then(function (userId){
+                        console.log("assigning issue");
+                        convo.ask('Do you want to assign ' + userId + ' as a reviewer for issue #?' + issueNumber + ' Please confirm', [
+                        {
+                            pattern: 'yes',
+                            callback: function(response, convo) {
+                                //convo.say("Issue assigned to " + userId);
+                                helper.assignReviewerForIssue(userId, issueNumber).then(function(response){
+                                    console.log("issue reviewer true");
+                                    bot.reply(message, response);
+                                }).catch(function(err){
+                                    bot.reply(message, error);
+                                });
+                                convo.next();
+                            }
+                        },
+                        {
+                            pattern: 'no',
+                            callback: function(response, convo) {
+                                convo.stop();
+                            }
+                        },
+                        {
+                            default: true,
+                            callback: function(response, convo) {
+                                convo.repeat();
+                                convo.next();
+                            }
+                        }]);
+                        convo.next();
+                    }).catch(function (e){
+                        bot.reply(message, "User not from given recommendations, enter valid id.");
+                    });
+                        
                 });
-                    
-            });
         });
     });
 });
