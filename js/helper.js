@@ -1,17 +1,49 @@
 // for finding list of people who can work on current repo
-var repoName =  "TraziBot-Testing";
 var token = "token " + process.env.GITHUB_TOKEN;
 var urlRoot = "https://github.ncsu.edu/api/v3";
-   
+var data = require('../mock_data/mock.json'); 
+var nock = require("nock");
+var _ = require("underscore");
+var request = require("request");
+var querystring = require('querystring');
+//var Promise = require("bluebird");'
+
+//console.log(data);
+var mockIssueList = nock("https://github.ncsu.edu/api/v3")
+.persist() // This will persist mock interception for lifetime of program.
+.get("/repos/dupandit/Sample-mock-repo/issues")
+.reply(200, JSON.stringify(data.issueList) );
 
 /**
  * @desc  
  * @param 
  * @return 
  */
-function getCollaborators(){
-    console.log("getCollaborators start");
-    console.log("getCollaborators end");
+function getCollaborators(owner,repo){
+
+    var mockCollaborators = nock("https://github.ncsu.edu/api/v3")
+    .persist() // This will persist mock interception for lifetime of program.
+    .get("/repos/dupandit/Sample-mock-repo/collaborators")
+    .reply(200, JSON.stringify(data.collaborators) );
+    
+    var options = { 
+        url: urlRoot + "/repos/" + owner + "/" + repo + "/collaborators",  
+        method: 'GET',
+        headers: {
+                     "User-Agent": "EnableIssues",
+                     "content-type": "application/json",
+                     "Authorization": token
+                 }
+        };
+        
+        return new Promise(function (resolve, reject)
+        {
+             // Send a http request to url and specify a callback that will be called upon its return.
+             request(options, function (error, response, body) {
+                 var obj = JSON.parse(body);
+                 resolve(obj);
+             });
+        });
 }
 
 /**

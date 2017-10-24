@@ -1,6 +1,10 @@
 var helper = require("./helper.js")
 var os = require('os');
 var fs = require('fs');
+var _ = require("underscore");
+var request = require("request");
+var querystring = require('querystring');
+var Promise = require("bluebird");
 
 if (!process.env.BOT_TOKEN) {
     console.log('Error: Specify token in environment');
@@ -30,14 +34,40 @@ controller.spawn({
  * @desc Finding assignee for given issue
  * @param issueNumber issue for which assinee suggestion is required
  */
-controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
-{ 
+controller.hears('(.*) collaborators',['mention','direct_mention','direct_message'],function(bot,message)
+{   
+    controller.storage.users.get(message.user, function(err, user) {
+        bot.startConversation(message, function(err, convo) {
+            helper.getCollaborators("dupandit","Sample-mock-repo").then(function (collaborators)
+            {
+                var collabs = _.pluck(collaborators,"login");
+                console.log("The collaborators are:" + collabs);
+                bot.reply(message,"collaborators are : " + collabs);                
+            });
+            convo.stop();
+        });
+    });
+});
+
+controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
+{   
+    controller.storage.users.get(message.user, function(err, user) {
+        bot.startConversation(message, function(err, convo) {
+            bot.reply(message, "Hey ! How may I help you ? ");            
+            convo.stop();
+        });
+    });
+});
+
+
+controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+{   
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
             console.log(message);
             //helper.getPossibleAssignees(issueNumber);
-            var response = fs.readFileSync('../mock_u1.json');
+            var response = fs.readFileSync('../mock_data/Ucase1_Developer_skills_and_availability_mock.json');
             var assigneeData = JSON.parse(response);
             var assignee = assigneeData.users;
             //console.log(assignee);
@@ -87,12 +117,12 @@ controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_mess
     });
 });
 
-controller.hears('contributors file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+controller.hears('find contributors for file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
 
 });
 
-controller.hears('reviewer issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
@@ -152,7 +182,5 @@ controller.hears('reviewer issue (.*)',['mention', 'direct_mention','direct_mess
 controller.hears(['.*'],['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
     console.log(message);
-    bot.reply(message, "Wrong command");
-    bot.reply(message, "Valid commands are as follows:");
-    bot.reply(message, "weather");
+    bot.reply(message, "Wrong command!");
 });

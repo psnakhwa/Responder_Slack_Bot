@@ -4,7 +4,9 @@
   "description": "initial setup",
   "main": "trazibot.js",
   "dependencies": {
-    "file": "latest"
+    "bluebird": "^3.5.1",
+    "file": "latest",
+    "nock": "^9.0.25"
   },
   "devDependencies": {},
   "scripts": {
