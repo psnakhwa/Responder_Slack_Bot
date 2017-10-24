@@ -6,31 +6,39 @@
 
 We have used Trello for worksheet and teamwork. Kindly find trello cards at
 
-https://trello.com/b/ Credentials are Username : username Password : pass@123
+https://trello.com/b/ Credentials are Username : tester1  Password : pass@1234
 
 
 
 ### Week 1 : Oct 09 to Oct 15
 
-|   | Deliverable                          |                              | Item/Status                                                           | Issues/Tasks                         | Team Members | Estimated Date      | Actual Date |        |
+|   | Deliverable                          |     Sub Tasks                         | Item/Status                                                           | Task Number                         | Team Members | Start Date      | Estimated Date |        |
 |---|-------------------------------------------|-------------------------|-----------------------------------------------------------------------|--------------------------------------|--------------|---------------------|-------------|--------|
-| 1 | Changing Problem Statement                 | Brainstorm and discuss the new scenarios which are possible               | Branstorming and implementation      | #1.1         | Sushant, Shrikant              | 09-Oct      | 09-Oct |
-|   |                                                                    | Plan to handle them                                                   | Brainstorming and implementation     | #1.2         | Darshit, Sushant, Parag | 09-Oct      | 16-Nov |
-|   |                                                                    | Test for their implementation                                         | Brainstorming                        | #1.3         | Aayush, Parag       | 09-Oct      | 16-Nov |
-| 2 | through slack bot | plan how to go   ahead  data storage | mock data           | #2           | All                 | 09-Oct      | 09-Oct |
-|   |                                                                    | Plan to handle them                                                   | Structuring Json from slack messages | #2           | Sushant, Darshit      | 18-Nov      | 18-Nov |
+| 1 | Deciding the new Problem Statement                 | Brainstorm and discuss the new scenarios which are possible               | Decide Changes/ Done      | #1.1         | Sushant, Shrikant              | 09-Oct      | 12-Oct |
+| 2 | Edit the Problem Statement (Change from Tracking Progress to Finding People)                           | Complete the writeup of the Design.md                                                   | Done     | #1.2         | Darshit, Sushant, Parag | 09-Oct      | 12-Oct |
+|  |                                                                     | Modify the relative use cases and the architecture diagrams                                         | Use Cases/ Done                        | #1.3         | Aayush, Shrikant       | 09-Oct      | 12 - Oct |
+| 3 | Finalize the slack bot desc.| plan on how to go ahead and decide the limitations of the bot | Brainstorming and internet Reading/ Done           | #2           | All                 | 10-Oct      | 11-Oct |
+| 4 | Dicuss about Data Architecture | Revisit the architecture diagram  | Group discussion / Done           | #2           | All                 | 13-Oct      | 15-Oct |
+|   |                                                                    | Data Stoage - Database y/n?                                                   |  | #2           | Sushant, Darshit      | 13-Oct      | 14-Oct |
 
 
-### Week 2 : Oct 16 to Nov 22
+### Week 2 : Oct 16 to Oct 22
 
-|   | Deliverable        |            | Item/Status                                            | Issues/Tasks   | Team Members | Estimated Date   | Actual Date |        |
+|   | Deliverable        |      Sub Tasks      | Item/Status                                            | Task number   | Team Members | Start Date   | Estimated Date |        |
 |---|-----------------------|---------|--------------------------------------------------------|----------------|--------------|------------------|-------------|--------|
-| 1 | Discuss about approach | Plan to handle                                         | Brainstorming  | #5           | All      | 16-Oct      | 17-Oct |
-| 2 | Plan for deployment            | Brainstorm for possible ways to   deploy bot           |                | #5           | Sushant            | 16-Oct      | 16-Oct |
-|   |                                | Plan for deployment                                    | Coding         | #6           | All              | 16-Oct      | 16-Oct |
-|   |                                | Write code for deployment                              |                | #7           | Sushant           | 16-Oct      | 16-Oct |
-|   |                                | Check the deployed code                                |                | #8           | All              | 16-Oct      | 16-Oct |
-| 3 | Test the bot on server         | test whether bot works fine when   deployed on server. | testing        | #9           | Sushant | 16-Oct      | 16-Oct |
+| 1 | Prepare Mocking Data | Brainstorm about API calls and data columns                       | Brainstorming/ Done  | #5           | All      | 16-Oct      | 17-Oct |
+|   | 					   | Structuring Json from slack messages                            | Structuring/ Done  | #5           | All      | 17-Oct      | 22-Oct |
+|   | 					   | Code helper.js                            | Coding/ Done  | #5           | All      | 18-Oct      | 22-Oct |
+| 2 | Bot Implementation using Mock Data | Write the basic code for interaction                                         | Bot Interaction/ Done  | #5           | All      | 16-Oct      | 17-Oct |
+|  |  | Write code for Use-Case 1: Finding Employee for a new Issue                                          | use-case 1/ Done  | #5           | All      | 16-Oct      | 17-Oct |
+|  |  | Write code for Use-Case 2: Finding a major contributor for a file                                    | use-case 2/ Done  | #5           | All      | 16-Oct      | 17-Oct |
+|  |  | Write code for Use-Case 3: Finding a code reviewer for the project                                         | use-case 3/ Done  | #5           | All      | 16-Oct      | 17-Oct |
+| 3 | Selenium Test cases for the bot            | Happy Path for use-case 1       | use case 1/ Done               | #5           | Aayush            | 18-Oct      | 22-Oct |
+|   |                                | Alternate path for use-case 1               | use case 1/ Done        | #6           | Aayush              | 18-Oct      | 22-Oct |
+|   |                                | Happy Path for use-case 2                   | use case 2/ In Progress                | #7           | Aayush           | 20-Oct      | 24-Oct |
+|   |                                | Alternate path for use-case 2               | use case 2/ In Progress                | #8           | Aayush              | 20-Oct      | 24-Oct |
+|  |          | Happy Path for use-case 3   									   | use case 3/ Done        | #9           | Aayush | 20-Oct      | 23-Oct |
+|   |                                | Alternate path for use-case 3               | use case 3/ Done                | #8           | Aayush              | 20-Oct      | 23-Oct |
 
 
 ## Week 3 : Oct 23 to Oct 25
