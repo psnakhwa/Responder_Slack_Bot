@@ -29,7 +29,7 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 |   | 					   | Code helper.js                            | Coding/ Done  | [#4](https://trello.com/c/I1iIbFEV)           | Darshit and Parag      | 18-Oct      | 22-Oct |
 | 2 | Bot Implementation using Mock Data | Write the basic code for interaction                                         | Bot Interaction/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant and Sushant      | 16-Oct      | 17-Oct |
 |  |  | Write code for Use-Case 1: Finding Employee for a new Issue                                          | use-case 1/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant and Sushant      | 16-Oct      | 17-Oct |
-|  |  | Write code for Use-Case 2: Finding a major contributor for a file                                    | use-case 2/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant and Sushant      | 16-Oct      | 17-Oct |
+|  |  | Write code for Use-Case 2: Finding a major contributor for a file                                    | use-case 2/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant      | 16-Oct      | 17-Oct |
 |  |  | Write code for Use-Case 3: Finding a code reviewer for the project                                         | use-case 3/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant and Sushant      | 16-Oct      | 17-Oct |
 | 3 | Selenium Test cases for the bot            | Happy Path for use-case 1       | use case 1/ Done               | [#6](https://trello.com/c/63KibfIG)           | Aayush            | 18-Oct      | 22-Oct |
 |   |                                | Alternate path for use-case 1               | use case 1/ Done        | [#6](https://trello.com/c/63KibfIG)           | Aayush              | 18-Oct      | 22-Oct |
@@ -47,7 +47,7 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 | 2 | Screencast                           | Makng screencast                          |  Not Yet Started            | [#11](https://trello.com/c/SQBDLMix)          | ALL         | 24-Oct      | 24-Oct |
 | 3 | Write-up for describing how are the changes done | Modifying script to run the bot   forever |              | [#15](https://trello.com/c/I7X3rIdY)          | Aayush and Darshit | 24-Oct      | 25-Oct |
 | 4 | Prepare the Worksheet.md file                                      | Integrate Trello and Worksheet.md | Done  | [#18](https://trello.com/c/EB99r64U)          | Sushant           | 17-Oct      | 25-Oct |
-| 4 | Deployment delivery                  |                                           |              | [#19](https://trello.com/c/UUKePlfD)          | All                   | 25-Oct      | 25-Oct |
+| 4 | Deployment delivery                  |                                           |              | [#19](https://trello.com/c/UUKePlfD)          | ALL                   | 25-Oct      | 25-Oct |
 
 =======
 >>>>>>> 96b42fc4a7cc8da7c6a20e20db3387789791d07b
