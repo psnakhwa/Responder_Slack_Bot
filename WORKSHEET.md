@@ -1,6 +1,4 @@
-## Task split
-<<<<<<< HEAD
-
+## Task split  
 
 ## Milestone 2 
 
@@ -49,5 +47,3 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 | 4 | Prepare the Worksheet.md file                                      | Integrate Trello and Worksheet.md | Done  | [#18](https://trello.com/c/EB99r64U)          | Sushant           | 17-Oct      | 25-Oct |
 | 4 | Deployment delivery                  |                                           |              | [#19](https://trello.com/c/UUKePlfD)          | ALL                   | 25-Oct      | 25-Oct |
 
-=======
->>>>>>> 96b42fc4a7cc8da7c6a20e20db3387789791d07b
