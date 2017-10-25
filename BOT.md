@@ -14,6 +14,14 @@ For Trazi-bot, we will use the GitHub API. For this milestone, we have mocked th
 
 Please refer to these files for Mocking code: [helper.js]()
 
+## Database structure
+
+|   |   |   |   |   |
+|---|---|---|---|---|
+|   |   |   |   |   |
+|   |   |   |   |   |
+|   |   |   |   |   |
+
 ## Bot implementation  
 
 The Traži Bot would be a great solution for all the problems we mentioned above. It’s main aim would be to find appropriate assignees for various issues as well as code reviews and recommend them to the manager and thus reduce manager’s workload.
