@@ -30,6 +30,10 @@ Please find the Bot Implementation code at [traziBot.js]()
 
 ## Selenium Testing
 
+The initial code has been extensively tested using Selenium and Java. Each usecase has 1 testcase for happy path and alternative path. Happy path for example is where user wants to find an assignee for an issue and after requesting bot for the same, selects a recommendation provided by the bot and the bot assigns the issue to that user. Alternative path would be where user passes an user id which is not from the provided recommendations and bot warns about the same.
+
+The testcases will ensure that any future changes in the code does not break anything and the basic functionality of the bot is maintained. All the 3 usecases work as expected at present.
+
 Please find selenium test script for each use case below : [Selenium_test]()
 
 ## Task Tracking
