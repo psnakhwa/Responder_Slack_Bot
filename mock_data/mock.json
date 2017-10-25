@@ -161,7 +161,7 @@
         }
     ],
 
-    "issue-List":[
+    "issueList":[
         {
             "url": "https://github.ncsu.edu/api/v3/repos/dupandit/Sample-mock-repo/issues/2",
             "repository_url": "https://github.ncsu.edu/api/v3/repos/dupandit/Sample-mock-repo",
