@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import java.util.List;
 import java.util.concurrent.TimeUnit;
-
+import java.io.IOException;
 import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -54,8 +54,8 @@ public class SeleniumTest
 		// Wait until we go to general channel.
 		wait.until(ExpectedConditions.titleContains("general"));	
 		
-		// Switch to #bots channel and wait for it to load.
-		driver.get("https://projectteam510.slack.com/messages/trazi_aayush/");
+		//Switch to #bots channel and wait for it to load.
+		driver.get("https://projectteam510.slack.com/messages/trazi_aayush");
 		wait.until(ExpectedConditions.titleContains("trazi_aayush"));
 	}
 	
@@ -73,31 +73,25 @@ public class SeleniumTest
 		Actions actions = new Actions(driver);
 		actions.moveToElement(driver.findElement(By.id("msg_input")));
 		actions.click();
-		actions.sendKeys("assignee issue 5");
+		actions.sendKeys("@trazi_aayush find assignees for issue 5");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		wait.withTimeout(5, TimeUnit.SECONDS).ignoring(StaleElementReferenceException.class);
-
-		WebElement msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'Whom do you want to assign this issue?')]"));
-		assertNotNull(msg);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Whom do you want to assign this issue?')]")));
 		
 		actions.sendKeys("psnakhwa");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'Do you want to assign issue to')]"));
-		assertNotNull(msg);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Do you want to assign issue to')]")));
 		
 		actions.sendKeys("yes");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'Issue 5 assigned to psnakhwa')]"));
-		assertNotNull(msg);
-		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Issue 5 assigned to psnakhwa')]")));			
 	}
-	
+
 	@Test
 	public void Usecase1_alternative_path()
 	{
@@ -105,21 +99,29 @@ public class SeleniumTest
 		Actions actions = new Actions(driver);
 		actions.moveToElement(driver.findElement(By.id("msg_input")));
 		actions.click();
-		actions.sendKeys("assignee issue 5");
+		actions.sendKeys("find assignees for issue 5");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		wait.withTimeout(5, TimeUnit.SECONDS).ignoring(StaleElementReferenceException.class);
-
-		WebElement msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'Whom do you want to assign this issue?')]"));
-		assertNotNull(msg);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Whom do you want to assign this issue?')]")));
 		
-		actions.sendKeys("asagarwa");
+		actions.sendKeys("abcd");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'User not from given recommendations')]"));
-		assertNotNull(msg);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'User not from given recommendations, enter valid id.')]")));
+		
+		actions.sendKeys("psnakhwa");
+		actions.sendKeys(Keys.RETURN);
+		actions.build().perform();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Do you want to assign issue to')]")));
+		
+		actions.sendKeys("no");
+		actions.sendKeys(Keys.RETURN);
+		actions.build().perform();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Ok! Ping me if you need anything!')]")));
 	}
 	
 	@Test
@@ -129,28 +131,23 @@ public class SeleniumTest
 		Actions actions = new Actions(driver);
 		actions.moveToElement(driver.findElement(By.id("msg_input")));
 		actions.click();
-		actions.sendKeys("reviewer issue 5");
+		actions.sendKeys("@trazibot find reviewers for issue 5");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		wait.withTimeout(5, TimeUnit.SECONDS).ignoring(StaleElementReferenceException.class);
-
-		WebElement msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'Whom do you want to select as a reviewer? Provide comma separated ids')]"));
-		assertNotNull(msg);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Whom do you want to select as a reviewer?')]")));
 		
 		actions.sendKeys("psnakhwa");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'Do you want to assign psnakhwa as a reviewer for issue #?5 ')]"));
-		assertNotNull(msg);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Do you want to assign psnakhwa as a reviewer for issue #?5 Please confirm')]")));
 		
 		actions.sendKeys("yes");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'Reviewer psnakhwa assigned to issue #5')]"));
-		assertNotNull(msg);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Reviewer psnakhwa assigned to issue #5')]")));
 		
 	}
 	
@@ -161,21 +158,29 @@ public class SeleniumTest
 		Actions actions = new Actions(driver);
 		actions.moveToElement(driver.findElement(By.id("msg_input")));
 		actions.click();
-		actions.sendKeys("reviewer issue 5");
+		actions.sendKeys("@trazibot find reviewers for issue 5");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		wait.withTimeout(5, TimeUnit.SECONDS).ignoring(StaleElementReferenceException.class);
-
-		WebElement msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'Whom do you want to assign this issue?')]"));
-		assertNotNull(msg);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Whom do you want to select as a reviewer?')]")));
 		
 		actions.sendKeys("asagarwa");
 		actions.sendKeys(Keys.RETURN);
 		actions.build().perform();
 		
-		msg = driver.findElement(By.xpath("//span[@class='message_body' and contains(text(),'User not from given recommendations')]"));
-		assertNotNull(msg);
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'User not from given recommendations, enter valid id.')]")));
+		
+		actions.sendKeys("psnakhwa");
+		actions.sendKeys(Keys.RETURN);
+		actions.build().perform();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Do you want to assign psnakhwa as a reviewer for issue #?5 Please confirm')]")));
+		
+		actions.sendKeys("no");
+		actions.sendKeys(Keys.RETURN);
+		actions.build().perform();
+		
+		wait.until(ExpectedConditions.visibilityOfElementLocated(By.xpath("//*[@id='msgs_div']/div[last()]/div[2]/ts-message[last()]/div[2]/span[@class='message_body' and contains(text(),'Ok! Ping me if you need anything!')]")));
 	}
 
 }
