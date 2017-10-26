@@ -30,6 +30,28 @@ var mockCommits = nock("https://github.ncsu.edu/api/v3")
  */
 
  // Use Case 1
+ function getIssueDetails(owner,repo,number){
+    
+        var options = {
+            url: urlRoot + "/repos/" + owner + "/" + repo + "/issues/"+number,
+            method: 'GET',
+            headers: {
+                         "User-Agent": "EnableIssues",
+                         "content-type": "application/json",
+                         "Authorization": token
+                     }
+            };
+    
+        return new Promise(function (resolve, reject)
+        {
+                // Send a http request to url and specify a callback that will be called upon its return.
+                request(options, function (error, response, body) {
+                    var obj = JSON.parse(body);
+                    resolve(obj);
+                });
+        });
+    }
+    
 var getPossibleAssignees = function getPossibleAssignees(issueNumber){
     console.log("still here only");
     var assignees = data.users;
@@ -132,4 +154,5 @@ exports.assignReviewerForIssue = assignReviewerForIssue;
 exports.listOfCommits = listOfCommits
 exports.getPossibleReviewers = getPossibleReviewers;
 exports.isValidReviwer = isValidReviwer;
+exports.getIssueDetails = getIssueDetails
 
