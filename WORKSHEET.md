@@ -7,7 +7,7 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 
 ### Week 1 : Oct 09 to Oct 15
 
-|   | Deliverable                          |     Sub Tasks            | Item/Status      | Task Number                         | Team Members | Start Date     | Estimated Date | 
+|   | Deliverable       |     Sub Tasks            | Item/Status      | Task Number                         | Team Members | Start Date     | Estimated Date | 
 |---|-------------------------------------------|-------------------------|-----------------------------------------------------------------------|--------------------------------------|--------------|---------------------|-------------|
 | 1 | Deciding the new Problem Statement                 | Brainstorm and discuss the new scenarios which are possible               | Decide Changes/ Done      | [#1](https://trello.com/c/5cSQS0D9)         | ALL              | 09-Oct      | 12-Oct |
 | 2 | Edit the Problem Statement (Change from Tracking Progress to Finding People)                           | Complete the writeup of the Design.md                                                   | Done     | [#2](https://trello.com/c/X7RjTngx)         | Darshit, Sushant and Parag | 09-Oct      | 12-Oct |
