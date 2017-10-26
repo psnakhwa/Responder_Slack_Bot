@@ -16,11 +16,6 @@ Please refer to these files for Mocking code: [helper.js]()
 
 ## Database structure
 
-| Issue ID | User ID   | Issue tags |                       
-|----------|-----------|------------|               
-|     14   | psnakhwa  |   python   |
-|     17   |  dupandit |     java   |
-|     21   | psnakhwa  |   python   |
 
 ## Bot implementation  
 
