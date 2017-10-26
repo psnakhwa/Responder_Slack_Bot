@@ -16,11 +16,6 @@ Please refer to these files for Mocking code: [helper.js]()
 
 ## Database structure
 
-|   |   |   |   |   |
-|---|---|---|---|---|
-|   |   |   |   |   |
-|   |   |   |   |   |
-|   |   |   |   |   |
 
 ## Bot implementation  
 
