@@ -18,6 +18,11 @@ Please refer to these files for Mocking code: [helper.js]()
 
 <img width="704" alt="screen shot 2017-10-25 at 8 06 44 pm" src="https://media.github.ncsu.edu/user/6119/files/20c72e0e-b9c0-11e7-8b76-7446e7073b7c">
 
+We plan to implement a database structure as shown above. Using MySQL we will create 2 tables, 1 describing the issue id, user id and the issue tags indicating what technology was a particular issue related to. Another table will contain the user id which will be its primary key and also various tags indicating the technologies a particular user is proficient with.
+
+Once this database structure is implemented, we can convert requests on slack to appropriate database queries, efficiently mapping a new issue to an user based on his previous record of handling issues involving the same technology that of the current new issue. This database will be populated by a hooks file which will be triggered when any open issue is closed, thus adding that issue information and the user information to respective tables. This will ensure that every user has the tags he/she is comfortable working with and will also incorporate any new technology that a user has recently learned. 
+
+
 ## Bot implementation  
 
 The Traži Bot would be a great solution for all the problems we mentioned above. It’s main aim would be to find appropriate assignees for various issues as well as code reviews and recommend them to the manager and thus reduce manager’s workload.
