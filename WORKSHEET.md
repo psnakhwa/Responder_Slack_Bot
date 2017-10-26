@@ -30,8 +30,7 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 |  |  | Write code for Use-Case 3: Finding a code reviewer for the project                                         | use-case 3/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant and Sushant      | 16-Oct      | 17-Oct |
 | 3 | Selenium Test cases for the bot            | Happy Path for use-case 1       | use case 1/ Done               | [#6](https://trello.com/c/63KibfIG)           | Aayush            | 18-Oct      | 22-Oct |
 |   |                                | Alternate path for use-case 1               | use case 1/ Done        | [#6](https://trello.com/c/63KibfIG)           | Aayush              | 18-Oct      | 22-Oct |
-|   |                                | Happy Path for use-case 2                   | use case 2/ In Progress                | [#6](https://trello.com/c/63KibfIG)           | Aayush           | 20-Oct      | 24-Oct |
-|   |                                | Alternate path for use-case 2               | use case 2/ In Progress                | [#6](https://trello.com/c/63KibfIG)           | Aayush              | 20-Oct      | 24-Oct |
+|   |                                | Happy Path for use-case 2                   | use case 2/ In Progress                | [#14](https://trello.com/c/e3dzrL5B)           | Aayush           | 20-Oct      | 24-Oct |
 |  |          | Happy Path for use-case 3   									   | use case 3/ Done        | [#6](https://trello.com/c/63KibfIG)           | Aayush | 20-Oct      | 23-Oct |
 |   |                                | Alternate path for use-case 3               | use case 3/ Done                | [#6](https://trello.com/c/63KibfIG)           | Aayush              | 20-Oct      | 23-Oct |
 
