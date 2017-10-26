@@ -103,7 +103,7 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                 //console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.committer.msg);
                 bot.reply(message, "User: "+e.author.name+
                             "\nDate: "+e.committer.date+
-                            "\nMessage: "+e.committer.message);
+                            "\nMessage: "+e.message);
             });
         });
         convo.stop();

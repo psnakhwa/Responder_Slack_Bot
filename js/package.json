@@ -13,7 +13,9 @@
       "describe":"latest",
       "mocha":"latest",
       "nock":"latest",
-      "request":"latest"
+      "request":"latest",
+      "underscore":"latest",
+      "botkit":"latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
