@@ -63,22 +63,6 @@ function getCollaborators(owner,repo){
         });
 }
 
-/**
- * @desc this will assign userId to issueNumber
- * @param userId emp to whom we will assign an issue
- * @param issueNumber issue to assigned
- * @return
- */
-function assignIssueToEmp(userId, issueNumber){
-
-
-    return new Promise(function(resolve, reject){
-        resolve("Issue " + issueNumber + " assigned to " + userId);
-    });
-    console.log("assignIssueToEmp end");
-}
-
-
 
 
 function isValidUser(userId, userList){
@@ -92,7 +76,7 @@ function isValidUser(userId, userList){
     });
 }
 
-// Usecase 1 :
+// Usecase 1 : 
 
 /**
  * @desc
@@ -111,6 +95,24 @@ function getPossibleAssignees(issueNumber){
     var assignees = data.users;
     return assignees;
 }
+
+
+/**
+ * @desc this will assign userId to issueNumber
+ * @param userId emp to whom we will assign an issue
+ * @param issueNumber issue to assigned
+ * @return
+ */
+function assignIssueToEmp(userId, issueNumber){
+
+
+    return new Promise(function(resolve, reject){
+        resolve("Issue " + issueNumber + " assigned to " + userId);
+    });
+    console.log("assignIssueToEmp end");
+}
+
+
 
 // Usecase 2 :
 function Listofcommits(owner,repo) {
