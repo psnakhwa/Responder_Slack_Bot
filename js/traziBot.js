@@ -51,7 +51,7 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
             var userList = [];
             assignee.forEach(function(element) {
                 userList.push(element.id);
-                bot.reply(message, "Emp Id: " + element.id + " Skills: " + element.skills);
+                convo.say("Emp Id: " + element.id + " Skills: " + element.skills);
             }, this);
             convo.ask("Whom do you want to assign this issue?", function(response, convo) {
                 helper.isValidUser(response.text, userList).then(function (userId){
@@ -121,7 +121,7 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
             var userList = [];
             reviewers.forEach(function(element) {
                 userList.push(element.id);
-                bot.reply(message, "Emp Id: " + element.id + " Skills: " + element.skills);
+                convo.say("Emp Id: " + element.id + " Skills: " + element.skills);
                 //console.log(element.skills+ " "+element.id);
             }, this)
             convo.ask("Whom do you want to select as a reviewer? Provide comma separated ids", function(response, convo) {
