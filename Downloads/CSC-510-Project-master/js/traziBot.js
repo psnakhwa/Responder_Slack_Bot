@@ -37,7 +37,7 @@ controller.hears('assignee issue (.*)',['mention', 'direct_mention','direct_mess
         bot.startConversation(message, function(err, convo) {
             console.log(message);
             //helper.getPossibleAssignees(issueNumber);
-            var response = fs.readFileSync('../mock_u1.json');
+            var response = fs.readFileSync('../mock_data/Ucase1_Developer_skills_and_availability_mock.json');
             var assigneeData = JSON.parse(response);
             var assignee = assigneeData.users;
             //console.log(assignee);
@@ -99,7 +99,7 @@ controller.hears('reviewer issue (.*)',['mention', 'direct_mention','direct_mess
         bot.startConversation(message, function(err, convo) {
             console.log(message);
             //helper.getPossibleAssignees(issueNumber);
-            var response = fs.readFileSync('../mock_u3.json');
+            var response = fs.readFileSync('../mock_data/Ucase3_list_of_reviewers.json');
             var reviewerData = JSON.parse(response);
             var reviewers = reviewerData.reviewers;
             //console.log(assignee);
