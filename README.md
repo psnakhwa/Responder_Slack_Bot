@@ -9,4 +9,4 @@ Team Members:
 
 ## Bot.md 
 
-Please find the Bot.md file [here](). This file contains all the required tasks for Milestone 2.
+Please find the Bot.md file [here](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/BOT.md). This file contains all the required tasks for Milestone 2.
