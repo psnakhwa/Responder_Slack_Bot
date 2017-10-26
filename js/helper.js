@@ -6,10 +6,10 @@ var Promise = require("bluebird");
 var token = "token " + process.env.GITHUB_TOKEN;
 var urlRoot = "https://github.ncsu.edu/api/v3";
 
-var mockIssueList = nock("https://github.ncsu.edu/api/v3")
+var issuedetails = nock("https://github.ncsu.edu/api/v3")
 .persist() // This will persist mock interception for lifetime of program.
-.get("/repos/dupandit/Sample-mock-repo/issues")
-.reply(200, JSON.stringify(data.issueList) );
+.get("/repos/dupandit/Sample-mock-repo/issues/1")
+.reply(200, JSON.stringify(data.issueList[0]) );
 
 var mockCollaborators = nock("https://github.ncsu.edu/api/v3")
 .persist() // This will persist mock interception for lifetime of program.
