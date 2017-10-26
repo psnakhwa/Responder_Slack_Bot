@@ -79,6 +79,21 @@ function assignIssueToEmp(userId, issueNumber){
 }
 
 
+
+
+function isValidUser(userId, userList){
+
+    return new Promise(function (resolve, reject)
+	{
+         if(userList.indexOf(userId)>-1){
+            resolve(userId);
+        }
+        reject(userId);
+    });
+}
+
+// Usecase 1 :
+
 /**
  * @desc
  * @param
@@ -96,21 +111,6 @@ function getPossibleAssignees(issueNumber){
     var assignees = data.users;
     return assignees;
 }
-
-function isValidUser(userId, userList){
-
-    return new Promise(function (resolve, reject)
-	{
-         if(userList.indexOf(userId)>-1){
-            resolve(userId);
-        }
-        reject(userId);
-    });
-}
-
-// Usecase 1 :
-
-
 
 // Usecase 2 :
 function Listofcommits(owner,repo) {
