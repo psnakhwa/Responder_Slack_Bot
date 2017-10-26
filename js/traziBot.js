@@ -95,16 +95,19 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
 // USE CASE 2
 controller.hears('find contributors for file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {   bot.startConversation(message, function(err,convo){
-    helper.listOfCommits(owner,repo).then(function (commits_of_a_file)
+        helper.listOfCommits(owner,repo).then(function (commits_of_a_file)
         {
             var comm = _.pluck(commits_of_a_file,"commit");
+            console.log("hi");
             bot.reply(message, "The major contributors are: ");
-            comm.forEach(function(e){
-                //console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.committer.msg);
-                bot.reply(message, "User: "+e.author.name+
-                            "\nDate: "+e.committer.date+
-                            "\nMessage: "+e.message);
-            });
+            setTimeout(function() {
+                comm.forEach(function(e){
+                    console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.msg);
+                    bot.reply(message, "User: "+e.author.name+
+                                "\nDate: "+e.committer.date+
+                                "\nMessage: "+e.message);
+                });    
+            }, 100);
         });
         convo.stop();
     });
