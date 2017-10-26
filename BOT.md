@@ -16,6 +16,7 @@ Please refer to these files for Mocking code: [helper.js]()
 
 ## Database structure
 
+<img width="704" alt="screen shot 2017-10-25 at 8 06 44 pm" src="https://media.github.ncsu.edu/user/6119/files/20c72e0e-b9c0-11e7-8b76-7446e7073b7c">
 
 ## Bot implementation  
 
