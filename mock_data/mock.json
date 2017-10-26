@@ -1,5 +1,5 @@
 {
-
+    
     "users":[
         {
             "name":"parag",
@@ -32,7 +32,7 @@
             "availabilty_in_days":"8"
         }
     ],
-
+    
     "collaborators":[
         {
             "login": "asagarwa",
@@ -161,7 +161,7 @@
         }
     ],
 
-    "issueList":[
+    "issue-List":[
         {
             "url": "https://github.ncsu.edu/api/v3/repos/dupandit/Sample-mock-repo/issues/2",
             "repository_url": "https://github.ncsu.edu/api/v3/repos/dupandit/Sample-mock-repo",
@@ -513,7 +513,7 @@
             "name":"parag",
             "id":"psnakhwa",
             "skills":["JAVA","HTML"],
-            "experience_years":"5"
+            "experience_years":"6"
         },
         {
             "name":"darshit",
@@ -521,7 +521,8 @@
             "skills":["Python","JavaScript"],
             "experience_years":"3"
         }
-
-    ]
-
+    
+    ] 
+    
 }
+    
