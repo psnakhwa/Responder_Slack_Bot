@@ -1,3 +1,5 @@
+## Milestone 2 Deliverables
+
 ## Use Case Refinement
 
 Issue to be fixed:**Change the focus of the problem statement and the use cases** 
@@ -6,7 +8,7 @@ Issue to be fixed:**Change the focus of the problem statement and the use cases*
 
 We built each and every use case again around the problem statement carefully addressing the issues and jotting down the ways we could help solve this. After this, we decided on the API's, the data to use and the possible chat bot interactions.
 
-Please find the 3 use cases at: [design.md]()
+Please find the 3 use cases at: [design.md](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/DESIGN.md)
 
 ## Mocking of data 
 
