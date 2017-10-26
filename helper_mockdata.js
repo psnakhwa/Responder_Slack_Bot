@@ -35,47 +35,6 @@ var issuedetails = nock("https://github.ncsu.edu/api/v3")
 .reply(200, JSON.stringify(data.issueList[0]) );
 
 
-
-/**
- * @desc
- * @param
- * @return
- */
-function getCollaborators(owner,repo){
-
-    var options = {
-        url: urlRoot + "/repos/" + owner + "/" + repo + "/collaborators",
-        method: 'GET',
-        headers: {
-                     "User-Agent": "EnableIssues",
-                     "content-type": "application/json",
-                     "Authorization": token
-                 }
-        };
-
-        return new Promise(function (resolve, reject)
-        {
-             // Send a http request to url and specify a callback that will be called upon its return.
-             request(options, function (error, response, body) {
-                 var obj = JSON.parse(body);
-                 resolve(obj);
-             });
-        });
-}
-
-
-
-function isValidUser(userId, userList){
-
-    return new Promise(function (resolve, reject)
-	{
-         if(userList.indexOf(userId)>-1){
-            resolve(userId);
-        }
-        reject(userId);
-    });
-}
-
 // Usecase 1 : 
 
 /**
@@ -138,6 +97,7 @@ function Listofcommits(owner,repo) {
 
 
 // Usecase 3 :
+
 function Listofissues(owner,repo) {
   var options = {
       url: urlRoot + "/repos/" + owner + "/" + repo + "/issues",
@@ -181,6 +141,51 @@ function getIssueDetails(owner,repo,number){
             });
     });
 }
+
+
+// Miscellaneous functions
+
+/**
+ * @desc
+ * @param
+ * @return
+ */
+function getCollaborators(owner,repo){
+
+    var options = {
+        url: urlRoot + "/repos/" + owner + "/" + repo + "/collaborators",
+        method: 'GET',
+        headers: {
+                     "User-Agent": "EnableIssues",
+                     "content-type": "application/json",
+                     "Authorization": token
+                 }
+        };
+
+        return new Promise(function (resolve, reject)
+        {
+             // Send a http request to url and specify a callback that will be called upon its return.
+             request(options, function (error, response, body) {
+                 var obj = JSON.parse(body);
+                 resolve(obj);
+             });
+        });
+}
+
+
+
+function isValidUser(userId, userList){
+
+    return new Promise(function (resolve, reject)
+	{
+         if(userList.indexOf(userId)>-1){
+            resolve(userId);
+        }
+        reject(userId);
+    });
+}
+
+
 
 exports.getIssueDetails = getIssueDetails
 exports.Listofcommits = Listofcommits
