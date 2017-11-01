@@ -1,7 +1,7 @@
 ## Task split Milestone 2  
 
 
-We have used Trello for worksheet and teamwork. Kindly find trello cards at this [Trello Link](https://trello.com/b/Bvs2VQ3O/milestone-2) Credentials are **Username :** tester1135  **Password :** pass@1234
+We have used Trello for worksheet and teamwork. Kindly find trello cards at this [Trello Link](https://trello.com/b/Bvs2VQ3O/milestone-2)
 
 
 
