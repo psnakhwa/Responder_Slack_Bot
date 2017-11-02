@@ -5,13 +5,11 @@
             "name":"parag",
             "id":"psnakhwa",
             "skills":["JAVA","HTML"],
-            "availabilty_in_days":"4"
         },
         {
             "name":"darshit",
             "id":"dupandit",
             "skills":["Python","JavaScript"],
-            "availabilty_in_days":"8"
         },
         {
             "name":"shrikant",
