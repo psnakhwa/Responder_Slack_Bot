@@ -12,9 +12,9 @@ Please find the 3 use cases at: [design.md](https://github.ncsu.edu/sbshete/CSC-
 
 ## Mocking of data 
 
-For Trazi-bot, we will use the GitHub API. For this milestone, we have mocked the github data using JSON objects. We have created JSON file based on users of github and we are storing her/his details(login, issue number, repo url, etc) into it. This JSON consists of users names and collaborator lists. And we have mocked this data and used in our traziBot.js for read and write purpose. Here we have used array to store  users and related information. Please see [mock.json]() for clarity. We have imported this mocked JSON into traziBot.js file and bot eventually gives (in chat dispaly) the requested list of employee names and suggests a proper reviewer. 
+For Trazi-bot, we will use the GitHub API. For this milestone, we have mocked the github data using JSON objects. We have created JSON file based on users of github and we are storing her/his details(login, issue number, repo url, etc) into it. This JSON consists of users names and collaborator lists. And we have mocked this data and used in our traziBot.js for read and write purpose. Here we have used array to store  users and related information. Please see [mock.json](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/mock_data/mock.json) for clarity. We have imported this mocked JSON into traziBot.js file and bot eventually gives (in chat dispaly) the requested list of employee names and suggests a proper reviewer. 
 
-Please refer to these files for Mocking code: [helper.js]()
+Please refer to these files for Mocking code: [helper.js](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/js/helper.js)
 
 ## Database structure
 
@@ -37,7 +37,7 @@ Developer provides a filename → Bot provides a list of employees who made modi
 
 Developer provides a filename to the Bot and asks for potential reviewers → Bot provides a list of potential reviewers → Developer selects the reviewer which he/she wants → Bot notifies those reviewers.  
 
-Please find the Bot Implementation code at [traziBot.js]()
+Please find the Bot Implementation code at [traziBot.js](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/js/traziBot.js)
 
 ## Selenium Testing
 
@@ -45,12 +45,12 @@ The initial code has been extensively tested using Selenium and Java. Each useca
 
 The testcases will ensure that any future changes in the code does not break anything and the basic functionality of the bot is maintained. All the 3 usecases work as expected at present.
 
-Please find selenium test script for each use case below : [Selenium_test]()
+Please find selenium test script for each use case below : [Selenium_test](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/Selenium/SeleniumTest.java)
 
 ## Task Tracking
 
-For task tracking we have used "Trello" cards. Please find worksheet at [Worksheet.md]()
+For task tracking we have used "Trello" cards. Please find worksheet at [Worksheet.md](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/WORKSHEET.md)
 
 ## Screencast
 
-Please find the screencast of the working bot [here]()
+Please find the screencast of the working bot [here](https://www.youtube.com/watch?v=OlkB-JYDQbI&feature=youtu.be)
