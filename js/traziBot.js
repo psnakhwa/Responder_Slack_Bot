@@ -100,14 +100,38 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
             var comm = _.pluck(commits_of_a_file,"commit");
             console.log("hi");
             bot.reply(message, "The major contributors are: ");
+            var dict = {}; // creating a dict to store the key value pairs with aggregation
             setTimeout(function() {
                 comm.forEach(function(e){
                     console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.msg);
+                    // dict.push({
+                    //     'key': e.author.name,
+                    //     'value': 1
+                    // });
+                    if(dict.hasOwnProperty(e.author.name)){
+                        dict[e.author.name] = dict[e.author.name] + 1;
+                    } else{
+                        dict[e.author.name] = 1;
+                    }
+
+                    console.log ("making a dictionary:");
+                    console.log(dict);
                     bot.reply(message, "User: "+e.author.name+
                                 "\nDate: "+e.committer.date+
                                 "\nMessage: "+e.message);
-                });    
+                });
+
+                var res = []; // creating a temporary storage to summarize the total commits. 
+                for(var prop in dict){
+                    res.push({user: prop, TotalCommits: dict[prop]});
+                    console.log("user: " + prop);
+                    bot.reply(message, "User: " + prop + " has: " + dict[prop] + " commits in all");
+                }
+                console.log("this is the summary");
+                console.log(res);                
+
             }, 100);
+            
         });
         convo.stop();
     });
