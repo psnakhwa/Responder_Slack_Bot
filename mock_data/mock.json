@@ -4,27 +4,27 @@
         {
             "name":"parag",
             "id":"psnakhwa",
-            "skills":["JAVA","HTML"],
+            "skills":["JAVA","HTML"]
         },
         {
             "name":"darshit",
             "id":"dupandit",
-            "skills":["Python","JavaScript"],
+            "skills":["Python","JavaScript"]
         },
         {
             "name":"shrikant",
             "id":"sbshete",
-            "skills":["PHP","HTML"],
+            "skills":["PHP","HTML"]
         },
         {
             "name":"aayush",
             "id":"asagarwa",
-            "skills":["Node","JavaScript"],
+            "skills":["Node","JavaScript"]
         },
         {
             "name":"sushant",
             "id":"sagupta",
-            "skills":["SQL","C#"],
+            "skills":["SQL","C#"]
         }
     ],
     
