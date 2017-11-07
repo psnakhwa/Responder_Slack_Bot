@@ -1,4 +1,5 @@
 var helper = require("./helper.js")
+var mysql = require("./mysql.js")
 var os = require('os');
 var fs = require('fs');
 var _ = require("underscore");
@@ -32,6 +33,9 @@ controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','
         let {name, real_name} = response.user;        
         bot.startConversation(message, function(err, convo) {
             bot.reply(message,"Hello "+name+"! What can I do for you?");
+            mysql.updateUserTags(null);
+            mysql.insertIssueTags(null);
+            mysql.insertUserTags(null);
             convo.stop();
         });
     });
