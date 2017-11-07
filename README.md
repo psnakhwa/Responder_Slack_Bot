@@ -7,6 +7,6 @@ Team Members:
 4. Parag Nakhwa (psnakhwa)
 5. Darshit Pandit (dupandit)
 
-## Design Document:
+## Bot.md 
 
-[This](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/DESIGN.md) is the Design document for the project.
+Please find the Bot.md file [here](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/BOT.md). This file contains all the required tasks for Milestone 2.
