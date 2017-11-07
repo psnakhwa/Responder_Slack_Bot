@@ -35,21 +35,6 @@ controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','
         });
     });
 });
-  
-// Collaborators
-controller.hears('(.*) collaborators',['mention','direct_mention','direct_message'],function(bot,message)
-{   
-    controller.storage.users.get(message.user, function(err, user) {
-        bot.startConversation(message, function(err, convo) {
-            helper.getCollaborators(owner,repo).then(function (collaborators)
-            {
-                var collabs = _.pluck(collaborators,"login");
-                bot.reply(message,"The collaborators are : " + collabs);                
-            });
-            convo.stop();
-        });
-    });
-});
 
 // USE CASE 1
 controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
@@ -57,58 +42,46 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
-            helper.getIssues(owner,repo).then(function(issues)
-            {
-                var allIssues = _.pluck(issues,"number");
-                if(issueNumber in allIssues){
-                    var assignee = helper.getPossibleAssignees(issueNumber);
-                    var userList = [];
-                    assignee.forEach(function(element) {
-                        userList.push(element.id);
-                        bot.reply(message, "Emp Id: " + element.id + " Skills: " + element.skills);
-                    }, this);
-                    convo.ask("Whom do you want to assign this issue?", function(response, convo) {
-                        helper.isValidUser(response.text, userList).then(function (userId){
-                            convo.ask('Do you want to assign issue to ' + userId + '? Please confirm', [
-                            {
-                                pattern: 'yes',
-                                callback: function(response, convo) {
-                                    //convo.say("Issue assigned to " + userId);
-                                    helper.assignIssueToEmp(userId, issueNumber).then(function(response){
-                                        console.log("issue assign true");
-                                        bot.reply(message, response);
-                                    }).catch(function(err){
-                                        bot.reply(message, error);
-                                    });
-                                    convo.next();
-                                }
-                            },
-                            {
-                                pattern: 'no',
-                                callback: function(response, convo) {
-                                    bot.reply(message,"Ok! Ping me if you need anything!");
-                                    convo.stop();
-                                }
-                            },
-                            {
-                                default: true,
-                                callback: function(response, convo) {
-                                    convo.repeat();
-                                    convo.next();
-                                }
-                            }]);
+            var assignee = helper.getPossibleAssignees(issueNumber);
+            var userList = [];
+            assignee.forEach(function(element) {
+                userList.push(element.id);
+                convo.say("Emp Id: " + element.id + " Skills: " + element.skills);
+            }, this);
+            convo.ask("Whom do you want to assign this issue?", function(response, convo) {
+                helper.isValidUser(response.text, userList).then(function (userId){
+                    convo.ask('Do you want to assign issue to ' + userId + '? Please confirm', [
+                    {
+                        pattern: 'yes',
+                        callback: function(response, convo) {
+                            //convo.say("Issue assigned to " + userId);
+                            helper.assignIssueToEmp(userId, issueNumber).then(function(response){
+                                console.log("issue assign true");
+                                bot.reply(message, response);
+                            }).catch(function(err){
+                                bot.reply(message, error);
+                            });
                             convo.next();
-                        }).catch(function (e){
-                            bot.reply(message, "User not from given recommendations, enter valid id.");
-                        });
-                            
-                    });
-                }
-                else {
-                    bot.reply(message,"Issue number doesn't exist");
-                    bot.reply(message,"Try command with issue numbers: "+allIssues);
-                    convo.stop();
-                }
+                        }
+                    },
+                    {
+                        pattern: 'no',
+                        callback: function(response, convo) {
+                            bot.reply(message,"Ok! Ping me if you need anything!");
+                            convo.stop();
+                        }
+                    },
+                    {
+                        default: true,
+                        callback: function(response, convo) {
+                            convo.repeat();
+                            convo.next();
+                        }
+                    }]);
+                    convo.next();
+                }).catch(function (e){
+                    bot.reply(message, "User not from given recommendations, enter valid id.");
+                }); 
             });
             
         });
@@ -118,13 +91,45 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
 // USE CASE 2
 controller.hears('find contributors for file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {   bot.startConversation(message, function(err,convo){
-    helper.listOfCommits("dupandit","Sample-mock-repo").then(function (commits_of_a_file)
+        helper.listOfCommits(owner,repo).then(function (commits_of_a_file)
         {
             var comm = _.pluck(commits_of_a_file,"commit");
-            console.log("The commits are done by:" + comm[0].author.name + ' ' + comm[1].author.name + ' ' + comm[2].author.name );
-            bot.reply(message,"The major contributors are: " + comm[0].author.name + ',' + comm[1].author.name + ',' + comm[2].author.name);
+            console.log("hi");
+            bot.reply(message, "The major contributors are: ");
+            var dict = {}; // creating a dict to store the key value pairs with aggregation
+            setTimeout(function() {
+                comm.forEach(function(e){
+                    console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.msg);
+                    // dict.push({
+                    //     'key': e.author.name,
+                    //     'value': 1
+                    // });
+                    if(dict.hasOwnProperty(e.author.name)){
+                        dict[e.author.name] = dict[e.author.name] + 1;
+                    } else{
+                        dict[e.author.name] = 1;
+                    }
+
+                    console.log ("making a dictionary:");
+                    console.log(dict);
+                    bot.reply(message, "User: "+e.author.name+
+                                "\nDate: "+e.committer.date+
+                                "\nMessage: "+e.message);
+                });
+
+                var res = []; // creating a temporary storage to summarize the total commits. 
+                for(var prop in dict){
+                    res.push({user: prop, TotalCommits: dict[prop]});
+                    console.log("user: " + prop);
+                    bot.reply(message, "User: " + prop + " has: " + dict[prop] + " commits in all");
+                }
+                console.log("this is the summary");
+                console.log(res);                
+
+            }, 100);
+            
         });
-    convo.stop();
+        convo.stop();
     });
 });
 
@@ -139,15 +144,15 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
             var userList = [];
             reviewers.forEach(function(element) {
                 userList.push(element.id);
-                bot.reply(message, "Emp Id: " + element.id + " Skills: " + element.skills);
+                convo.say("Emp Id: " + element.id + " Skills: " + element.skills);
                 //console.log(element.skills+ " "+element.id);
             }, this)
-                convo.ask("Whom do you want to select as a reviewer? ", function(response, convo) {
-                    helper.isValidUser(response.text, userList).then(function (userId){
-                        console.log("assigning issue");
-                        convo.ask('Do you want to assign ' + userId + ' as a reviewer for issue #?' + issueNumber + ' Please confirm', [
-                        {
-                            pattern: 'yes',
+            convo.ask("Whom do you want to select as a reviewer? Provide comma separated ids", function(response, convo) {
+                helper.isValidReviwer(response.text, userList).then(function (userId){
+                    console.log("assigning issue");
+                    convo.ask('Do you want to assign ' + userId + ' as a reviewer for issue #?' + issueNumber + ' Please confirm', [
+                    {
+                        pattern: 'yes',
                             callback: function(response, convo) {
                                 //convo.say("Issue assigned to " + userId);
                                 helper.assignReviewerForIssue(userId, issueNumber).then(function(response){
@@ -162,6 +167,7 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
                         {
                             pattern: 'no',
                             callback: function(response, convo) {
+                                bot.reply(message,"Ok! Ping me if you need anything!");
                                 convo.stop();
                             }
                         },
@@ -174,7 +180,7 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
                         }]);
                         convo.next();
                     }).catch(function (e){
-                        bot.reply(message, "User not from given recommendations, enter valid id.");
+                        bot.reply(message, "User "+e+" not from given recommendations, enter valid id.");
                     });
                         
                 });
@@ -185,5 +191,16 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
 controller.hears(['.*'],['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
     console.log(message);
-    bot.reply(message, "Wrong command!");
+
+    bot.reply(message, "Wrong command! Valid commands are as follows:\n"+
+    "find assignees for issue [issue number]\n"+
+    "find contributors for file [file name]\n"+
+    "find reviewers for issue [issue number]");
+
+    // bot.startConversation(message, function(err, convo) {
+    //     convo.say("Wrong command! Valid commands are as follows:\n"+
+    //                 "find assignees for issue [issue number]\n"+
+    //                 "find contributors for file [file name]\n"+
+    //                 "find reviewers for issue [issue number]");
+    // });
 });

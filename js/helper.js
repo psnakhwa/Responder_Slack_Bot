@@ -1,17 +1,15 @@
-// for finding list of people who can work on current repo
-var token = "token " + process.env.GITHUB_TOKEN;
-var urlRoot = "https://github.ncsu.edu/api/v3";
 var data = require('../mock_data/mock.json'); 
 var nock = require("nock");
-var _ = require("underscore");
 var request = require("request");
-var querystring = require('querystring');
-var Promise = require("bluebird");
+var Promise = require("bluebird"); 
 
-var mockIssueList = nock("https://github.ncsu.edu/api/v3")
+var token = "token " + process.env.GITHUB_TOKEN;
+var urlRoot = "https://github.ncsu.edu/api/v3";
+
+var issuedetails = nock("https://github.ncsu.edu/api/v3")
 .persist() // This will persist mock interception for lifetime of program.
-.get("/repos/dupandit/Sample-mock-repo/issues")
-.reply(200, JSON.stringify(data.issueList) );
+.get("/repos/dupandit/Sample-mock-repo/issues/1")
+.reply(200, JSON.stringify(data.issueList[0]) );
 
 var mockCollaborators = nock("https://github.ncsu.edu/api/v3")
 .persist() // This will persist mock interception for lifetime of program.
@@ -24,8 +22,38 @@ var mockCommits = nock("https://github.ncsu.edu/api/v3")
 .reply(200, JSON.stringify(data.commits_of_a_file) );
 
 
-// Use Case 1
-function getPossibleAssignees(issueNumber){
+/**
+ * @desc this will assign userId to issueNumber
+ * @param userId emp to whom we will assign an issue
+ * @param issueNumber issue to assigned
+ * @return 
+ */
+
+ // Use Case 1
+ function getIssueDetails(owner,repo,number){
+    
+        var options = {
+            url: urlRoot + "/repos/" + owner + "/" + repo + "/issues/"+number,
+            method: 'GET',
+            headers: {
+                         "User-Agent": "EnableIssues",
+                         "content-type": "application/json",
+                         "Authorization": token
+                     }
+            };
+    
+        return new Promise(function (resolve, reject)
+        {
+                // Send a http request to url and specify a callback that will be called upon its return.
+                request(options, function (error, response, body) {
+                    var obj = JSON.parse(body);
+                    resolve(obj);
+                });
+        });
+    }
+    
+var getPossibleAssignees = function getPossibleAssignees(issueNumber){
+    console.log("still here only");
     var assignees = data.users;
     return assignees;
 }
@@ -57,8 +85,7 @@ function assignIssueToEmp(userId, issueNumber){
     });
 } 
 
-
-// Use Case 2
+// Usecase 2 :
 function listOfCommits(owner,repo) {
     var options = {
         url: urlRoot + "/repos/" + owner + "/" + repo + "/commits",
@@ -105,6 +132,19 @@ function isValidUser(userId, userList){
     });
 }
 
+function isValidReviwer(userId, userList){
+    return new Promise(function (resolve, reject)
+	{
+        var users = userId.split(",");
+        users.forEach(function(user) {
+            if(userList.indexOf(user.trim())<0){
+                reject(user);
+            } 
+        });
+        resolve(userId);
+    });
+}
+
 function getCollaborators(owner,repo){
     
     var options = { 
@@ -135,4 +175,6 @@ exports.getPossibleAssignees = getPossibleAssignees;
 exports.assignReviewerForIssue = assignReviewerForIssue;
 exports.listOfCommits = listOfCommits
 exports.getPossibleReviewers = getPossibleReviewers;
+exports.isValidReviwer = isValidReviwer;
+exports.getIssueDetails = getIssueDetails
 
