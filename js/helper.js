@@ -1,4 +1,5 @@
 var data = require('../mock_data/mock.json'); 
+var mysql = require("./mysql.js")
 var nock = require("nock");
 var request = require("request");
 var Promise = require("bluebird"); 
@@ -53,9 +54,17 @@ var mockCommits = nock("https://github.ncsu.edu/api/v3")
     }
     
 var getPossibleAssignees = function getPossibleAssignees(issueNumber){
-    console.log("still here only");
-    var assignees = data.users;
-    return assignees;
+    //var issueTagsList = getIssueTags(issueNumber);
+    //var userList = getCollaborators();
+    return new Promise(function(resolve, reject){
+        var issueTagsList = ['c++','java','ruby'];
+        var userList = ['sbshete','sagupta'];
+        mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
+            resolve(assigneeList);
+        }).catch(function(err){
+            reject(error);
+        });
+    });
 }
 
 function assignIssueToEmp(userId, issueNumber){

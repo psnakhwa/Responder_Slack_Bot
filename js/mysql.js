@@ -28,26 +28,32 @@ function getIssueTags(issueNumber){
     //connection.end();
 }
 
-function getUserTagsCount(userIds, tagsList){
+function getUserTagsCount(userList, tagsList){
     //connection.connect();
-    tagsList = ['c++','java'];
-    userList = ['sbshete','sagupta'];
-
-    var query = "select User_ID, count(skill) as skillCount from user_tags where User_ID in ('" + userList.join("','") + "')" +
-                "and skill in ('" + tagsList.join("','") + "') group by User_ID order by count(skill) desc limit 3";
-    console.log(query);
-    connection.query(query, function(err, rows, fields) {
-        if (!err){
-            //var data = rows;
-            console.log('in here');
-            console.log(rows);
-            for(var i=0;i<rows.length;i++){
-                console.log(rows[i].User_ID+ " " + rows[i].skillCount);
+    //tagsList = ['c++','java'];
+    //userList = ['sbshete','sagupta'];
+    return new Promise(function(resolve, reject){
+        var query = "select User_ID, count(skill) as skillCount from user_tags where User_ID in ('" + userList.join("','") + "')" +
+                    "and skill in ('" + tagsList.join("','") + "') group by User_ID order by count(skill) desc limit 3";
+        console.log(query);
+        var assigneeList = [];
+        connection.query(query, function(err, rows, fields) {
+            if (!err){
+                //var data = rows;
+                console.log('in here');
+                console.log(rows);
+                for(var i=0;i<rows.length;i++){
+                    console.log(rows[i].User_ID+ " " + rows[i].skillCount);
+                    assigneeList.push(rows[i].User_ID);
+                }
+                resolve(assigneeList);
             }
-        }
-        else
-            console.log(err);
-    });  
+            else{
+                console.log(err);
+                reject("Error while fetching user-tags details");
+            }   
+        });
+    });
     //connection.end();
 }
 
