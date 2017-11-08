@@ -37,7 +37,6 @@ app.post('/payload', function(req, res){
         arr_assignees = [];
 	arr_labels = [];
 	obj_labels = jsonObj.issue.labels;
-	//obj_assignees = jsonObj.issue
 
 	if(jsonObj.action == "closed")
 	{
