@@ -28,24 +28,26 @@ function getIssueTags(issueNumber){
     //connection.end();
 }
 
-function getUserTags(userIds){
+function getUserTagsCount(userIds, tagsList){
     //connection.connect();
-    console.log('here 1');
-    userIds.forEach(function(user){
-        
-    });
-    var query = 'select User_tags from user_table where User_ID=\'' + userId + '\'';
+    tagsList = ['c++','java'];
+    userList = ['sbshete','sagupta'];
+
+    var query = "select User_ID, count(skill) as skillCount from user_tags where User_ID in ('" + userList.join("','") + "')" +
+                "and skill in ('" + tagsList.join("','") + "') group by User_ID order by count(skill) desc limit 3";
+    console.log(query);
     connection.query(query, function(err, rows, fields) {
         if (!err){
-            var data = rows;
-            console.log(data);
-            for(var i=0;i<data.length;i++){
-                console.log(data[i].User_tags.split(','));
+            //var data = rows;
+            console.log('in here');
+            console.log(rows);
+            for(var i=0;i<rows.length;i++){
+                console.log(rows[i].User_ID+ " " + rows[i].skillCount);
             }
         }
         else
             console.log(err);
-    });
+    });  
     //connection.end();
 }
 
@@ -86,7 +88,7 @@ function updateUserTags(data){
     });
 }
 
-exports.getUserTags = getUserTags;
+exports.getUserTagsCount = getUserTagsCount;
 exports.getIssueTags = getIssueTags;
 exports.getConnection = getConnection;
 exports.insertIssueTags = insertIssueTags;
