@@ -53,29 +53,37 @@ var mockCommits = nock("https://github.ncsu.edu/api/v3")
     }
 
 function getIssueTags(issueName){
-    var process = spawn('python',["../python/find_tags/issue_tags.py", issueName]);
-    var tags;
     return new Promise(function (resolve, reject)
     {
+        console.log('get tags start');
+        var process = spawn('python',["../python/find_tags/issue_tags.py", issueName]);
+        var tags;
         process.stdout.on('data', function (data){
-            data=data.toString().replace(/[']+/g,'"');
-            tags=JSON.parse(data);
+            data = data.toString().replace(/[']+/g,'"');
+            tags = JSON.parse(data);
+            console.log('Got the tags');
             resolve(tags);
         });     
     });
 }
     
-var getPossibleAssignees = function getPossibleAssignees(issueNumber){
-    //var issueTagsList = getIssueTags(issueNumber);
-    //var userList = getCollaborators();
+function getPossibleAssignees(issueNumber){
     return new Promise(function(resolve, reject){
-        var issueTagsList = ['c++','java','ruby'];
-        var userList = ['sbshete','sagupta'];
-        mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
-            resolve(assigneeList);
-        }).catch(function(err){
-            reject(error);
-        });
+        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
+            console.log(response.title); 
+            getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
+                console.log("tags: "+issueTagsList);    
+                    //var issueTagsList = ['c++','java','ruby'];
+                var userList = ['sbshete','sagupta'];
+                mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
+                    resolve(assigneeList);
+                }).catch(function(err){
+                    reject(error);
+                });
+            }).catch(function(err){
+                console.log("didnt get tags");
+            });
+        });   
     });
 }
 

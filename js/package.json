@@ -16,7 +16,8 @@
       "request":"latest",
       "underscore":"latest",
       "botkit":"latest",
-      "nodemailer": "latest"
+      "nodemailer": "latest",
+      "mysql":"latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
