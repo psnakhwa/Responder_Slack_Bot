@@ -32,7 +32,35 @@ app.post('/payload', function(req, res){
     req.on('end', function(){
         // console.log('body: ' + body);
         var jsonObj = JSON.parse(body);  
-        console.log(jsonObj);
+        //console.log(JSON.stringify(jsonObj));
+	dict = {};
+        arr_assignees = [];
+	arr_labels = [];
+	obj_labels = jsonObj.issue.labels;
+	//obj_assignees = jsonObj.issue
+
+	if(jsonObj.action == "closed")
+	{
+		dict["title"]=jsonObj.issue.title;
+		dict["desc"]=jsonObj.issue.body;
+                for(var i=0; i<obj_labels.length; i++)
+                {
+                    arr_labels.push(obj_labels[i].name);
+                }
+		dict["labels"]=arr_labels;
+
+		for(var i=0; i<jsonObj.issue.assignees.length;i++)
+		{
+			arr_assignees.push(jsonObj.issue.assignees[i].login);
+		}
+		dict["assignees"]=arr_assignees;
+	}
+	console.log(dict);
+
+
+
+
+
     })
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.end('thanks');
