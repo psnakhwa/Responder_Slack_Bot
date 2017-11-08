@@ -106,7 +106,7 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
         {
             var comm = _.pluck(commits_of_a_file,"commit");
             console.log("hi");
-            bot.reply(message, "The major contributors are: ");
+            //bot.reply(message, "The major contributors are: ");
             //convo.say("The major contributors are: ");
             var dict = {}; // creating a dict to store the key value pairs with aggregation
              // creating user list for notif
@@ -135,12 +135,12 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                     //flag = 1;             
                 });
                 //}
-                
+                result += "\nSummary\n";
                 var res = []; // creating a temporary storage to summarize the total commits. 
                 for(var prop in dict){
                     res.push({user: prop, TotalCommits: dict[prop]});
                     //console.log("user: " + prop);
-                    result += "\n User: " + prop + " has: " + dict[prop] + " commits in all \n";
+                    result += "User: " + prop + " has: " + dict[prop] + " commits in all \n";
                     //bot.reply(message, "User: " + prop + " has: " + dict[prop] + " commits in all");
                 }
                 //console.log("this is the summary");
@@ -149,9 +149,10 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
             //}, 3000);
             //function botchat(){
             //if(flag ===1){    
-            bot.reply(message, "these are the commits: "  + result);
+            bot.reply(message, "The major contributors are: "  + result);
             //bot.reply(message, "We are outside the print on commits");
-                convo.ask("Whom do you want to send notif to ?", function(response, convo) {
+                
+            convo.ask("\nWhom do you want to send notif to ?", function(response, convo) {
                 console.log("Code entered this notif section");
                 helper.isValidUser(response.text, userList).then(function (userId){
                     convo.ask('Do you want to send to ' + userId + '? Please confirm', [
@@ -181,6 +182,7 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                                                 subject: 'Error in your previous work file',
                                                 text: 'Hi ' + e.author.name + ', This is your Bot. You will be contact for the the file soon.'
                                             });
+                                            bot.reply(message,"The email is sent to " + e.author.email);
                                         }
                                  }, this);
                                  count =0;
