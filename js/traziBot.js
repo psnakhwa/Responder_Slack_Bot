@@ -6,6 +6,7 @@ var _ = require("underscore");
 var request = require("request");
 var querystring = require('querystring');
 var Promise = require("bluebird");
+var nodemailer = require('nodemailer');
 
 var repo = "Sample-mock-repo";
 var owner = "dupandit";
@@ -99,19 +100,29 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
 // USE CASE 2
 controller.hears('find contributors for file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {   bot.startConversation(message, function(err,convo){
-        helper.listOfCommits(owner,repo).then(function (commits_of_a_file)
+    var userList = [];  
+    //var flag =0;   
+    helper.listOfCommits(owner,repo).then(function (commits_of_a_file)
         {
             var comm = _.pluck(commits_of_a_file,"commit");
             console.log("hi");
             bot.reply(message, "The major contributors are: ");
+            //convo.say("The major contributors are: ");
             var dict = {}; // creating a dict to store the key value pairs with aggregation
-            setTimeout(function() {
+             // creating user list for notif
+            //setTimeout(function() {
+                var result = '';
                 comm.forEach(function(e){
-                    console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.msg);
-                    // dict.push({
-                    //     'key': e.author.name,
-                    //     'value': 1
-                    // });
+                    userList.push(e.author.name);
+                    result += "\nUser: "+e.author.name + "\nDate: " + e.committer.date + "\nMessage: "+e.message +"\n";
+                    //console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.msg);
+                    // bot.reply(message, "User: "+e.author.name+
+                    // "\nDate: "+e.committer.date+
+                    // "\nMessage: "+e.message);
+                });
+                
+                //function temp(comm){
+                    comm.forEach(function(e){
                     if(dict.hasOwnProperty(e.author.name)){
                         dict[e.author.name] = dict[e.author.name] + 1;
                     } else{
@@ -120,24 +131,92 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
 
                     console.log ("making a dictionary:");
                     console.log(dict);
-                    bot.reply(message, "User: "+e.author.name+
-                                "\nDate: "+e.committer.date+
-                                "\nMessage: "+e.message);
+                    //return(success);
+                    //flag = 1;             
                 });
-
+                //}
+                
                 var res = []; // creating a temporary storage to summarize the total commits. 
                 for(var prop in dict){
                     res.push({user: prop, TotalCommits: dict[prop]});
-                    console.log("user: " + prop);
-                    bot.reply(message, "User: " + prop + " has: " + dict[prop] + " commits in all");
+                    //console.log("user: " + prop);
+                    result += "\n User: " + prop + " has: " + dict[prop] + " commits in all \n";
+                    //bot.reply(message, "User: " + prop + " has: " + dict[prop] + " commits in all");
                 }
-                console.log("this is the summary");
-                console.log(res);                
+                //console.log("this is the summary");
+                //console.log(res);                
+                //flag =1;
+            //}, 3000);
+            //function botchat(){
+            //if(flag ===1){    
+            bot.reply(message, "these are the commits: "  + result);
+            //bot.reply(message, "We are outside the print on commits");
+                convo.ask("Whom do you want to send notif to ?", function(response, convo) {
+                console.log("Code entered this notif section");
+                helper.isValidUser(response.text, userList).then(function (userId){
+                    convo.ask('Do you want to send to ' + userId + '? Please confirm', [
+                    {
+                        pattern: 'yes',
+                        callback: function(response, convo) {
+                            //convo.say("Issue assigned to " + userId);
+                            var count = 0;
+                            comm.forEach(function(e){
+                                //userList.push(e.author.name);
+                                //console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.msg);
+                                if(e.author.name === userId && count ===0){
+                                    count = 1;
+                                console.log ("finding email id");
+                                //console.log(dict);
+                                
+                                            var transporter = nodemailer.createTransport({
+                                                service: 'gmail',
+                                                auth: {
+                                                    user: process.env.USER_TOKEN, //'email.com',
+                                                    pass: process.env.PASS_TOKEN //'pass'
+                                                }
+                                            });
+                                            transporter.sendMail({
+                                                from: process.env.USER_TOKEN, //'email.com',
+                                                to:   e.author.email,  //req.body.email,
+                                                subject: 'Error in your previous work file',
+                                                text: 'Hi ' + e.author.name + ', This is your Bot. You will be contact for the the file soon.'
+                                            });
+                                        }
+                                 }, this);
+                                 count =0;
+                            
+                            convo.next();
+                        }
+                    },
+                    {
+                        pattern: 'no',
+                        callback: function(response, convo) {
+                            bot.reply(message,"Ok! Ping me if you need anything!");
+                            convo.stop();
+                        }
+                    },
+                    {
+                        default: true,
+                        callback: function(response, convo) {
+                            convo.repeat();
+                            convo.next();
+                        }
+                    }]);
+                    convo.next();
+                }).catch(function (e){
+                    bot.reply(message, "User not from given recommendations, enter valid user id.");
+                }); 
+            });
+        //} //if condition for flag
+        //} // new line
 
-            }, 100);
-            
         });
-        convo.stop();
+        //bot.reply(message, "this is an extra message2");
+        //convo.stop();
+        //bot.reply(message, "this is an extra message3");
+        //console.log("The code will now ask for notif");
+        
+        //convo.stop();
     });
 });
 

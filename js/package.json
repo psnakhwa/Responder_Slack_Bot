@@ -15,7 +15,8 @@
       "nock":"latest",
       "request":"latest",
       "underscore":"latest",
-      "botkit":"latest"
+      "botkit":"latest",
+      "nodemailer": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
