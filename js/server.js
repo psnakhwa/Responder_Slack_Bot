@@ -30,9 +30,7 @@ app.post('/payload', function(req, res){
         body += chunk;
     });
     req.on('end', function(){
-        // console.log('body: ' + body);
         var jsonObj = JSON.parse(body);  
-        //console.log(JSON.stringify(jsonObj));
 	dict = {};
         arr_assignees = [];
 	arr_labels = [];
