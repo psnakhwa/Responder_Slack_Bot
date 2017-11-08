@@ -1,5 +1,5 @@
 var helper = require("./helper.js")
-//var mysql = require("./mysql.js")
+var mysql = require("./mysql.js")
 var os = require('os');
 var fs = require('fs');
 var _ = require("underscore");
@@ -34,9 +34,9 @@ controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','
         let {name, real_name} = response.user;        
         bot.startConversation(message, function(err, convo) {
             bot.reply(message,"Hello "+name+"! What can I do for you?");
-            //mysql.updateUserTags(null);
-            //mysql.insertIssueTags(null);
-            //mysql.insertUserTags(null);
+            mysql.updateUserTags(null);
+            mysql.insertIssueTags(null);
+            mysql.insertUserTags(null);
             convo.stop();
         });
     });
@@ -53,12 +53,6 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
             var assignee = helper.getPossibleAssignees(issueNumber);
-            helper.getIssueDetails(owner,repo,issueNumber).then(function(response){
-               console.log(response); 
-               helper.getIssueTags(response.title + " " + response.body).then(function(tags){
-                    console.log(tags); 
-               });   
-            });
             var userList = [];
             assignee.forEach(function(element) {
                 userList.push(element.id);
