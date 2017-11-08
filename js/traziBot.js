@@ -52,46 +52,49 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
-            var assignee = helper.getPossibleAssignees(issueNumber);
-            var userList = [];
-            assignee.forEach(function(element) {
-                userList.push(element.id);
-                convo.say("Emp Id: " + element.id + " Skills: " + element.skills);
-            }, this);
-            convo.ask("Whom do you want to assign this issue?", function(response, convo) {
-                helper.isValidUser(response.text, userList).then(function (userId){
-                    convo.ask('Do you want to assign issue to ' + userId + '? Please confirm', [
-                    {
-                        pattern: 'yes',
-                        callback: function(response, convo) {
-                            //convo.say("Issue assigned to " + userId);
-                            helper.assignIssueToEmp(userId, issueNumber).then(function(response){
-                                console.log("issue assign true");
-                                bot.reply(message, response);
-                            }).catch(function(err){
-                                bot.reply(message, error);
-                            });
-                            convo.next();
-                        }
-                    },
-                    {
-                        pattern: 'no',
-                        callback: function(response, convo) {
-                            bot.reply(message,"Ok! Ping me if you need anything!");
-                            convo.stop();
-                        }
-                    },
-                    {
-                        default: true,
-                        callback: function(response, convo) {
-                            convo.repeat();
-                            convo.next();
-                        }
-                    }]);
-                    convo.next();
-                }).catch(function (e){
-                    bot.reply(message, "User not from given recommendations, enter valid id.");
-                }); 
+            helper.getPossibleAssignees(issueNumber).then(function(assigneeList){
+                var userList = [];
+                console.log("Assignee: "+assigneeList);
+                assigneeList.forEach(function(user) {
+                    userList.push(user);
+                    console.log("Emp Id: " + user);
+                    convo.say("Emp Id: " + user);// + " Skills: " + element.skills);
+                }, this);
+                convo.ask("Whom do you want to assign this issue?", function(response, convo) {
+                    helper.isValidUser(response.text, userList).then(function (userId){
+                        convo.ask('Do you want to assign issue to ' + userId + '? Please confirm', [
+                        {
+                            pattern: 'yes',
+                            callback: function(response, convo) {
+                                //convo.say("Issue assigned to " + userId);
+                                helper.assignIssueToEmp(userId, issueNumber).then(function(response){
+                                    console.log("issue assign true");
+                                    bot.reply(message, response);
+                                }).catch(function(err){
+                                    bot.reply(message, error);
+                                });
+                                convo.next();
+                            }
+                        },
+                        {
+                            pattern: 'no',
+                            callback: function(response, convo) {
+                                bot.reply(message,"Ok! Ping me if you need anything!");
+                                convo.stop();
+                            }
+                        },
+                        {
+                            default: true,
+                            callback: function(response, convo) {
+                                convo.repeat();
+                                convo.next();
+                            }
+                        }]);
+                        convo.next();
+                    }).catch(function (e){
+                        bot.reply(message, "User not from given recommendations, enter valid id.");
+                    }); 
+                });
             });
         });
     });
