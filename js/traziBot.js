@@ -67,7 +67,7 @@ controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','d
                             pattern: 'yes',
                             callback: function(response, convo) {
                                 //convo.say("Issue assigned to " + userId);
-                                helper.assignIssueToEmp(userId, issueNumber).then(function(response){
+                                helper.assignIssueToEmp(userId, owner, repo, issueNumber).then(function(response){
                                     console.log("issue assign true");
                                     bot.reply(message, response);
                                 }).catch(function(err){
