@@ -79,11 +79,30 @@ var getPossibleAssignees = function getPossibleAssignees(issueNumber){
     });
 }
 
-function assignIssueToEmp(userId, issueNumber){
-    return new Promise(function(resolve, reject){
-        resolve("Issue " + issueNumber + " assigned to " + userId);
-    });
-} 
+function assignIssueToEmp(userId, owner, repo, issueNumber){
+    var options = {
+            url: urlRoot + "/repos/" + owner + "/" + repo + "/issues/"+issueNumber,
+            method: 'PATCH',
+            headers: {
+                         "User-Agent": "EnableIssues",
+                         "content-type": "application/json",
+                         "Authorization": token
+                     },
+            json:  {
+                        "assignees" : [
+                                        userId
+                                    ]
+                   }
+            };
+    
+        return new Promise(function (resolve, reject)
+        {
+            request(options, function (error, response, body) {
+                resolve("Issue " + issueNumber + " assigned to user " + userId);
+            });
+        });
+       
+}
 
 // Usecase 2 :
 function listOfCommits(owner,repo) {
