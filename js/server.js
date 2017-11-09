@@ -57,10 +57,6 @@ app.post('/payload', function(req, res){
 	}
 	console.log(dict);
 
-
-
-
-
     })
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.end('thanks');
