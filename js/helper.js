@@ -46,9 +46,20 @@ var mockCommits = nock("https://github.ncsu.edu/api/v3")
         {
                 // Send a http request to url and specify a callback that will be called upon its return.
                 request(options, function (error, response, body) {
-                    var obj = JSON.parse(body);
-                    console.log("Got issue details from API");
-                    resolve(obj);
+                    if(!error){
+                        var obj = JSON.parse(body);
+                        console.log("Got issue details from API: " + obj.number);
+                        if(obj.number == undefined){
+                            console.log("in reject");
+                            reject("Issue not found")
+                        }
+                        else{
+                            resolve(obj);    
+                        }
+                    }
+                    else{
+                        console.log("issue not found");
+                    }
                 });
         });
     }
@@ -56,7 +67,7 @@ var mockCommits = nock("https://github.ncsu.edu/api/v3")
 function getIssueTags(issueName){
     return new Promise(function (resolve, reject)
     {
-        console.log('get tags start');
+        //console.log('get tags start');
         var process = spawn('python',["../python/find_tags/issue_tags.py", issueName]);
         var tags;
         process.stdout.on('data', function (data){
@@ -65,7 +76,7 @@ function getIssueTags(issueName){
             tags = JSON.parse(data);
         });
         process.stdout.on('end', function (){
-            console.log('Got the tags: '+tags);
+            //console.log('Got the tags: '+tags);
             resolve(tags);
         });
     });
@@ -74,9 +85,9 @@ function getIssueTags(issueName){
 function getPossibleAssignees(issueNumber){
     return new Promise(function(resolve, reject){
         getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
-            console.log(response.title); 
+            console.log("IssueDetails: ",response); 
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
-                console.log("tags: "+issueTagsList);    
+                //console.log("tags: "+issueTagsList);    
                     //var issueTagsList = ['c++','java','ruby'];
                 var userList = ['sbshete','sagupta'];
                 mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
@@ -87,6 +98,8 @@ function getPossibleAssignees(issueNumber){
             }).catch(function(err){
                 console.log("didnt get tags");
             });
+        }).catch(function(err){
+            reject(err);
         });   
     });
 }
@@ -159,7 +172,7 @@ function isValidUser(userId, userList){
          if(userList.indexOf(userId)>-1){
             resolve(userId);
         }
-        reject(userId);
+        reject(userId+" not from given recommendations, enter valid id.");
     });
 }
 

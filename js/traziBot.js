@@ -31,13 +31,13 @@ controller.spawn({
 controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
 {   
     bot.api.users.info({user:message.user}, function(err, response) {
-        let {name, real_name} = response.user;        
+        let {name, real_name} = response.user; 
         bot.startConversation(message, function(err, convo) {
-            bot.reply(message,"Hello "+name+"! What can I do for you?");
-            mysql.updateUserTags(null);
-            mysql.insertIssueTags(null);
-            mysql.insertUserTags(null);
-            convo.stop();
+            bot.reply(message,"Hello "+name+" "+real_name+"! Please provide repository name to work with");
+            //mysql.updateUserTags(null);
+            //mysql.insertIssueTags(null);
+            //mysql.insertUserTags(null);
+            //convo.stop();
         });
     });
 });
@@ -91,10 +91,12 @@ controller.hears('find (.*)',['mention', 'direct_mention','direct_message'], fun
                             }
                         }]);
                         convo.next();
-                    }).catch(function (e){
-                        bot.reply(message, "User not from given recommendations, enter valid id.");
+                    }).catch(function (err){
+                        bot.reply(message, err);
                     }); 
                 });
+            }).catch(function(err){
+                bot.reply(message, err);
             });
         });
     });
