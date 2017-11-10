@@ -9,10 +9,7 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
 /*
 
 
-var mockCollaborators = nock("https://github.ncsu.edu/api/v3")
-.persist() // This will persist mock interception for lifetime of program.
-.get("/repos/dupandit/Sample-mock-repo/collaborators")
-.reply(200, JSON.stringify(data.collaborators) );
+
 
 var mockCommits = nock("https://github.ncsu.edu/api/v3")
 .persist() // This will persist mock interception for lifetime of program.
