@@ -2,7 +2,7 @@ from xml.etree import cElementTree as ET
 import sys
 
 def find_tags(string):
-	xmlstr = open('Tags.xml').read()
+	xmlstr = open('../python/find_tags/Tags.xml').read()
 	tags=list()
 	root = ET.fromstring(xmlstr)
 	for row in list(root):

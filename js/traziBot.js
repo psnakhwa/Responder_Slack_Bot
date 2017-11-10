@@ -43,8 +43,12 @@ controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','
     });
 });
 
-// USE CASE 1
-controller.hears('find assignees for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+/**
+ * Use Case 1
+ * @desc Finding assignee for given issue
+ * @param issueNumber issue for which assinee suggestion is required
+ */
+controller.hears('find (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {   
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
