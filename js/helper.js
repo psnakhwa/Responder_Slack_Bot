@@ -105,9 +105,9 @@ function assignIssueToEmp(userId, owner, repo, issueNumber){
 }
 
 // Usecase 2 :
-function listOfCommits(owner,repo) {
+function listOfCommits(owner,repo,filename) {
     var options = {
-        url: urlRoot + "/repos/" + owner + "/" + repo + "/commits",
+        url: urlRoot + "/repos/" + owner + "/" + repo + "/commits" + "?path=" + filename,
         method: 'GET',
         headers: {
                      "User-Agent": "EnableIssues",
