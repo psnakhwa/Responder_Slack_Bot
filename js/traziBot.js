@@ -32,13 +32,13 @@ controller.spawn({
 controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
 {   
     bot.api.users.info({user:message.user}, function(err, response) {
-        let {name, real_name} = response.user;        
+        let {name, real_name} = response.user; 
         bot.startConversation(message, function(err, convo) {
-            bot.reply(message,"Hello "+name+"! What can I do for you?");
-            mysql.updateUserTags(null);
-            mysql.insertIssueTags(null);
-            mysql.insertUserTags(null);
-            convo.stop();
+            bot.reply(message,"Hello "+name+" "+real_name+"! Please provide repository name to work with");
+            //mysql.updateUserTags(null);
+            //mysql.insertIssueTags(null);
+            //mysql.insertUserTags(null);
+            //convo.stop();
         });
     });
 });
@@ -48,7 +48,7 @@ controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','
  * @desc Finding assignee for given issue
  * @param issueNumber issue for which assinee suggestion is required
  */
-controller.hears('find (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {   
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
@@ -92,10 +92,12 @@ controller.hears('find (.*)',['mention', 'direct_mention','direct_message'], fun
                             }
                         }]);
                         convo.next();
-                    }).catch(function (e){
-                        bot.reply(message, "User not from given recommendations, enter valid id.");
+                    }).catch(function (err){
+                        bot.reply(message, err);
                     }); 
                 });
+            }).catch(function(err){
+                bot.reply(message, err);
             });
             
         });
@@ -104,29 +106,33 @@ controller.hears('find (.*)',['mention', 'direct_mention','direct_message'], fun
 
 // USE CASE 2
 controller.hears('find contributors for file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
-{   bot.startConversation(message, function(err,convo){
-    var userList = [];  
-    //var flag =0;   
-    helper.listOfCommits(owner,repo).then(function (commits_of_a_file)
+{   
+    //console.log("The call is entering the contributors function");
+    var fileName = message.match[1];    
+    bot.startConversation(message, function(err,convo){
+    var userList = [];    
+    helper.listOfCommits(owner,repo,fileName).then(function (commits_of_a_file)
         {
-            var comm = _.pluck(commits_of_a_file,"commit");
-            console.log("hi");
-            //bot.reply(message, "The major contributors are: ");
+            //console.log(commits_of_a_file.length + "fdsfdsf");
+            if(commits_of_a_file.length == 0){
+                bot.reply(message, "Enter a valid file name with extenxtion. It is case sensitive");
+                convo.stop();
+
+            }else {
+                //console.log("Taking the inputs of file")
+                var comm = _.pluck(commits_of_a_file,"commit");
+                //console.log("comm: " + comm);
+                //console.log("hi");
+            
             //convo.say("The major contributors are: ");
-            var dict = {}; // creating a dict to store the key value pairs with aggregation
-             // creating user list for notif
-            //setTimeout(function() {
+                var dict = {}; // creating a dict to store the key value pairs with aggregation
                 var result = '';
                 comm.forEach(function(e){
                     userList.push(e.author.name);
                     result += "\nUser: "+e.author.name + "\nDate: " + e.committer.date + "\nMessage: "+e.message +"\n";
                     //console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.msg);
-                    // bot.reply(message, "User: "+e.author.name+
-                    // "\nDate: "+e.committer.date+
-                    // "\nMessage: "+e.message);
-                });
+                    });
                 
-                //function temp(comm){
                     comm.forEach(function(e){
                     if(dict.hasOwnProperty(e.author.name)){
                         dict[e.author.name] = dict[e.author.name] + 1;
@@ -135,11 +141,8 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                     }
 
                     console.log ("making a dictionary:");
-                    console.log(dict);
-                    //return(success);
-                    //flag = 1;             
+                    console.log(dict);             
                 });
-                //}
                 result += "\nSummary\n";
                 var res = []; // creating a temporary storage to summarize the total commits. 
                 for(var prop in dict){
@@ -148,12 +151,7 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                     result += "User: " + prop + " has: " + dict[prop] + " commits in all \n";
                     //bot.reply(message, "User: " + prop + " has: " + dict[prop] + " commits in all");
                 }
-                //console.log("this is the summary");
-                //console.log(res);                
-                //flag =1;
-            //}, 3000);
-            //function botchat(){
-            //if(flag ===1){    
+
             bot.reply(message, "The major contributors are: "  + result);
             //bot.reply(message, "We are outside the print on commits");
                 
@@ -167,10 +165,8 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                             //convo.say("Issue assigned to " + userId);
                             var count = 0;
                             comm.forEach(function(e){
-                                //userList.push(e.author.name);
-                                //console.log("User: "+e.author.name+"\nDate: "+e.committer.date+"\nMessage: "+e.msg);
                                 if(e.author.name === userId && count ===0){
-                                    count = 1;
+                                count = 1;
                                 console.log ("finding email id");
                                 //console.log(dict);
                                 
@@ -214,15 +210,10 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                     bot.reply(message, "User not from given recommendations, enter valid user id.");
                 }); 
             });
-        //} //if condition for flag
-        //} // new line
-
+        
+            }  // for the new else part of blank data
         });
         //bot.reply(message, "this is an extra message2");
-        //convo.stop();
-        //bot.reply(message, "this is an extra message3");
-        //console.log("The code will now ask for notif");
-        
         //convo.stop();
     });
 });

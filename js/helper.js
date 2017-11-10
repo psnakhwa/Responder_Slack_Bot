@@ -28,9 +28,20 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
         {
                 // Send a http request to url and specify a callback that will be called upon its return.
                 request(options, function (error, response, body) {
-                    var obj = JSON.parse(body);
-                    console.log("Got issue details from API");
-                    resolve(obj);
+                    if(!error){
+                        var obj = JSON.parse(body);
+                        console.log("Got issue details from API: " + obj.number);
+                        if(obj.number == undefined){
+                            console.log("in reject");
+                            reject("Issue not found")
+                        }
+                        else{
+                            resolve(obj);    
+                        }
+                    }
+                    else{
+                        console.log("issue not found");
+                    }
                 });
         });
 }
@@ -38,7 +49,7 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
 function getIssueTagsListFromIssueName(issueName){
     return new Promise(function (resolve, reject)
     {
-        console.log('get tags start');
+        //console.log('get tags start');
         var process = spawn('python',["../python/find_tags/issue_tags.py", issueName]);
         var tags;
         process.stdout.on('data', function (data){
@@ -47,7 +58,7 @@ function getIssueTagsListFromIssueName(issueName){
             tags = JSON.parse(data);
         });
         process.stdout.on('end', function (){
-            console.log('Got the tags: '+tags);
+            //console.log('Got the tags: '+tags);
             resolve(tags);
         });
     });
@@ -69,6 +80,8 @@ function getPossibleAssignees(issueNumber){
             }).catch(function(err){
                 console.log("didnt get tags");
             });
+        }).catch(function(err){
+            reject(err);
         });   
     });
 }
@@ -99,9 +112,10 @@ function assignIssueToEmp(userId, owner, repo, issueNumber){
 }
 
 // Usecase 2 :
-function listOfCommits(owner,repo,filename) {
+function listOfCommits(owner,repo,fileName) {
+    //console.log("The call is coming to helper.js: " + fileName);
     var options = {
-        url: urlRoot + "/repos/" + owner + "/" + repo + "/commits" + "?path=" + filename,
+        url: urlRoot + "/repos/" + owner + "/" + repo + "/commits" + "?path=" + fileName,
         method: 'GET',
         headers: {
                      "User-Agent": "EnableIssues",
@@ -109,12 +123,14 @@ function listOfCommits(owner,repo,filename) {
                      "Authorization": token
                  }
         };
-  
+        //console.log("the url gen is :" + options.url);
         return new Promise(function (resolve, reject)
         {
              // Send a http request to url and specify a callback that will be called upon its return.
              request(options, function (error, response, body) {
-                 var obj = JSON.parse(body);
+                //console.log("body of msg is: "+ body); 
+                var obj = JSON.parse(body);
+                 //console.log("This is the pulled object" +obj);
                  resolve(obj);
              });
         });
@@ -141,7 +157,7 @@ function isValidUser(userId, userList){
          if(userList.indexOf(userId)>-1){
             resolve(userId);
         }
-        reject(userId);
+        reject(userId+" not from given recommendations, enter valid id.");
     });
 }
 
