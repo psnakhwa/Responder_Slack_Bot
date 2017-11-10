@@ -1,3 +1,5 @@
+var helper = require("./helper.js")
+var mysql = require("./mysql.js")
 var ngrok = require('ngrok');
 var request = require('request');
 var express = require('express');
@@ -17,14 +19,15 @@ app.post('/payload', function(req, res){
     req.on('end', function(){
         var jsonObj = JSON.parse(body);  
 	dict = {};
-        arr_assignees = [];
+    arr_assignees = [];
 	arr_labels = [];
 	obj_labels = jsonObj.issue.labels;
 
 	if(jsonObj.action == "closed")
 	{
 		dict["title"]=jsonObj.issue.title;
-		dict["desc"]=jsonObj.issue.body;
+        dict["desc"]=jsonObj.issue.body;
+        var issueNumber=jsonObj.issue.number;
                 for(var i=0; i<obj_labels.length; i++)
                 {
                     arr_labels.push(obj_labels[i].name);
@@ -35,10 +38,31 @@ app.post('/payload', function(req, res){
 		{
 			arr_assignees.push(jsonObj.issue.assignees[i].login);
 		}
-		dict["assignees"]=arr_assignees;
+        var assignee=arr_assignees[0];
+        
+        helper.getIssueTagsListFromIssueName(dict["title"]).then(function(response){
+            // Entry in issue_assignee
+            var issue_assignee_data = [issueNumber,assignee];
+            mysql.insertIssueAssignee(issue_assignee_data);
+            // Entry in issue_tags
+            var tagsFromPy = response;
+            var tagsFromLabels = dict["labels"];
+            for (var tag of tagsFromLabels){
+                tagsFromPy.push(tag);                
+            }
+            console.log("tag list is :"+ tagsFromPy);
+            for (var tag of tagsFromPy){
+                var data = [issueNumber,tag];
+                console.log("data is:"+data);
+                mysql.insertIssueTags(data);                
+            }
+            for (var tag of tagsFromPy){
+                var data = [assignee,tag];
+                console.log("data is:"+data);
+                mysql.insertUserTags(data);                
+            }
+        });
 	}
-    console.log(dict);
-    
     })
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.end('thanks');

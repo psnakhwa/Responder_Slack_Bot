@@ -198,7 +198,7 @@ function getCollaborators(owner,repo){
 
 exports.getCollaborators = getCollaborators;
 exports.assignIssueToEmp = assignIssueToEmp;
-exports.getIssues = getIssues;
+// exports.getIssues = getIssues;
 exports.isValidUser = isValidUser;
 exports.getPossibleAssignees = getPossibleAssignees;
 exports.assignReviewerForIssue = assignReviewerForIssue;

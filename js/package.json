@@ -13,15 +13,15 @@
     "sinatra": "0.0.5"
   },
   "devDependencies": {
-      "sinon":"latest",
-      "describe":"latest",
-      "mocha":"latest",
-      "nock":"latest",
-      "request":"latest",
-      "underscore":"latest",
-      "botkit":"latest",
-      "nodemailer": "latest",
-      "mysql":"latest"
+    "botkit": "latest",
+    "describe": "latest",
+    "mocha": "latest",
+    "mysql": "^2.15.0",
+    "nock": "latest",
+    "nodemailer": "latest",
+    "request": "latest",
+    "sinon": "latest",
+    "underscore": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
