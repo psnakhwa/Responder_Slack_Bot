@@ -55,11 +55,17 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
             helper.getPossibleAssignees(issueNumber).then(function(assigneeList){
                 var userList = [];
                 console.log("Assignee: "+assigneeList);
-                assigneeList.forEach(function(user) {
-                    userList.push(user);
-                    console.log("Emp Id: " + user);
-                    convo.say("Emp Id: " + user);// + " Skills: " + element.skills);
+                Object.keys(assigneeList).forEach(function(key) {
+                    userList.push(key);
+                    console.log("Emp Id: " + key);
+                    console.log(key, assigneeList[key]);
+                    convo.say("Emp Id: " + key);
                 }, this);
+                // assigneeList.forEach(function(user) {
+                //     userList.push(user);
+                //     console.log("Emp Id: " + user);
+                //     convo.say("Emp Id: " + user);// + " Skills: " + element.skills);
+                // }, this);
                 convo.ask("Whom do you want to assign this issue?", function(response, convo) {
                     helper.isValidUser(response.text, userList).then(function (userId){
                         convo.ask('Do you want to assign issue to ' + userId + '? Please confirm', [
