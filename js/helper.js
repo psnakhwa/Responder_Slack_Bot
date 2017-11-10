@@ -6,16 +6,6 @@ var Promise = require("bluebird");
 var spawn = require("child_process").spawn;
 var token = "token " + process.env.GITHUB_TOKEN;
 var urlRoot = "https://github.ncsu.edu/api/v3";
-/*
-
-
-
-
-var mockCommits = nock("https://github.ncsu.edu/api/v3")
-.persist() // This will persist mock interception for lifetime of program.
-.get("/repos/dupandit/Sample-mock-repo/commits")
-.reply(200, JSON.stringify(data.commits_of_a_file) );
-*/
 
 /**
  * @desc this will assign userId to issueNumber
