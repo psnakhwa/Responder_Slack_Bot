@@ -118,9 +118,10 @@ function assignIssueToEmp(userId, owner, repo, issueNumber){
 }
 
 // Usecase 2 :
-function listOfCommits(owner,repo) {
+function listOfCommits(owner,repo,fileName) {
+    //console.log("The call is coming to helper.js: " + fileName);
     var options = {
-        url: urlRoot + "/repos/" + owner + "/" + repo + "/commits",
+        url: urlRoot + "/repos/" + owner + "/" + repo + "/commits" + "?path=" + fileName,
         method: 'GET',
         headers: {
                      "User-Agent": "EnableIssues",
@@ -128,16 +129,19 @@ function listOfCommits(owner,repo) {
                      "Authorization": token
                  }
         };
-  
+        //console.log("the url gen is :" + options.url);
         return new Promise(function (resolve, reject)
         {
              // Send a http request to url and specify a callback that will be called upon its return.
              request(options, function (error, response, body) {
-                 var obj = JSON.parse(body);
+                //console.log("body of msg is: "+ body); 
+                var obj = JSON.parse(body);
+                 //console.log("This is the pulled object" +obj);
                  resolve(obj);
              });
         });
 }
+
 
 // Usecase 3:
 function getPossibleReviewers(issueNumber){
