@@ -47,6 +47,7 @@ var mockCommits = nock("https://github.ncsu.edu/api/v3")
                 // Send a http request to url and specify a callback that will be called upon its return.
                 request(options, function (error, response, body) {
                     var obj = JSON.parse(body);
+                    console.log("Got issue details from API");
                     resolve(obj);
                 });
         });
@@ -59,11 +60,14 @@ function getIssueTags(issueName){
         var process = spawn('python',["../python/find_tags/issue_tags.py", issueName]);
         var tags;
         process.stdout.on('data', function (data){
+            //console.log(data);
             data = data.toString().replace(/[']+/g,'"');
             tags = JSON.parse(data);
-            console.log('Got the tags');
+        });
+        process.stdout.on('end', function (){
+            console.log('Got the tags: '+tags);
             resolve(tags);
-        });     
+        });
     });
 }
     
