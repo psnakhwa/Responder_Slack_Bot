@@ -1,6 +1,4 @@
-var data = require('../mock_data/mock.json'); 
 var mysql = require("./mysql.js")
-var nock = require("nock");
 var request = require("request");
 var Promise = require("bluebird"); 
 var spawn = require("child_process").spawn;
@@ -35,9 +33,9 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
                     resolve(obj);
                 });
         });
-    }
+}
 
-function getIssueTags(issueName){
+function getIssueTagsListFromIssueName(issueName){
     return new Promise(function (resolve, reject)
     {
         console.log('get tags start');
@@ -59,7 +57,7 @@ function getPossibleAssignees(issueNumber){
     return new Promise(function(resolve, reject){
         getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
             console.log(response.title); 
-            getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
+            getIssueTagsListFromIssueName(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);    
                     //var issueTagsList = ['c++','java','ruby'];
                 var userList = ['sbshete','sagupta'];
@@ -192,4 +190,4 @@ exports.listOfCommits = listOfCommits
 exports.getPossibleReviewers = getPossibleReviewers;
 exports.isValidReviwer = isValidReviwer;
 exports.getIssueDetails = getIssueDetails;
-exports.getIssueTags = getIssueTags;
+exports.getIssueTagsListFromIssueName = getIssueTagsListFromIssueName;

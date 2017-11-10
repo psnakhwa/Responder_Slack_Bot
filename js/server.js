@@ -37,7 +37,8 @@ app.post('/payload', function(req, res){
 		}
 		dict["assignees"]=arr_assignees;
 	}
-	console.log(dict);
+    console.log(dict);
+    
     })
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.end('thanks');
