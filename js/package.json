@@ -13,13 +13,14 @@
     "sinatra": "0.0.5"
   },
   "devDependencies": {
-    "botkit": "latest",
-    "describe": "latest",
-    "mocha": "latest",
-    "nock": "latest",
-    "request": "^2.83.0",
-    "sinon": "latest",
-    "underscore": "^1.8.3"
+      "sinon":"latest",
+      "describe":"latest",
+      "mocha":"latest",
+      "nock":"latest",
+      "request":"latest",
+      "underscore":"latest",
+      "botkit":"latest",
+      "nodemailer": "latest"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"

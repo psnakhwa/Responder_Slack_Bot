@@ -7,21 +7,6 @@ var app = express();
 
 ngrok.connect(8080, function (err, url) {
     console.log(url);
-
-
-    // var svr = http.createServer(function(req, resp) {
-    //     var body = "";
-    // req.on('data', function (chunk) {
-    //     body += chunk;
-    // });
-    // req.on('end', function () {
-    //     console.log('body: ' + body);
-    //     var jsonObj = JSON.parse(body);
-    // console.log(jsonObj.$key);
-    // })
-    //     resp.end('Hello, World!');
-    // });
-
 });
 
 app.post('/payload', function(req, res){
@@ -30,14 +15,11 @@ app.post('/payload', function(req, res){
         body += chunk;
     });
     req.on('end', function(){
-        // console.log('body: ' + body);
         var jsonObj = JSON.parse(body);  
-        //console.log(JSON.stringify(jsonObj));
 	dict = {};
         arr_assignees = [];
 	arr_labels = [];
 	obj_labels = jsonObj.issue.labels;
-	//obj_assignees = jsonObj.issue
 
 	if(jsonObj.action == "closed")
 	{
@@ -56,7 +38,6 @@ app.post('/payload', function(req, res){
 		dict["assignees"]=arr_assignees;
 	}
 	console.log(dict);
-
     })
     res.writeHead(200, {'Content-Type': 'application/json'});
     res.end('thanks');
