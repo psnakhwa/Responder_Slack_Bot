@@ -32,8 +32,12 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
                         var obj = JSON.parse(body);
                         console.log("Got issue details from API: " + obj.number);
                         if(obj.number == undefined){
-                            console.log("in reject");
-                            reject("Issue not found")
+                            console.log("in issue not found");
+                            reject("Issue does not found.")
+                        }
+                        else if(obj.state == 'closed'){
+                            console.log("in closed");
+                            reject("Issue is already closed.")
                         }
                         else{
                             resolve(obj);    
