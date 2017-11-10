@@ -1,6 +1,4 @@
-var data = require('../mock_data/mock.json'); 
 var mysql = require("./mysql.js")
-var nock = require("nock");
 var request = require("request");
 var Promise = require("bluebird"); 
 var spawn = require("child_process").spawn;
@@ -50,9 +48,9 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
                     }
                 });
         });
-    }
+}
 
-function getIssueTags(issueName){
+function getIssueTagsListFromIssueName(issueName){
     return new Promise(function (resolve, reject)
     {
         //console.log('get tags start');
@@ -73,9 +71,9 @@ function getIssueTags(issueName){
 function getPossibleAssignees(issueNumber){
     return new Promise(function(resolve, reject){
         getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
-            console.log("IssueDetails: ",response); 
-            getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
-                //console.log("tags: "+issueTagsList);    
+            console.log(response.title); 
+            getIssueTagsListFromIssueName(response.title + " " + response.body).then(function(issueTagsList){
+                console.log("tags: "+issueTagsList);    
                     //var issueTagsList = ['c++','java','ruby'];
                 var userList = ['sbshete','sagupta'];
                 mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
@@ -143,7 +141,7 @@ function listOfCommits(owner,repo,fileName) {
 }
 
 
-// Usecase 3:
+// Use Case 3
 function getPossibleReviewers(issueNumber){
     var reviewers = data.reviewers;
     return reviewers;
@@ -157,7 +155,6 @@ function assignReviewerForIssue(userId, issueNumber){
 
 
 // Utilities
-
 function isValidUser(userId, userList){
     return new Promise(function (resolve, reject)
     {
@@ -205,6 +202,7 @@ function getCollaborators(owner,repo){
 
 exports.getCollaborators = getCollaborators;
 exports.assignIssueToEmp = assignIssueToEmp;
+// exports.getIssues = getIssues;
 exports.isValidUser = isValidUser;
 exports.getPossibleAssignees = getPossibleAssignees;
 exports.assignReviewerForIssue = assignReviewerForIssue;
@@ -212,4 +210,4 @@ exports.listOfCommits = listOfCommits
 exports.getPossibleReviewers = getPossibleReviewers;
 exports.isValidReviwer = isValidReviwer;
 exports.getIssueDetails = getIssueDetails;
-exports.getIssueTags = getIssueTags;
+exports.getIssueTagsListFromIssueName = getIssueTagsListFromIssueName;

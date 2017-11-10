@@ -10,6 +10,7 @@ var nodemailer = require('nodemailer');
 
 var repo = "Sample-mock-repo";
 var owner = "dupandit";
+var repo = "Sample-mock-repo";
 
 if (!process.env.BOT_TOKEN) {
     console.log('Error: Specify token in environment');
@@ -27,7 +28,7 @@ controller.spawn({
     token: process.env.BOT_TOKEN,
   }).startRTM()
 
-  // Intro
+// Intro
 controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
 {   
     bot.api.users.info({user:message.user}, function(err, response) {
@@ -98,6 +99,7 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
             }).catch(function(err){
                 bot.reply(message, err);
             });
+            
         });
     });
 });
