@@ -77,7 +77,7 @@ function getPossibleAssignees(issueNumber){
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);    
                     //var issueTagsList = ['c++','java','ruby'];
-                var userList = ['sbshete','sagupta'];
+                var userList = ['psnakhwa','sbshete','sagupta','asagarwa'];
                 mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
                     resolve(assigneeList);
                 }).catch(function(err){
