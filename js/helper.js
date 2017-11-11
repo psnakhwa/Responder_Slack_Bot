@@ -57,12 +57,12 @@ function getIssueTagsListFromIssueName(issueName){
         var process = spawn('python',["../python/find_tags/issue_tags.py", issueName]);
         var tags;
         process.stdout.on('data', function (data){
-            //console.log(data);
+            console.log(data);
             data = data.toString().replace(/[']+/g,'"');
             tags = JSON.parse(data);
         });
         process.stdout.on('end', function (){
-            //console.log('Got the tags: '+tags);
+            console.log('Got the tags: '+tags);
             resolve(tags);
         });
     });
@@ -75,7 +75,7 @@ function getPossibleAssignees(issueNumber){
             getIssueTagsListFromIssueName(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);    
                     //var issueTagsList = ['c++','java','ruby'];
-                var userList = ['sbshete','sagupta'];
+                var userList = ['psnakhwa','sbshete','sagupta','asagarwa'];
                 mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
                     resolve(assigneeList);
                 }).catch(function(err){
