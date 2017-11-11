@@ -1,4 +1,6 @@
+//var data = require('../mock_data/mock.json'); 
 var mysql = require("./mysql.js")
+var nock = require("nock");
 var request = require("request");
 var Promise = require("bluebird"); 
 var spawn = require("child_process").spawn;
@@ -48,9 +50,9 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
                     }
                 });
         });
-}
+    }
 
-function getIssueTagsListFromIssueName(issueName){
+function getIssueTags(issueName){
     return new Promise(function (resolve, reject)
     {
         //console.log('get tags start');
@@ -71,15 +73,19 @@ function getIssueTagsListFromIssueName(issueName){
 function getPossibleAssignees(issueNumber){
     return new Promise(function(resolve, reject){
         getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
-            console.log(response.title); 
-            getIssueTagsListFromIssueName(response.title + " " + response.body).then(function(issueTagsList){
-                console.log("tags: "+issueTagsList);    
-                    //var issueTagsList = ['c++','java','ruby'];
-                var userList = ['psnakhwa','sbshete','sagupta','asagarwa'];
-                mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
-                    resolve(assigneeList);
-                }).catch(function(err){
-                    reject(error);
+            //console.log("IssueDetails: ",response); 
+            getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
+                console.log("tags: "+issueTagsList);   
+                getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){ 
+                    var userList=[];
+                    for(var i=0;i<collabs.length;i++){
+                        userList.push(collabs[i].login);
+                    }
+                    mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
+                        resolve(assigneeList);
+                    }).catch(function(err){
+                        reject(error);
+                    });
                 });
             }).catch(function(err){
                 console.log("didnt get tags");
@@ -141,20 +147,46 @@ function listOfCommits(owner,repo,fileName) {
 }
 
 
-// Use Case 3
+// Usecase 3:
 function getPossibleReviewers(issueNumber){
-    var reviewers = data.reviewers;
-    return reviewers;
+    return new Promise(function(resolve, reject){
+        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
+            console.log(response.title); 
+            getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
+                console.log("tags: "+issueTagsList);
+                getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){
+                    var userList=[];
+                    for(var i=0;i<collabs.length;i++){
+                        userList.push(collabs[i].login);
+                    }
+                    console.log('All users are: '+userList);
+                    mysql.getReviewers(userList, issueTagsList).then(function(assigneeList){
+                    resolve(assigneeList);
+                    }).catch(function(err){
+                    reject(error);
+                    });
+                }).catch(function(err){
+                    console.log("Error in finding collaborators")
+                });
+            }).catch(function(err){
+                console.log("didnt get tags");
+            });
+        });   
+    });
 }
 
-function assignReviewerForIssue(userId, issueNumber){
+function assignReviewerForIssue(users, issueNumber){
     return new Promise(function(resolve, reject){
-        resolve("Reviewer " + userId + " assigned to issue #" + issueNumber);
+        mysql.insertIssueReviewers(users,issueNumber).then(function(response){
+            console.log(response);
+            resolve("Reviewer " + users + " assigned to issue #" + issueNumber);
+        });
     });
 }
 
 
 // Utilities
+
 function isValidUser(userId, userList){
     return new Promise(function (resolve, reject)
     {
@@ -174,7 +206,7 @@ function isValidReviwer(userId, userList){
                 reject(user);
             } 
         });
-        resolve(userId);
+        resolve(users);
     });
 }
 
@@ -202,7 +234,6 @@ function getCollaborators(owner,repo){
 
 exports.getCollaborators = getCollaborators;
 exports.assignIssueToEmp = assignIssueToEmp;
-// exports.getIssues = getIssues;
 exports.isValidUser = isValidUser;
 exports.getPossibleAssignees = getPossibleAssignees;
 exports.assignReviewerForIssue = assignReviewerForIssue;
@@ -210,4 +241,4 @@ exports.listOfCommits = listOfCommits
 exports.getPossibleReviewers = getPossibleReviewers;
 exports.isValidReviwer = isValidReviwer;
 exports.getIssueDetails = getIssueDetails;
-exports.getIssueTagsListFromIssueName = getIssueTagsListFromIssueName;
+exports.getIssueTags = getIssueTags;
