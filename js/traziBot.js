@@ -10,7 +10,6 @@ var nodemailer = require('nodemailer');
 
 var repo = "Sample-mock-repo";
 var owner = "dupandit";
-var repo = "Sample-mock-repo";
 
 if (!process.env.BOT_TOKEN) {
     console.log('Error: Specify token in environment');
@@ -28,7 +27,7 @@ controller.spawn({
     token: process.env.BOT_TOKEN,
   }).startRTM()
 
-// Intro
+  // Intro
 controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
 {   
     bot.api.users.info({user:message.user}, function(err, response) {
@@ -114,7 +113,6 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
             }).catch(function(err){
                 bot.reply(message, err);
             });
-            
         });
     });
 });
@@ -241,49 +239,53 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
         bot.startConversation(message, function(err, convo) {
 
             var reviewers = helper.getPossibleReviewers(issueNumber);
-            var userList = [];
-            reviewers.forEach(function(element) {
-                userList.push(element.id);
-                convo.say("Emp Id: " + element.id + " Skills: " + element.skills);
-                //console.log(element.skills+ " "+element.id);
-            }, this)
-            convo.ask("Whom do you want to select as a reviewer? Provide comma separated ids", function(response, convo) {
-                helper.isValidReviwer(response.text, userList).then(function (userId){
-                    console.log("assigning issue");
-                    convo.ask('Do you want to assign ' + userId + ' as a reviewer for issue #?' + issueNumber + ' Please confirm', [
-                    {
-                        pattern: 'yes',
-                            callback: function(response, convo) {
-                                //convo.say("Issue assigned to " + userId);
-                                helper.assignReviewerForIssue(userId, issueNumber).then(function(response){
-                                    console.log("issue reviewer true");
-                                    bot.reply(message, response);
-                                }).catch(function(err){
-                                    bot.reply(message, error);
-                                });
-                                convo.next();
-                            }
-                        },
+            helper.getPossibleReviewers(issueNumber).then(function(reviewers){
+                
+                var userList = [];
+                reviewers.forEach(function(element) {
+                    userList.push(element);
+                    convo.say("Emp Id: " + element);
+                    //console.log(element.skills+ " "+element.id);
+                }, this)
+                convo.ask("Whom do you want to select as a reviewer? Provide comma separated ids", function(response, convo) {
+                    helper.isValidReviwer(response.text, userList).then(function (users){
+                        console.log("assigning issue");
+                        convo.ask('Do you want to assign ' + users + ' as a reviewer for issue #?' + issueNumber + ' Please confirm', [
                         {
-                            pattern: 'no',
-                            callback: function(response, convo) {
-                                bot.reply(message,"Ok! Ping me if you need anything!");
-                                convo.stop();
-                            }
-                        },
-                        {
-                            default: true,
-                            callback: function(response, convo) {
-                                convo.repeat();
-                                convo.next();
-                            }
-                        }]);
-                        convo.next();
-                    }).catch(function (e){
-                        bot.reply(message, "User "+e+" not from given recommendations, enter valid id.");
+                            pattern: 'yes',
+                                callback: function(response, convo) {
+                                    //convo.say("Issue assigned to " + userId);
+                                    helper.assignReviewerForIssue(users, issueNumber).then(function(response){
+                                        console.log("issue reviewer true");
+                                        bot.reply(message, response);
+                                    }).catch(function(err){
+                                        bot.reply(message, error);
+                                    });
+                                    convo.next();
+                                }
+                            },
+                            {
+                                pattern: 'no',
+                                callback: function(response, convo) {
+                                    bot.reply(message,"Ok! Ping me if you need anything!");
+                                    convo.stop();
+                                }
+                            },
+                            {
+                                default: true,
+                                callback: function(response, convo) {
+                                    convo.repeat();
+                                    convo.next();
+                                }
+                            }]);
+                            convo.next();
+                        }).catch(function (e){
+                            bot.reply(message, "User "+e+" not from given recommendations, enter valid id.");
+                        });
+                            
                     });
-                        
-                });
+            });
+                
         });
     });
 });
