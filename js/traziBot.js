@@ -8,8 +8,8 @@ var querystring = require('querystring');
 var Promise = require("bluebird");
 var nodemailer = require('nodemailer');
 
-var repo = "Sample-mock-repo";
-var owner = "dupandit";
+var repo = ""; //"Sample-mock-repo";
+var owner = "";//"dupandit";
 
 if (!process.env.BOT_TOKEN) {
     console.log('Error: Specify token in environment');
@@ -33,11 +33,26 @@ controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','
     bot.api.users.info({user:message.user}, function(err, response) {
         let {name, real_name} = response.user; 
         bot.startConversation(message, function(err, convo) {
-            bot.reply(message,"Hello "+name+" "+real_name+"! Please provide repository name to work with");
+            //convo.say("Hello "+name+" "+real_name+"! Please provide repository name to work with?",function(response,convo){
+            convo.ask("Hello "+name+" "+real_name+"! Please provide repository name and owner name to work with? (format: <repo> and <owner>)",function(response,convo){
+                    
+                var arr = [];
+                arr = response.text.split(" and ");
+                repo = arr[0];
+                owner = arr[1];
+                console.log("repo: " + arr[0]);
+                console.log("owner: " + arr[1]); 
+                
+                //convo.reply(message,"The repo is: " + repo1);
+                bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner);
+                convo.stop();            
+            });
+            //convo.ask("Whom do you want to assign this issue?", function(response, convo) {
             //mysql.updateUserTags(null);
             //mysql.insertIssueTags(null);
             //mysql.insertUserTags(null);
             //convo.stop();
+            
         });
     });
 });
