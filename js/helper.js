@@ -81,7 +81,7 @@ function getPossibleAssignees(issueNumber){
                     for(var i=0;i<collabs.length;i++){
                         userList.push(collabs[i].login);
                     }
-                    mysql.getUserTagsCount(userList, issueTagsList).then(function(assigneeList){
+                    mysql.getUserTagsCount(userList, issueTagsList,"").then(function(assigneeList){
                         resolve(assigneeList);
                     }).catch(function(err){
                         reject(error);
@@ -146,12 +146,11 @@ function listOfCommits(owner,repo,fileName) {
         });
 }
 
-
 // Usecase 3:
-function getPossibleReviewers(issueNumber){
+function getPossibleReviewers1(issueNumber){
     return new Promise(function(resolve, reject){
-        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
-            console.log(response.title); 
+        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){ 
+            var assignee = response.assignees[0].login;
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);
                 getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){
@@ -160,8 +159,37 @@ function getPossibleReviewers(issueNumber){
                         userList.push(collabs[i].login);
                     }
                     console.log('All users are: '+userList);
-                    mysql.getReviewers(userList, issueTagsList).then(function(assigneeList){
-                    resolve(assigneeList);
+                    mysql.getReviewerTagsCount(userList, issueTagsList,assignee).then(function(ReviewertableList){
+                        console.log("Revs from rev table are: "+ReviewertableList);
+                        resolve(ReviewertableList);
+                    }).catch(function(err){
+                    reject(error);
+                    });
+                }).catch(function(err){
+                    console.log("Error in finding collaborators")
+                });
+            }).catch(function(err){
+                console.log("didnt get tags");
+            });
+        });   
+    });
+}
+
+function getPossibleReviewers2(issueNumber){
+    return new Promise(function(resolve, reject){
+        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
+            var assignee = response.assignees[0].login;
+            getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
+                console.log("tags: "+issueTagsList);
+                getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){
+                    var userList=[];
+                    for(var i=0;i<collabs.length;i++){
+                        userList.push(collabs[i].login);
+                    }
+                    console.log('All users are: '+userList);
+                    mysql.getUserTagsCount(userList, issueTagsList,assignee).then(function(AssigneetableList){
+                        console.log("Revs from assig table are: "+AssigneetableList);
+                        resolve(AssigneetableList);
                     }).catch(function(err){
                     reject(error);
                     });
@@ -238,7 +266,8 @@ exports.isValidUser = isValidUser;
 exports.getPossibleAssignees = getPossibleAssignees;
 exports.assignReviewerForIssue = assignReviewerForIssue;
 exports.listOfCommits = listOfCommits
-exports.getPossibleReviewers = getPossibleReviewers;
+exports.getPossibleReviewers1 = getPossibleReviewers1;
+exports.getPossibleReviewers2 = getPossibleReviewers2;
 exports.isValidReviwer = isValidReviwer;
 exports.getIssueDetails = getIssueDetails;
 exports.getIssueTags = getIssueTags;
