@@ -86,20 +86,30 @@ function UserTagsCount(user, tagsList){
     //connection.end();
 }
 
-function insertIssueTags(data){
-    var query = 'insert into issue_tags VALUES(' + data[0] + "," + "'" + data[1] + "'" + ')';
-    connection.query(query, function(err, rows, fields) {
-        if (!err){
-            console.log('Record inserted successfully');
+function insertIssueReviewers(users,issueNumber){
+    return new Promise(function(resolve, reject){
+        
+        for(var i=0;i<users.length;i++){
+            var query = {Issue_ID: issueNumber, User_ID: users[i]};
+            console.log("ISSUE IS: "+issueNumber);
+            console.log("USER IS: "+users[i]);
+            
+            connection.query('insert into issue_reviewer SET ?',query, function(err,rows,fields){
+                if(!err){
+                    console.log('Record inserted successfully');
+                }
+                else
+                    console.log(err);
+            });
         }
-        else
-            console.log(err);
+        resolve("Reviewers successfully inserted in the database");
     });
 }
 
-function insertIssueAssignee(data){
-    var query = 'insert into issue_assignee VALUES(' + data[0] + "," + "'" + data[1] + "'" + ')';
-    connection.query(query, function(err, rows, fields) {
+function insertIssueTags(data){
+    //var query = 'insert into User_tags values(' + data.issueNumber + "'" + data.userId + "'" + data.issueTags + ')';
+    var query = {Issue_ID: 6, User_ID:'sbshete',Issue_tags:'Java, core java, Advanced java'};
+    connection.query('insert into issue_table SET ?',query, function(err, rows, fields) {
         if (!err){
             console.log('Record inserted successfully');
         }
@@ -109,8 +119,9 @@ function insertIssueAssignee(data){
 }
 
 function insertUserTags(data){
-    var query = 'insert into user_tags VALUES(' + "'" + data[0] + "'" + "," + "'" + data[1] + "'" + ')';    
-    connection.query(query, function(err, rows, fields) {
+    //var query = 'insert into User_tags values(' + data.issueNumber + "'" + data.userId + "'" + data.issueTags + ')';
+    var query = {User_ID:'sample',User_tags:'Java, core java, Advanced java',Email_ID:'sample@ncsu.edu'};
+    connection.query('insert into user_table SET ?',query, function(err, rows, fields) {
         if (!err){
             console.log('Record inserted successfully');
         }
@@ -119,9 +130,23 @@ function insertUserTags(data){
     });
 }
 
+function updateUserTags(data){
+    //var query = 'insert into User_tags values(' + data.issueNumber + "'" + data.userId + "'" + data.issueTags + ')';
+    var data = {User_ID:'sbshete',User_tags:'Java, core java, Advanced java',Email_ID:'sbshete@ncsu.edu'};
+    var query = "update user_table set User_tags='" + data.User_tags + "' where User_ID='" + data.User_ID + "'";
+    connection.query(query, function(err, rows, fields) {
+        if (!err){
+            console.log('Record updated successfully');
+        }
+        else
+            console.log(err);
+    });
+}
+
+exports.insertIssueReviewers = insertIssueReviewers;
 exports.getUserTagsCount = getUserTagsCount;
 exports.getIssueTags = getIssueTags;
 exports.getConnection = getConnection;
 exports.insertIssueTags = insertIssueTags;
 exports.insertUserTags = insertUserTags;
-exports.insertIssueAssignee = insertIssueAssignee;
+exports.updateUserTags = updateUserTags;
