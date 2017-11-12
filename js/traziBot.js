@@ -48,7 +48,7 @@ controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','
                         console.log("owner: " + arr[1]); 
                         
                         //convo.reply(message,"The repo is: " + repo1);
-                        bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner + "is set, please enter a use case");
+                        bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner + " is set, please enter a use case");
                         convo.stop();        
                     // } else{
                     //     bot.reply(message, "The repo name and owner combination is incorrect");
