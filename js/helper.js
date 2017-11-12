@@ -5,12 +5,7 @@ var spawn = require("child_process").spawn;
 var token = "token " + process.env.GITHUB_TOKEN;
 var urlRoot = "https://github.ncsu.edu/api/v3";
 
-/**
- * @desc this will assign userId to issueNumber
- * @param userId emp to whom we will assign an issue
- * @param issueNumber issue to assigned
- * @return 
- */
+
  // Use Case 1
  function getIssueDetails(owner,repo,number){
     
@@ -115,7 +110,7 @@ function assignIssueToEmp(userId, owner, repo, issueNumber){
        
 }
 
-// Usecase 2 :
+// Usecase 2
 function listOfCommits(owner,repo,fileName) {
     //console.log("The call is coming to helper.js: " + fileName);
     var options = {
