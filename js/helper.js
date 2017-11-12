@@ -1,6 +1,4 @@
-//var data = require('../mock_data/mock.json'); 
 var mysql = require("./mysql.js")
-var nock = require("nock");
 var request = require("request");
 var Promise = require("bluebird"); 
 var spawn = require("child_process").spawn;
@@ -9,7 +7,7 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
 
 
  // Use Case 1
- function getIssueDetails(owner,repo,number){
+function getIssueDetails(owner,repo,number){
     
         var options = {
             url: urlRoot + "/repos/" + owner + "/" + repo + "/issues/"+number,
@@ -209,6 +207,28 @@ function assignReviewerForIssue(users, issueNumber){
 
 
 // Utilities
+function doesRepoAndOwnerExist(repo, owner){
+    var options = {
+        url: urlRoot + "/repos/" + owner + "/" + repo,
+        method: 'GET',
+        headers: {
+                     "User-Agent": "EnableIssues",
+                     "content-type": "application/json",
+                     "Authorization": token
+                 }
+        };
+        //console.log("the url gen is :" + options.url);
+        return new Promise(function (resolve, reject)
+        {
+             // Send a http request to url and specify a callback that will be called upon its return.
+             request(options, function (error, response, body) {
+                console.log(response.statusCode);
+                if (response && (response.statusCode === 200 || response.statusCode === 201)) {
+                    resolve(body);
+                }
+            });
+        });
+}
 
 function isValidUser(userId, userList){
     return new Promise(function (resolve, reject)
