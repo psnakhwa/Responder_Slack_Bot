@@ -72,11 +72,11 @@ function getIssueTags(issueName){
     
 function getPossibleAssignees(issueNumber){
     return new Promise(function(resolve, reject){
-        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
+        getIssueDetails(owner, repo, issueNumber).then(function(response){
             //console.log("IssueDetails: ",response); 
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);   
-                getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){ 
+                getCollaborators(owner,repo).then(function(collabs){ 
                     var userList=[];
                     for(var i=0;i<collabs.length;i++){
                         userList.push(collabs[i].login);
@@ -149,11 +149,11 @@ function listOfCommits(owner,repo,fileName) {
 // Usecase 3:
 function getPossibleReviewers1(issueNumber){
     return new Promise(function(resolve, reject){
-        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){ 
+        getIssueDetails(owner,repo,issueNumber).then(function(response){ 
             var assignee = response.assignees[0].login;
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);
-                getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){
+                getCollaborators(owner,repo).then(function(collabs){
                     var userList=[];
                     for(var i=0;i<collabs.length;i++){
                         userList.push(collabs[i].login);
@@ -177,11 +177,11 @@ function getPossibleReviewers1(issueNumber){
 
 function getPossibleReviewers2(issueNumber){
     return new Promise(function(resolve, reject){
-        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
+        getIssueDetails(owner, repo, issueNumber).then(function(response){
             var assignee = response.assignees[0].login;
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);
-                getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){
+                getCollaborators(owner,repo).then(function(collabs){
                     var userList=[];
                     for(var i=0;i<collabs.length;i++){
                         userList.push(collabs[i].login);
