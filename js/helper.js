@@ -214,6 +214,37 @@ function assignReviewerForIssue(users, issueNumber){
 
 
 // Utilities
+function doesRepoAndOwnerExist(repo, owner){
+    var options = {
+        url: urlRoot + "/repos/" + owner + "/" + repo,
+        method: 'GET',
+        headers: {
+                     "User-Agent": "EnableIssues",
+                     "content-type": "application/json",
+                     "Authorization": token
+                 }
+    };
+        //console.log("the url gen is :" + options.url);
+        return new Promise(function (resolve, reject)
+        {
+             // Send a http request to url and specify a callback that will be called upon its return.
+             request(options, function (error, response, body) {
+                console.log("Error status for the repos code: ");
+                console.log(response.statusCode);
+                if (response && (response.statusCode === 200 || response.statusCode === 201)) {
+                    var obj = JSON.parse(body);
+                    resolve(1);
+                    console.log("Passing resolve value as: " + obj);
+                    //resolve(body);
+                }
+                else {
+                    console.log("obj: "+ obj);
+                    reject("repo doesnt exist");
+                }
+            });
+        });
+}
+
 
 function isValidUser(userId, userList){
     return new Promise(function (resolve, reject)
@@ -271,3 +302,4 @@ exports.getPossibleReviewers2 = getPossibleReviewers2;
 exports.isValidReviwer = isValidReviwer;
 exports.getIssueDetails = getIssueDetails;
 exports.getIssueTags = getIssueTags;
+exports.doesRepoAndOwnerExist = doesRepoAndOwnerExist;
