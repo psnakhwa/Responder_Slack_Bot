@@ -38,14 +38,34 @@ controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','
                     
                 var arr = [];
                 arr = response.text.split(" and ");
-                repo = arr[0];
-                owner = arr[1];
-                console.log("repo: " + arr[0]);
-                console.log("owner: " + arr[1]); 
+                helper.doesRepoAndOwnerExist(arr[0],arr[1]).then(function (statusReport)
+                {
+                    console.log("statusReport is: " + statusReport);
+                    //if(statusReport === 1 || statusReport == '1'){
+                        repo = arr[0];
+                        owner = arr[1];
+                        console.log("repo: " + arr[0]);
+                        console.log("owner: " + arr[1]); 
+                        
+                        //convo.reply(message,"The repo is: " + repo1);
+                        bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner + "is set, please enter a use case");
+                        convo.stop();        
+                    // } else{
+                    //     bot.reply(message, "The repo name and owner combination is incorrect");
+                    //     convo.stop();
+                    // }  
+                }).catch(function(err){
+                    console.log("the function reaches here");
+                    bot.reply(message, err);
+                });;
+                // repo = arr[0];
+                // owner = arr[1];
+                // console.log("repo: " + arr[0]);
+                // console.log("owner: " + arr[1]); 
                 
-                //convo.reply(message,"The repo is: " + repo1);
-                bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner);
-                convo.stop();            
+                // //convo.reply(message,"The repo is: " + repo1);
+                // bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner);
+                // convo.stop();            
             });
             //convo.ask("Whom do you want to assign this issue?", function(response, convo) {
             //mysql.updateUserTags(null);
@@ -128,7 +148,7 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
         {
             //console.log(commits_of_a_file.length + "fdsfdsf");
             if(commits_of_a_file.length == 0){
-                bot.reply(message, "Enter a valid file name with extenxtion. It is case sensitive");
+                bot.reply(message, "Enter a valid file name with extention. It is case sensitive");
                 convo.stop();
 
             }else {
@@ -181,25 +201,14 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                                 if(e.author.name === userId && count ===0){
                                 count = 1;
                                 console.log ("finding email id");
-                                //console.log(dict);
-                                
-                                            var transporter = nodemailer.createTransport({
-                                                service: 'gmail',
-                                                auth: {
-                                                    user: process.env.USER_TOKEN, //'email.com',
-                                                    pass: process.env.PASS_TOKEN //'pass'
-                                                }
-                                            });
-                                            transporter.sendMail({
-                                                from: process.env.USER_TOKEN, //'email.com',
-                                                to:   e.author.email,  //req.body.email,
-                                                subject: 'Error in your previous work file',
-                                                text: 'Hi ' + e.author.name + ', This is your Bot. You will be contact for the the file soon.'
-                                            });
-                                            bot.reply(message,"The email is sent to " + e.author.email);
-                                        }
-                                 }, this);
-                                 count =0;
+                                var subjectToSend = 'Error in one of your previous work files';
+                                var textToSend = 'Hi ' + e.author.name + ', This is TraziBot. You will be contacted for a file query soon.'
+                                var sendTo= e.author.email;
+                                emailing(sendTo, subjectToSend, textToSend);
+                                bot.reply(message,"The email is sent to " + e.author.email);
+                                }
+                            }, this);
+                            count =0;
                             
                             convo.next();
                         }
@@ -230,6 +239,23 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
         //convo.stop();
     });
 });
+
+
+function emailing(sendTo, subjectToSend, textToSend){
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.USER_TOKEN, //'email.com',
+            pass: process.env.PASS_TOKEN //'pass'
+        }
+    });
+    transporter.sendMail({
+        from: process.env.USER_TOKEN, //'email.com',
+        to:   sendTo,  //req.body.email,
+        subject:  subjectToSend,//'Error in your previous work file',
+        text: textToSend //'Hi ' + e.author.name + ', This is your Bot. You will be contact for the the file soon.'
+    });
+}
 
 // USE CASE 3
 controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
