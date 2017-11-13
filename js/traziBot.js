@@ -28,54 +28,111 @@ controller.spawn({
   }).startRTM()
 
   // Intro
-controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
-{   
+  //var realName= '';
+  var exbot;
+  var checkRepo = '';
+  var checkOwner = '';
+
+  controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message) {
+    console.log(" bot here is " + bot);  
+    
     bot.api.users.info({user:message.user}, function(err, response) {
-        let {name, real_name} = response.user; 
-        bot.startConversation(message, function(err, convo) {
-            //convo.say("Hello "+name+" "+real_name+"! Please provide repository name to work with?",function(response,convo){
-            convo.ask("Hello "+name+" "+real_name+"! Please provide repository name and owner name to work with? (format: <repo> and <owner>)",function(response,convo){
-                    
-                var arr = [];
-                arr = response.text.split(" and ");
-                helper.doesRepoAndOwnerExist(arr[0],arr[1]).then(function (statusReport)
-                {
-                    console.log("statusReport is: " + statusReport);
-                    //if(statusReport === 1 || statusReport == '1'){
-                        repo = arr[0];
-                        owner = arr[1];
-                        console.log("repo: " + arr[0]);
-                        console.log("owner: " + arr[1]); 
-                        
-                        //convo.reply(message,"The repo is: " + repo1);
-                        bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner + " is set, please enter a use case");
-                        convo.stop();        
-                    // } else{
-                    //     bot.reply(message, "The repo name and owner combination is incorrect");
-                    //     convo.stop();
-                    // }  
-                }).catch(function(err){
-                    console.log("the function reaches here");
-                    bot.reply(message, err);
-                });;
-                // repo = arr[0];
-                // owner = arr[1];
-                // console.log("repo: " + arr[0]);
-                // console.log("owner: " + arr[1]); 
-                
-                // //convo.reply(message,"The repo is: " + repo1);
-                // bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner);
-                // convo.stop();            
-            });
-            //convo.ask("Whom do you want to assign this issue?", function(response, convo) {
-            //mysql.updateUserTags(null);
-            //mysql.insertIssueTags(null);
-            //mysql.insertUserTags(null);
-            //convo.stop();
-            
-        });
+      let {name, real_name} = response.user;
+      console.log("user: " + response.user);
+      bot.startConversation(message, function(response, convo){
+            convo.ask("Hi " + real_name + " Please enter the repository name to work with?", function(response, convo) {
+            convo.say("Awesome.");
+            checkRepo = response.text;
+            console.log("bot in ask: ", bot);
+            askOwner(response, convo, checkRepo, bot, message);
+            convo.next();
+          });
+      });
+      });
+  });
+  //console.log(" 22exbot here is " + exbot);
+
+  function askOwner(response, convo, checkRepo, bot, message) {
+    console.log("bot is" + bot);
+    convo.ask("Please enter the owner name of the repo?", function(response, convo) {
+      convo.say("Ok. Let me verify this")
+      //askWhereDeliver(response, convo);
+      checkOwner = response.text;
+      console.log("repo to check is: " + checkRepo);
+      console.log("Owner to check is: " + checkOwner);
+      helper.doesRepoAndOwnerExist(checkRepo,checkOwner).then(function (statusReport)
+      {
+          console.log("statusReport is: " + statusReport);
+          if(statusReport === 1 || statusReport == '1'){
+              repo = checkRepo;
+              owner = checkOwner;
+              console.log("repo: " + repo);
+              console.log("owner: " + owner); 
+              
+              //convo.reply(message,"The repo is: " + repo1);
+              bot.reply(message, "The repo: " + repo + " and the owner: " + owner + " is set, please enter a use case");
+              convo.stop();        
+          }else{
+            convo.say("undefined");
+          }  
+      });
+      //.catch(function(err){
+      //    console.log("the function reaches here");
+      //    bot.reply(message, err);
+      //});
+      convo.next();
     });
-});
+  }
+  
+
+// controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
+// {   
+//     bot.api.users.info({user:message.user}, function(err, response) {
+//         let {name, real_name} = response.user; 
+//         bot.startConversation(message, function(err, convo) {
+//             //convo.say("Hello "+name+" "+real_name+"! Please provide repository name to work with?",function(response,convo){
+//             convo.ask("Hello "+name+" "+real_name+"! Please provide repository name and owner name to work with? (format: <repo> and <owner>)",function(response,convo){
+                    
+//                 var arr = [];
+//                 arr = response.text.split(" and ");
+//                 helper.doesRepoAndOwnerExist(arr[0],arr[1]).then(function (statusReport)
+//                 {
+//                     console.log("statusReport is: " + statusReport);
+//                     //if(statusReport === 1 || statusReport == '1'){
+//                         repo = arr[0];
+//                         owner = arr[1];
+//                         console.log("repo: " + arr[0]);
+//                         console.log("owner: " + arr[1]); 
+                        
+//                         //convo.reply(message,"The repo is: " + repo1);
+//                         bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner + " is set, please enter a use case");
+//                         convo.stop();        
+//                     // } else{
+//                     //     bot.reply(message, "The repo name and owner combination is incorrect");
+//                     //     convo.stop();
+//                     // }  
+//                 }).catch(function(err){
+//                     console.log("the function reaches here");
+//                     bot.reply(message, err);
+//                 });;
+//                 // repo = arr[0];
+//                 // owner = arr[1];
+//                 // console.log("repo: " + arr[0]);
+//                 // console.log("owner: " + arr[1]); 
+                
+//                 // //convo.reply(message,"The repo is: " + repo1);
+//                 // bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner);
+//                 // convo.stop();            
+//             });
+//             //convo.ask("Whom do you want to assign this issue?", function(response, convo) {
+//             //mysql.updateUserTags(null);
+//             //mysql.insertIssueTags(null);
+//             //mysql.insertUserTags(null);
+//             //convo.stop();
+            
+//         });
+//     });
+// });
 
 /**
  * Use Case 1

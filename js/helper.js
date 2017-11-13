@@ -224,7 +224,7 @@ function doesRepoAndOwnerExist(repo, owner){
                      "Authorization": token
                  }
     };
-        //console.log("the url gen is :" + options.url);
+        console.log("the url gen is :" + options.url);
         return new Promise(function (resolve, reject)
         {
              // Send a http request to url and specify a callback that will be called upon its return.
@@ -234,11 +234,11 @@ function doesRepoAndOwnerExist(repo, owner){
                 if (response && (response.statusCode === 200 || response.statusCode === 201)) {
                     var obj = JSON.parse(body);
                     resolve(1);
-                    console.log("Passing resolve value as: " + obj);
+//                    console.log("Passing resolve value as: " + obj);
                     //resolve(body);
                 }
                 else {
-                    console.log("obj: "+ obj);
+//                    console.log("obj: "+ obj);
                     reject("repo doesnt exist");
                 }
             });
