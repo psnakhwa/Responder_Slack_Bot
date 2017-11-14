@@ -12,6 +12,9 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
  * @param issueNumber issue to assigned
  * @return 
  */
+
+
+
  // Use Case 1
  function getIssueDetails(owner,repo,number){
     
@@ -51,6 +54,9 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
         });
     }
 
+
+
+
 function getIssueTags(issueName){
     return new Promise(function (resolve, reject)
     {
@@ -68,7 +74,10 @@ function getIssueTags(issueName){
         });
     });
 }
-    
+ 
+
+
+
 function getPossibleAssignees(issueNumber, repo, owner){
     return new Promise(function(resolve, reject){
         getIssueDetails(owner, repo, issueNumber).then(function(response){
@@ -95,6 +104,9 @@ function getPossibleAssignees(issueNumber, repo, owner){
     });
 }
 
+
+
+
 function assignIssueToEmp(userId, repo, owner, issueNumber){
     var options = {
             url: urlRoot + "/repos/" + owner + "/" + repo + "/issues/"+issueNumber,
@@ -120,6 +132,10 @@ function assignIssueToEmp(userId, repo, owner, issueNumber){
        
 }
 
+
+
+
+
 // Usecase 2 :
 function listOfCommits(owner,repo,fileName) {
     //console.log("The call is coming to helper.js: " + fileName);
@@ -144,6 +160,10 @@ function listOfCommits(owner,repo,fileName) {
              });
         });
 }
+
+
+
+
 
 // Usecase 3:
 function getPossibleReviewers1(issueNumber,repo,owner){
@@ -174,6 +194,9 @@ function getPossibleReviewers1(issueNumber,repo,owner){
     });
 }
 
+
+
+
 function getPossibleReviewers2(issueNumber,repo,owner){
     return new Promise(function(resolve, reject){
         getIssueDetails(owner, repo, issueNumber).then(function(response){
@@ -202,6 +225,9 @@ function getPossibleReviewers2(issueNumber,repo,owner){
     });
 }
 
+
+
+
 function assignReviewerForIssue(users, issueNumber){
     return new Promise(function(resolve, reject){
         mysql.insertIssueReviewers(users,issueNumber).then(function(response){
@@ -210,6 +236,8 @@ function assignReviewerForIssue(users, issueNumber){
         });
     });
 }
+
+
 
 
 // Utilities
@@ -245,6 +273,9 @@ function doesRepoAndOwnerExist(repo, owner){
 }
 
 
+
+
+
 function isValidUser(userId, userList){
     return new Promise(function (resolve, reject)
     {
@@ -254,6 +285,9 @@ function isValidUser(userId, userList){
         reject(userId+" not from given recommendations, enter valid id.");
     });
 }
+
+
+
 
 function isValidReviwer(userId, userList){
     return new Promise(function (resolve, reject)
@@ -267,6 +301,9 @@ function isValidReviwer(userId, userList){
         resolve(users);
     });
 }
+
+
+
 
 function getCollaborators(owner,repo){
     
