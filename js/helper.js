@@ -45,10 +45,12 @@ function getIssueDetails(owner,repo,number){
         });
     }
 
+
+
+
 function getIssueTags(issueName){
     return new Promise(function (resolve, reject)
     {
-        //console.log('get tags start');
         var process = spawn('python',["../python/find_tags/issue_tags.py", issueName]);
         var tags;
         process.stdout.on('data', function (data){
@@ -62,14 +64,14 @@ function getIssueTags(issueName){
         });
     });
 }
-    
-function getPossibleAssignees(issueNumber){
+
+
+function getPossibleAssignees(issueNumber, repo, owner){
     return new Promise(function(resolve, reject){
-        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
-            //console.log("IssueDetails: ",response); 
+        getIssueDetails(owner, repo, issueNumber).then(function(response){
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);   
-                getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){ 
+                getCollaborators(owner,repo).then(function(collabs){ 
                     var userList=[];
                     for(var i=0;i<collabs.length;i++){
                         userList.push(collabs[i].login);
@@ -89,7 +91,8 @@ function getPossibleAssignees(issueNumber){
     });
 }
 
-function assignIssueToEmp(userId, owner, repo, issueNumber){
+
+function assignIssueToEmp(userId, repo, owner, issueNumber){
     var options = {
             url: urlRoot + "/repos/" + owner + "/" + repo + "/issues/"+issueNumber,
             method: 'PATCH',
@@ -114,9 +117,9 @@ function assignIssueToEmp(userId, owner, repo, issueNumber){
        
 }
 
-// Usecase 2
+
+// Usecase 2 :
 function listOfCommits(owner,repo,fileName) {
-    //console.log("The call is coming to helper.js: " + fileName);
     var options = {
         url: urlRoot + "/repos/" + owner + "/" + repo + "/commits" + "?path=" + fileName,
         method: 'GET',
@@ -126,27 +129,25 @@ function listOfCommits(owner,repo,fileName) {
                      "Authorization": token
                  }
         };
-        //console.log("the url gen is :" + options.url);
         return new Promise(function (resolve, reject)
         {
              // Send a http request to url and specify a callback that will be called upon its return.
              request(options, function (error, response, body) {
-                //console.log("body of msg is: "+ body); 
                 var obj = JSON.parse(body);
-                 //console.log("This is the pulled object" +obj);
                  resolve(obj);
              });
         });
 }
 
+
 // Usecase 3:
-function getPossibleReviewers1(issueNumber){
+function getPossibleReviewers1(issueNumber,repo,owner){
     return new Promise(function(resolve, reject){
-        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){ 
+        getIssueDetails(owner,repo,issueNumber).then(function(response){ 
             var assignee = response.assignees[0].login;
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);
-                getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){
+                getCollaborators(owner,repo).then(function(collabs){
                     var userList=[];
                     for(var i=0;i<collabs.length;i++){
                         userList.push(collabs[i].login);
@@ -168,13 +169,14 @@ function getPossibleReviewers1(issueNumber){
     });
 }
 
-function getPossibleReviewers2(issueNumber){
+
+function getPossibleReviewers2(issueNumber,repo,owner){
     return new Promise(function(resolve, reject){
-        getIssueDetails('dupandit','Sample-mock-repo',issueNumber).then(function(response){
+        getIssueDetails(owner, repo, issueNumber).then(function(response){
             var assignee = response.assignees[0].login;
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);
-                getCollaborators('dupandit','Sample-mock-repo').then(function(collabs){
+                getCollaborators(owner,repo).then(function(collabs){
                     var userList=[];
                     for(var i=0;i<collabs.length;i++){
                         userList.push(collabs[i].login);
@@ -195,6 +197,7 @@ function getPossibleReviewers2(issueNumber){
         });   
     });
 }
+
 
 function assignReviewerForIssue(users, issueNumber){
     return new Promise(function(resolve, reject){
@@ -217,19 +220,24 @@ function doesRepoAndOwnerExist(repo, owner){
                      "Authorization": token
                  }
     };
-        //console.log("the url gen is :" + options.url);
+        console.log("the url gen is :" + options.url);
         return new Promise(function (resolve, reject)
         {
              // Send a http request to url and specify a callback that will be called upon its return.
              request(options, function (error, response, body) {
+                console.log("Error status for the repos code: ");
                 console.log(response.statusCode);
                 if (response && (response.statusCode === 200 || response.statusCode === 201)) {
-                    resolve(body);
+                    var obj = JSON.parse(body);
+                    resolve(1);
                 }
-                else reject(body);
+                else {
+                    reject("repo doesnt exist");
+                }
             });
         });
 }
+
 
 function isValidUser(userId, userList){
     return new Promise(function (resolve, reject)
@@ -240,6 +248,7 @@ function isValidUser(userId, userList){
         reject(userId+" not from given recommendations, enter valid id.");
     });
 }
+
 
 function isValidReviwer(userId, userList){
     return new Promise(function (resolve, reject)
@@ -253,6 +262,7 @@ function isValidReviwer(userId, userList){
         resolve(users);
     });
 }
+
 
 function getCollaborators(owner,repo){
     
@@ -287,3 +297,4 @@ exports.getPossibleReviewers2 = getPossibleReviewers2;
 exports.isValidReviwer = isValidReviwer;
 exports.getIssueDetails = getIssueDetails;
 exports.getIssueTags = getIssueTags;
+exports.doesRepoAndOwnerExist = doesRepoAndOwnerExist;

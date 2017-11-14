@@ -19,15 +19,16 @@ app.post('/payload', function(req, res){
     req.on('end', function(){
         var jsonObj = JSON.parse(body);  
 	dict = {};
-    arr_assignees = [];
+    	arr_assignees = [];
 	arr_labels = [];
 	obj_labels = jsonObj.issue.labels;
 
 	if(jsonObj.action == "closed")
 	{
+		// Getting title, description, labels and assignee for an issue
 		dict["title"]=jsonObj.issue.title;
-        dict["desc"]=jsonObj.issue.body;
-        var issueNumber=jsonObj.issue.number;
+        	dict["desc"]=jsonObj.issue.body;
+        	var issueNumber=jsonObj.issue.number;
                 for(var i=0; i<obj_labels.length; i++)
                 {
                     arr_labels.push(obj_labels[i].name);
@@ -38,24 +39,28 @@ app.post('/payload', function(req, res){
 		{
 			arr_assignees.push(jsonObj.issue.assignees[i].login);
 		}
-        var assignee=arr_assignees[0];
+        	var assignee=arr_assignees[0]; // Considering only one assignee for our testcase
         
+		
         helper.getIssueTagsListFromIssueName(dict["title"]).then(function(response){
-            // Entry in issue_assignee
+            
+	    // Entry in issue_assignee
             var issue_assignee_data = [issueNumber,assignee];
             mysql.insertIssueAssignee(issue_assignee_data);
-            // Entry in issue_tags
+            
+	    // Entry in issue_tags
             var tagsFromPy = response;
             var tagsFromLabels = dict["labels"];
             for (var tag of tagsFromLabels){
                 tagsFromPy.push(tag);                
             }
-            console.log("tag list is :"+ tagsFromPy);
+		
             for (var tag of tagsFromPy){
                 var data = [issueNumber,tag];
                 console.log("data is:"+data);
                 mysql.insertIssueTags(data);                
             }
+		
             for (var tag of tagsFromPy){
                 var data = [assignee,tag];
                 console.log("data is:"+data);

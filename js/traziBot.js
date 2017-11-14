@@ -8,8 +8,8 @@ var querystring = require('querystring');
 var Promise = require("bluebird");
 var nodemailer = require('nodemailer');
 
-var repo = "Sample-mock-repo";
-var owner = "dupandit";
+var repo = ""; //"Sample-mock-repo";
+var owner = "";//"dupandit";
 
 if (!process.env.BOT_TOKEN) {
     console.log('Error: Specify token in environment');
@@ -28,19 +28,111 @@ controller.spawn({
   }).startRTM()
 
   // Intro
-controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
-{   
+  //var realName= '';
+  var exbot;
+  var checkRepo = '';
+  var checkOwner = '';
+
+  controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message) {
+    console.log(" bot here is " + bot);  
+    
     bot.api.users.info({user:message.user}, function(err, response) {
-        let {name, real_name} = response.user; 
-        bot.startConversation(message, function(err, convo) {
-            bot.reply(message,"Hello "+name+" "+real_name+"! Please provide repository name to work with");
-            //mysql.updateUserTags(null);
-            //mysql.insertIssueTags(null);
-            //mysql.insertUserTags(null);
-            //convo.stop();
-        });
+      let {name, real_name} = response.user;
+      console.log("user: " + response.user);
+      bot.startConversation(message, function(response, convo){
+            convo.ask("Hi " + real_name + " Please enter the repository name to work with?", function(response, convo) {
+            convo.say("Awesome.");
+            checkRepo = response.text;
+            console.log("bot in ask: ", bot);
+            askOwner(response, convo, checkRepo, bot, message);
+            convo.next();
+          });
+      });
+      });
+  });
+  //console.log(" 22exbot here is " + exbot);
+
+  function askOwner(response, convo, checkRepo, bot, message) {
+    console.log("bot is" + bot);
+    convo.ask("Please enter the owner name of the repo?", function(response, convo) {
+      convo.say("Ok. Let me verify this")
+      //askWhereDeliver(response, convo);
+      checkOwner = response.text;
+      console.log("repo to check is: " + checkRepo);
+      console.log("Owner to check is: " + checkOwner);
+      helper.doesRepoAndOwnerExist(checkRepo,checkOwner).then(function (statusReport)
+      {
+          console.log("statusReport is: " + statusReport);
+          if(statusReport === 1 || statusReport == '1'){
+              repo = checkRepo;
+              owner = checkOwner;
+              console.log("repo: " + repo);
+              console.log("owner: " + owner); 
+              
+              //convo.reply(message,"The repo is: " + repo1);
+              bot.reply(message, "The repo: " + repo + " and the owner: " + owner + " is set, please enter a use case");
+              convo.stop();        
+          }else{
+            convo.say("undefined");
+          }  
+      });
+      //.catch(function(err){
+      //    console.log("the function reaches here");
+      //    bot.reply(message, err);
+      //});
+      convo.next();
     });
-});
+  }
+  
+
+// controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message)
+// {   
+//     bot.api.users.info({user:message.user}, function(err, response) {
+//         let {name, real_name} = response.user; 
+//         bot.startConversation(message, function(err, convo) {
+//             //convo.say("Hello "+name+" "+real_name+"! Please provide repository name to work with?",function(response,convo){
+//             convo.ask("Hello "+name+" "+real_name+"! Please provide repository name and owner name to work with? (format: <repo> and <owner>)",function(response,convo){
+                    
+//                 var arr = [];
+//                 arr = response.text.split(" and ");
+//                 helper.doesRepoAndOwnerExist(arr[0],arr[1]).then(function (statusReport)
+//                 {
+//                     console.log("statusReport is: " + statusReport);
+//                     //if(statusReport === 1 || statusReport == '1'){
+//                         repo = arr[0];
+//                         owner = arr[1];
+//                         console.log("repo: " + arr[0]);
+//                         console.log("owner: " + arr[1]); 
+                        
+//                         //convo.reply(message,"The repo is: " + repo1);
+//                         bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner + " is set, please enter a use case");
+//                         convo.stop();        
+//                     // } else{
+//                     //     bot.reply(message, "The repo name and owner combination is incorrect");
+//                     //     convo.stop();
+//                     // }  
+//                 }).catch(function(err){
+//                     console.log("the function reaches here");
+//                     bot.reply(message, err);
+//                 });;
+//                 // repo = arr[0];
+//                 // owner = arr[1];
+//                 // console.log("repo: " + arr[0]);
+//                 // console.log("owner: " + arr[1]); 
+                
+//                 // //convo.reply(message,"The repo is: " + repo1);
+//                 // bot.reply(message, "The repo is: " + repo + " and the owner is :" + owner);
+//                 // convo.stop();            
+//             });
+//             //convo.ask("Whom do you want to assign this issue?", function(response, convo) {
+//             //mysql.updateUserTags(null);
+//             //mysql.insertIssueTags(null);
+//             //mysql.insertUserTags(null);
+//             //convo.stop();
+            
+//         });
+//     });
+// });
 
 /**
  * Use Case 1
@@ -52,7 +144,7 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
-            helper.getPossibleAssignees(issueNumber).then(function(assigneeList){
+            helper.getPossibleAssignees(issueNumber,repo,owner).then(function(assigneeList){
                 var userList = [];
                 console.log("Assignee: "+assigneeList);
                 var result = Object.keys(assigneeList).sort(function(a, b) {
@@ -69,9 +161,15 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
                         {
                             pattern: 'yes',
                             callback: function(response, convo) {
-                                helper.assignIssueToEmp(userId, owner, repo, issueNumber).then(function(response){
+                                helper.assignIssueToEmp(userId, repo, owner, issueNumber).then(function(response){
                                     console.log("issue assign true");
                                     bot.reply(message, response);
+                                    var subjectToSend = 'Notification from TraziBot';
+                                    var textToSend = 'Hi, This is TraziBot. Issue ' + issueNumber + ' in repo ' + repo + ' is assigned to you';
+                                    mysql.getEmail([userId]).then(function(emailId){
+                                        console.log("Email is: "+emailId[0])
+                                        emailing(emailId[0], subjectToSend, textToSend);
+                                    });
                                 }).catch(function(err){
                                     bot.reply(message, error);
                                 });
@@ -115,7 +213,7 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
         {
             //console.log(commits_of_a_file.length + "fdsfdsf");
             if(commits_of_a_file.length == 0){
-                bot.reply(message, "Enter a valid file name with extenxtion. It is case sensitive");
+                bot.reply(message, "Enter a valid file name with extention. It is case sensitive");
                 convo.stop();
 
             }else {
@@ -168,25 +266,14 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                                 if(e.author.name === userId && count ===0){
                                 count = 1;
                                 console.log ("finding email id");
-                                //console.log(dict);
-                                
-                                            var transporter = nodemailer.createTransport({
-                                                service: 'gmail',
-                                                auth: {
-                                                    user: process.env.USER_TOKEN, //'email.com',
-                                                    pass: process.env.PASS_TOKEN //'pass'
-                                                }
-                                            });
-                                            transporter.sendMail({
-                                                from: process.env.USER_TOKEN, //'email.com',
-                                                to:   e.author.email,  //req.body.email,
-                                                subject: 'Error in your previous work file',
-                                                text: 'Hi ' + e.author.name + ', This is your Bot. You will be contact for the the file soon.'
-                                            });
-                                            bot.reply(message,"The email is sent to " + e.author.email);
-                                        }
-                                 }, this);
-                                 count =0;
+                                var subjectToSend = 'Error in one of your previous work files';
+                                var textToSend = 'Hi ' + e.author.name + ', This is TraziBot. You will be contacted for a file query soon.'
+                                var sendTo= e.author.email;
+                                emailing(sendTo, subjectToSend, textToSend);
+                                bot.reply(message,"The email is sent to " + e.author.email);
+                                }
+                            }, this);
+                            count =0;
                             
                             convo.next();
                         }
@@ -218,14 +305,31 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
     });
 });
 
+
+function emailing(sendTo, subjectToSend, textToSend){
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.USER_TOKEN, //'email.com',
+            pass: process.env.PASS_TOKEN //'pass'
+        }
+    });
+    transporter.sendMail({
+        from: process.env.USER_TOKEN, //'email.com',
+        to:   sendTo,  //req.body.email,
+        subject:  subjectToSend,//'Error in your previous work file',
+        text: textToSend //'Hi ' + e.author.name + ', This is your Bot. You will be contact for the the file soon.'
+    });
+}
+
 // USE CASE 3
 controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
-            helper.getPossibleReviewers1(issueNumber).then(function(reviewertable){
-                helper.getPossibleReviewers2(issueNumber).then(function(assigneetable){
+            helper.getPossibleReviewers1(issueNumber,repo,owner).then(function(reviewertable){
+                helper.getPossibleReviewers2(issueNumber,repo,owner).then(function(assigneetable){
                     var userList = [];
                     var result_assignee_table = Object.keys(assigneetable).sort(function(a, b) {
                         return assigneetable[b] - assigneetable[a];
@@ -258,6 +362,21 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
                                         //convo.say("Issue assigned to " + userId);
                                         helper.assignReviewerForIssue(users, issueNumber).then(function(response){
                                             console.log("issue reviewer true");
+                                            var subjectToSend = 'Notification from TraziBot';
+                                            var textToSend = 'Hi, This is TraziBot. You have been assigned as a reviewer for issue '+issueNumber+' in repo ' +repo;
+                                            mysql.getEmail(userList).then(function(emailId){
+                                                for(var i=0;i<emailId.length;i++){
+                                                    emailing(emailId[i], subjectToSend, textToSend);
+                                                }
+                                            });
+                                            /*
+                                            for(var i=0;i<userList.length;i++){
+                                                var subjectToSend = 'Notification from TraziBot';
+                                                var textToSend = 'Hi, This is TraziBot. You have been assigned as a reviewer for issue '+issueNumber+' in repo ' +repo;
+                                                mysql.getEmail(userId).then(function(emailId){
+                                                    emailing(emailId, subjectToSend, textToSend);
+                                                });
+                                            }*/
                                             bot.reply(message, response);
                                         }).catch(function(err){
                                             bot.reply(message, error);
