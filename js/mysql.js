@@ -25,7 +25,6 @@ function getIssueTags(issueNumber){
         else
             console.log(err);
     });
-    //connection.end();
 }
 
 function getUserTagsCount(userList, tagsList,assignee){
@@ -50,7 +49,6 @@ function getUserTagsCount(userList, tagsList,assignee){
             });
         }
         console.log("data: ", data);
-        //resolve(data);
     });
 }
 
@@ -97,7 +95,6 @@ function getReviewerTagsCount(userList, tagsList,assignee){
             });
         }
         console.log("data: ", data);
-        //resolve(data);
     });
 }
 

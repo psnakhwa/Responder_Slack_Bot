@@ -19,7 +19,7 @@ app.post('/payload', function(req, res){
     req.on('end', function(){
         var jsonObj = JSON.parse(body);  
 	dict = {};
-    	arr_assignees = [];
+    arr_assignees = [];
 	arr_labels = [];
 	obj_labels = jsonObj.issue.labels;
 
@@ -60,7 +60,7 @@ app.post('/payload', function(req, res){
                 console.log("data is:"+data);
                 mysql.insertIssueTags(data);                
             }
-		
+		// Entry in user_tags
             for (var tag of tagsFromPy){
                 var data = [assignee,tag];
                 console.log("data is:"+data);

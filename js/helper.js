@@ -6,7 +6,7 @@ var token = "token " + process.env.GITHUB_TOKEN;
 var urlRoot = "https://github.ncsu.edu/api/v3";
 
 
- // Use Case 1
+// Use Case 1
 function getIssueDetails(owner,repo,number){
     
         var options = {
@@ -43,9 +43,7 @@ function getIssueDetails(owner,repo,number){
                     }
                 });
         });
-    }
-
-
+}
 
 
 function getIssueTags(issueName){
@@ -286,6 +284,50 @@ function getCollaborators(owner,repo){
     });
 }
 
+
+function askOwner(response, convo, checkRepo, bot, message) {
+    console.log("bot is" + bot);
+    convo.ask("Please enter the owner name of the repo?", function(response, convo){
+        convo.say("Ok. Let me verify this")
+        //askWhereDeliver(response, convo);
+        checkOwner = response.text;
+        console.log("repo to check is: " + checkRepo);
+        console.log("Owner to check is: " + checkOwner);
+        helper.doesRepoAndOwnerExist(checkRepo,checkOwner).then(function (statusReport)
+        {
+            console.log("statusReport is: " + statusReport);
+            if(statusReport === 1 || statusReport == '1'){
+                repo = checkRepo;
+                owner = checkOwner;
+                console.log("repo: " + repo);
+                console.log("owner: " + owner); 
+                bot.reply(message, "The repo: " + repo + " and the owner: " + owner + " is set, please enter a use case");
+                convo.stop();        
+            }else{
+                convo.say("undefined");
+            }  
+        });
+        convo.next();
+    });
+}
+
+
+function emailing(sendTo, subjectToSend, textToSend){
+    var transporter = nodemailer.createTransport({
+        service: 'gmail',
+        auth: {
+            user: process.env.USER_TOKEN, //'email.com',
+            pass: process.env.PASS_TOKEN //'pass'
+        }
+    });
+    transporter.sendMail({
+        from: process.env.USER_TOKEN, //'email.com',
+        to:   sendTo,  //req.body.email,
+        subject:  subjectToSend,//'Error in your previous work file',
+        text: textToSend //'Hi ' + e.author.name + ', This is your Bot. You will be contact for the the file soon.'
+    });
+}
+
 exports.getCollaborators = getCollaborators;
 exports.assignIssueToEmp = assignIssueToEmp;
 exports.isValidUser = isValidUser;
@@ -298,3 +340,5 @@ exports.isValidReviwer = isValidReviwer;
 exports.getIssueDetails = getIssueDetails;
 exports.getIssueTags = getIssueTags;
 exports.doesRepoAndOwnerExist = doesRepoAndOwnerExist;
+exports.askOwner = askOwner;
+exports.emailing = emailing;
