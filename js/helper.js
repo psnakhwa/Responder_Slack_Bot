@@ -60,7 +60,6 @@ var urlRoot = "https://github.ncsu.edu/api/v3";
 function getIssueTags(issueName){
     return new Promise(function (resolve, reject)
     {
-        //console.log('get tags start');
         var process = spawn('python',["../python/find_tags/issue_tags.py", issueName]);
         var tags;
         process.stdout.on('data', function (data){
@@ -81,7 +80,6 @@ function getIssueTags(issueName){
 function getPossibleAssignees(issueNumber, repo, owner){
     return new Promise(function(resolve, reject){
         getIssueDetails(owner, repo, issueNumber).then(function(response){
-            //console.log("IssueDetails: ",response); 
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);   
                 getCollaborators(owner,repo).then(function(collabs){ 
@@ -138,7 +136,6 @@ function assignIssueToEmp(userId, repo, owner, issueNumber){
 
 // Usecase 2 :
 function listOfCommits(owner,repo,fileName) {
-    //console.log("The call is coming to helper.js: " + fileName);
     var options = {
         url: urlRoot + "/repos/" + owner + "/" + repo + "/commits" + "?path=" + fileName,
         method: 'GET',
@@ -148,14 +145,11 @@ function listOfCommits(owner,repo,fileName) {
                      "Authorization": token
                  }
         };
-        //console.log("the url gen is :" + options.url);
         return new Promise(function (resolve, reject)
         {
              // Send a http request to url and specify a callback that will be called upon its return.
              request(options, function (error, response, body) {
-                //console.log("body of msg is: "+ body); 
                 var obj = JSON.parse(body);
-                 //console.log("This is the pulled object" +obj);
                  resolve(obj);
              });
         });
@@ -261,11 +255,8 @@ function doesRepoAndOwnerExist(repo, owner){
                 if (response && (response.statusCode === 200 || response.statusCode === 201)) {
                     var obj = JSON.parse(body);
                     resolve(1);
-//                    console.log("Passing resolve value as: " + obj);
-                    //resolve(body);
                 }
                 else {
-//                    console.log("obj: "+ obj);
                     reject("repo doesnt exist");
                 }
             });
