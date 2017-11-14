@@ -1,4 +1,3 @@
-//var data = require('../mock_data/mock.json'); 
 var mysql = require("./mysql.js")
 var nock = require("nock");
 var request = require("request");
@@ -70,7 +69,7 @@ function getIssueTags(issueName){
     });
 }
     
-function getPossibleAssignees(issueNumber){
+function getPossibleAssignees(issueNumber, repo, owner){
     return new Promise(function(resolve, reject){
         getIssueDetails(owner, repo, issueNumber).then(function(response){
             //console.log("IssueDetails: ",response); 
@@ -96,7 +95,7 @@ function getPossibleAssignees(issueNumber){
     });
 }
 
-function assignIssueToEmp(userId, owner, repo, issueNumber){
+function assignIssueToEmp(userId, repo, owner, issueNumber){
     var options = {
             url: urlRoot + "/repos/" + owner + "/" + repo + "/issues/"+issueNumber,
             method: 'PATCH',
@@ -147,7 +146,7 @@ function listOfCommits(owner,repo,fileName) {
 }
 
 // Usecase 3:
-function getPossibleReviewers1(issueNumber){
+function getPossibleReviewers1(issueNumber,repo,owner){
     return new Promise(function(resolve, reject){
         getIssueDetails(owner,repo,issueNumber).then(function(response){ 
             var assignee = response.assignees[0].login;
@@ -175,7 +174,7 @@ function getPossibleReviewers1(issueNumber){
     });
 }
 
-function getPossibleReviewers2(issueNumber){
+function getPossibleReviewers2(issueNumber,repo,owner){
     return new Promise(function(resolve, reject){
         getIssueDetails(owner, repo, issueNumber).then(function(response){
             var assignee = response.assignees[0].login;
