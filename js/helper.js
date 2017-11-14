@@ -293,7 +293,7 @@ function askOwner(response, convo, checkRepo, bot, message) {
         checkOwner = response.text;
         console.log("repo to check is: " + checkRepo);
         console.log("Owner to check is: " + checkOwner);
-        helper.doesRepoAndOwnerExist(checkRepo,checkOwner).then(function (statusReport)
+        doesRepoAndOwnerExist(checkRepo,checkOwner).then(function (statusReport)
         {
             console.log("statusReport is: " + statusReport);
             if(statusReport === 1 || statusReport == '1'){
