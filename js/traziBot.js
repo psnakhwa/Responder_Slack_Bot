@@ -144,7 +144,7 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
-            helper.getPossibleAssignees(issueNumber).then(function(assigneeList){
+            helper.getPossibleAssignees(issueNumber,repo,owner).then(function(assigneeList){
                 var userList = [];
                 console.log("Assignee: "+assigneeList);
                 var result = Object.keys(assigneeList).sort(function(a, b) {
@@ -161,9 +161,15 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
                         {
                             pattern: 'yes',
                             callback: function(response, convo) {
-                                helper.assignIssueToEmp(userId, owner, repo, issueNumber).then(function(response){
+                                helper.assignIssueToEmp(userId, repo, owner, issueNumber).then(function(response){
                                     console.log("issue assign true");
                                     bot.reply(message, response);
+                                    var subjectToSend = 'Notification from TraziBot';
+                                    var textToSend = 'Hi, This is TraziBot. Issue ' + issueNumber + ' in repo ' + repo + ' is assigned to you';
+                                    mysql.getEmail([userId]).then(function(emailId){
+                                        console.log("Email is: "+emailId[0])
+                                        emailing(emailId[0], subjectToSend, textToSend);
+                                    });
                                 }).catch(function(err){
                                     bot.reply(message, error);
                                 });
@@ -322,8 +328,8 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
-            helper.getPossibleReviewers1(issueNumber).then(function(reviewertable){
-                helper.getPossibleReviewers2(issueNumber).then(function(assigneetable){
+            helper.getPossibleReviewers1(issueNumber,repo,owner).then(function(reviewertable){
+                helper.getPossibleReviewers2(issueNumber,repo,owner).then(function(assigneetable){
                     var userList = [];
                     var result_assignee_table = Object.keys(assigneetable).sort(function(a, b) {
                         return assigneetable[b] - assigneetable[a];
@@ -356,6 +362,21 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
                                         //convo.say("Issue assigned to " + userId);
                                         helper.assignReviewerForIssue(users, issueNumber).then(function(response){
                                             console.log("issue reviewer true");
+                                            var subjectToSend = 'Notification from TraziBot';
+                                            var textToSend = 'Hi, This is TraziBot. You have been assigned as a reviewer for issue '+issueNumber+' in repo ' +repo;
+                                            mysql.getEmail(userList).then(function(emailId){
+                                                for(var i=0;i<emailId.length;i++){
+                                                    emailing(emailId[i], subjectToSend, textToSend);
+                                                }
+                                            });
+                                            /*
+                                            for(var i=0;i<userList.length;i++){
+                                                var subjectToSend = 'Notification from TraziBot';
+                                                var textToSend = 'Hi, This is TraziBot. You have been assigned as a reviewer for issue '+issueNumber+' in repo ' +repo;
+                                                mysql.getEmail(userId).then(function(emailId){
+                                                    emailing(emailId, subjectToSend, textToSend);
+                                                });
+                                            }*/
                                             bot.reply(message, response);
                                         }).catch(function(err){
                                             bot.reply(message, error);
