@@ -205,13 +205,11 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
 // USE CASE 2
 controller.hears('find contributors for file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {   
-    //console.log("The call is entering the contributors function");
     var fileName = message.match[1];    
     bot.startConversation(message, function(err,convo){
     var userList = [];    
     helper.listOfCommits(owner,repo,fileName).then(function (commits_of_a_file)
         {
-            //console.log(commits_of_a_file.length + "fdsfdsf");
             if(commits_of_a_file.length == 0){
                 bot.reply(message, "Enter a valid file name with extention. It is case sensitive");
                 convo.stop();
