@@ -8,7 +8,7 @@ Setup :
 * Whenever any issue is closed for that repository, the skillset, userID and other details must be inserted into respective database-tables in order for bot to access entries while conversation.
 
 Note : We are maintaining following database tables that will be used by bot. 
-(https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/images/Database-tables.png.PNG)
+<img width="704" alt="screen shot 2017-10-25 at 8 06 44 pm" src="https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/images/Database-tables.png.PNG">
 
 Use Case 1: Finding an employee for a new issue based on his/her skill set and deadline of issues they are currently working on
 
