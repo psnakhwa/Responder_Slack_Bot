@@ -154,6 +154,36 @@ function insertIssueTags(data){
     });
 }
 
+function getEmail(users){
+    return new Promise(function(resolve, reject){
+        var emailID = [];
+        var userProcessed = 0;
+        for(var i=0;i<users.length;i++){
+            findEmail(users[i]).then(function(email){
+                emailID.push(email);
+                userProcessed++;
+                if(userProcessed==users.length){
+                    resolve(emailID);
+                }
+            });
+        }
+    });
+}
+
+function findEmail(user){
+    return new Promise(function(resolve,reject){
+        var query = "select Email_ID from user_info where User_ID='"+user+"';";
+        console.log(query);
+        connection.query(query,function(err,rows,fields){
+        if (!err){
+            resolve(rows[0].Email_ID);
+        }
+        else
+            console.log(err);
+        });
+    });
+}
+
 function insertUserTags(data){
     //var query = 'insert into User_tags values(' + data.issueNumber + "'" + data.userId + "'" + data.issueTags + ')';
     var query = {User_ID:'sample',User_tags:'Java, core java, Advanced java',Email_ID:'sample@ncsu.edu'};
@@ -179,6 +209,7 @@ function updateUserTags(data){
     });
 }
 
+exports.getEmail = getEmail;
 exports.getReviewerTagsCount = getReviewerTagsCount;
 exports.insertIssueReviewers = insertIssueReviewers;
 exports.getUserTagsCount = getUserTagsCount;
