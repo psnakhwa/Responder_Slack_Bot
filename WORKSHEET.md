@@ -5,43 +5,34 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 
 
 
-### Week 1 : Oct 09 to Oct 15
-
+### Week 1 : Oct 30 to Nov 05  
+  
 |   | Deliverable       |     Sub Tasks            | Item/Status      | Task Number                         | Team Members | Start Date     | Estimated Date | 
 |---|-------------------------------------------|-------------------------|-----------------------------------------------------------------------|--------------------------------------|--------------|---------------------|-------------|
-| 1 | Deciding the new Problem Statement                 | Brainstorm and discuss the new scenarios which are possible               | Decide Changes/ Done      | [#1](https://trello.com/c/5cSQS0D9)         | ALL              | 09-Oct      | 12-Oct |
-| 2 | Edit the Problem Statement (Change from Tracking Progress to Finding People)                           | Complete the writeup of the Design.md                                                   | Done     | [#2](https://trello.com/c/X7RjTngx)         | Darshit, Sushant and Parag | 09-Oct      | 12-Oct |
-|  |                                                                     | Modify the relative use cases and the architecture diagrams                                         | Use Cases/ Done                        | [#3](https://trello.com/c/xCFv6907)         | Aayush and Shrikant       | 09-Oct      | 12 - Oct |
-| 3 | Finalize the slack bot desc.| plan on how to go ahead and decide the limitations of the bot | Brainstorming and internet Reading/ Done           | [#16](https://trello.com/c/yHcQFtMp)           | All                 | 10-Oct      | 11-Oct |
-| 4 | Dicuss about Data Architecture | Revisit the architecture diagram  | Group discussion / Done           | [#1](https://trello.com/c/5cSQS0D9)   & [#16](https://trello.com/c/yHcQFtMp)        | All                 | 13-Oct      | 15-Oct |
-|   |                                                                    | Data Stoage - Database y/n?                                                   |  | [#16](https://trello.com/c/yHcQFtMp)           | ALL      | 13-Oct      | 14-Oct |
+| 1 | Discuss the take aways (code re-use) and addition changes from milestone 2 -> 3      | Brainstorm and discuss the additional features for each use-case               | Decide Changes/ Done      | [#20](https://trello.com/c/Ip4GPTVh)         | ALL              | 28-Oct      | 30-Oct |
+| 2 | In dept discussion about each use case and task allotment          | Plan layout of tasks and work distribution          | Done     | [#22](https://trello.com/c/LYlQhXrl)         | ALL | 30-Oct      | 1-Nov |
+| 3 | Database design| Discuss and design the database tables and the interaction between tables for tuples | Done           | [#28](https://trello.com/c/aZK9X7Rl)           | All                 | 2-Nov      | 5-Nov |
+|  |   | Host the database/ prepare the schema for all team members to use           | [#28](https://trello.com/c/aZK9X7Rl) | Aayush and Shrikant                 | 03-Oct      | 05-Nov |
+  
 
-
-### Week 2 : Oct 16 to Oct 22
-
+### Week 2 : Nov 06 to Nov 12  
+  
 |   | Deliverable        |      Sub Tasks      | Item/Status                                            | Task number   | Team Members | Start Date   | Estimated Date | 
 |---|-----------------------|---------|--------------------------------------------------------|----------------|--------------|------------------|-------------|
-| 1 | Prepare Mocking Data | Brainstorm about API calls and data columns                       | Brainstorming/ Done  | [#4](https://trello.com/c/I1iIbFEV)           | All      | 16-Oct      | 17-Oct |
-|   | 					   | Structuring Json from slack messages                            | Structuring/ Done  | [#4](https://trello.com/c/I1iIbFEV)           | Darshit and Parag      | 17-Oct      | 22-Oct |
-|   | 					   | Code helper.js                            | Coding/ Done  | [#4](https://trello.com/c/I1iIbFEV)           | Darshit and Parag      | 18-Oct      | 22-Oct |
-| 2 | Bot Implementation using Mock Data | Write the basic code for interaction                                         | Bot Interaction/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant and Sushant      | 16-Oct      | 17-Oct |
-|  |  | Write code for Use-Case 1: Finding Employee for a new Issue                                          | use-case 1/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant and Sushant      | 16-Oct      | 17-Oct |
-|  |  | Write code for Use-Case 2: Finding a major contributor for a file                                    | use-case 2/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant      | 16-Oct      | 17-Oct |
-|  |  | Write code for Use-Case 3: Finding a code reviewer for the project                                         | use-case 3/ Done  | [#5](https://trello.com/c/zP6UbUX9)           | Shrikant and Sushant      | 16-Oct      | 17-Oct |
-| 3 | Selenium Test cases for the bot            | Happy Path for use-case 1       | use case 1/ Done               | [#6](https://trello.com/c/63KibfIG)           | Aayush            | 18-Oct      | 22-Oct |
-|   |                                | Alternate path for use-case 1               | use case 1/ Done        | [#6](https://trello.com/c/63KibfIG)           | Aayush              | 18-Oct      | 22-Oct |
-|   |                                | Happy Path for use-case 2                   | use case 2/ In Progress                | [#14](https://trello.com/c/e3dzrL5B)           | Aayush           | 20-Oct      | 24-Oct |
-|  |          | Happy Path for use-case 3   									   | use case 3/ Done        | [#6](https://trello.com/c/63KibfIG)           | Aayush | 20-Oct      | 23-Oct |
-|   |                                | Alternate path for use-case 3               | use case 3/ Done                | [#6](https://trello.com/c/63KibfIG)           | Aayush              | 20-Oct      | 23-Oct |
+| 1 | Deploy Database | Pull data from Git APIs and store in the tables                       | remove mocking/ Done  | [#27](https://trello.com/c/ZbCl7s6f)           | Aayush, Darshit, Parag and Sushant      | 06-Nov      | 08-Nov |
+|   | 					   | Write Queries to access data from tables through use cases                            | Verify using mysql/ Done  | [#29](https://trello.com/c/TsncKd3E)           | Shrikant      | 06-Nov      | 09-Nov |
+| 2 | Bot Implementation using Actual Data | Write the full functional code for Bot Services                       | Bot Interaction/ Done  | [#23](https://trello.com/c/GMoimfVd) , [#24](https://trello.com/c/A1HiE1FE) & [#25](https://trello.com/c/i0ipkeMI)   | ALL      | 06-Oct      | 12-Nov |
+|  |  | Write code for Use-Case 1: Finding Employee for a new Issue                                          | use-case 1/ Done  | [#23](https://trello.com/c/GMoimfVd)           | Shrikant and Aayush      | 06-Nov      | 09-Nov |
+|  |  | Write code for Use-Case 2: Finding a major contributor for a file and display summary of commits                                    | use-case 2/ Done  | [#24](https://trello.com/c/A1HiE1FE)            | Sushant      | 06-Nov      | 08-Nov |
+|  |  | Write code for Use-Case 3: Finding a code reviewer for the project                                         | use-case 3/ Done  | [#25](https://trello.com/c/i0ipkeMI)           | Darshit and Parag      | 08-Nov      | 12-Nov |
+  
 
-
-## Week 3 : Oct 23 to Oct 25
-
+## Week 3 : Nov 13 & Nov 12  
+  
 |   | Deliverable           |  Sub Tasks     | Item/Status                    | Issues/Tasks | Team Members | Start Date        | Estimated Date | 
 |---|--------------------|------------------|-------------------------------------------|--------------|--------------|-----------------------|-------------|
-| 1 | Integrate and test for the bot working        | Functioning of the Bot           |In progress              | [#17](https://trello.com/c/FgK1q8ZI)           | ALL          | 24-Oct      | 25-Oct |
-| 2 | Screencast                           | Makng screencast                          |  Not Yet Started            | [#11](https://trello.com/c/SQBDLMix)          | ALL         | 24-Oct      | 24-Oct |
-| 3 | Write-up for describing how are the changes done | Modifying script to run the bot   forever |              | [#15](https://trello.com/c/I7X3rIdY)          | Aayush and Darshit | 24-Oct      | 25-Oct |
-| 4 | Prepare the Worksheet.md file                                      | Integrate Trello and Worksheet.md | Done  | [#18](https://trello.com/c/EB99r64U)          | Sushant           | 17-Oct      | 25-Oct |
-| 4 | Deployment delivery                  |                                           |              | [#19](https://trello.com/c/UUKePlfD)          | ALL                   | 25-Oct      | 25-Oct |
+| 1 | Integrate and test for the bot working        | Functioning of the Bot           |In progress/ Done              | [#17](https://trello.com/c/FgK1q8ZI)           | ALL          | 12-Nov      | 13-Nov |
+| 2 | Screencast                           | Making screencast                          |  Done            | [#31](https://trello.com/c/njfVQDmu)          | Aayush         | 14-Nov      | 14-Nov |
+| 3 | Prepare the Worksheet.md file and readme    | Integrate Trello and Worksheet.md | Done  | [#32](https://trello.com/c/BGZivNLH)          | Sushant, Parag and Darshit           | 14-Nov      | 14-Nov |
+| 4 | Deployment delivery                  |                                           |              | [#30](https://trello.com/c/AwE50ZPF)          | ALL                   | 14-Nov      | 14-Nov |
 
