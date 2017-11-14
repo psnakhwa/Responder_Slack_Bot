@@ -12,7 +12,7 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 | 1 | Discuss the take aways (code re-use) and addition changes from milestone 2 -> 3      | Brainstorm and discuss the additional features for each use-case               | Decide Changes/ Done      | [#20](https://trello.com/c/Ip4GPTVh)         | ALL              | 28-Oct      | 30-Oct |
 | 2 | In dept discussion about each use case and task allotment          | Plan layout of tasks and work distribution          | Done     | [#22](https://trello.com/c/LYlQhXrl)         | ALL | 30-Oct      | 1-Nov |
 | 3 | Database design| Discuss and design the database tables and the interaction between tables for tuples | Done           | [#28](https://trello.com/c/aZK9X7Rl)           | All                 | 2-Nov      | 5-Nov |
-|  |   | Host the database/ prepare the schema for all team members to use           | [#28](https://trello.com/c/aZK9X7Rl) | Aayush and Shrikant                 | 03-Oct      | 05-Nov |
+|  |   | Host the database/ prepare the schema for all team members to use    | Done       | [#28](https://trello.com/c/aZK9X7Rl) | Aayush and Shrikant                 | 03-Oct      | 05-Nov |
   
 
 ### Week 2 : Nov 06 to Nov 12  
