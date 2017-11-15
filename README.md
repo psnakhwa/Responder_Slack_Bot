@@ -9,4 +9,8 @@ Team Members:
 
 ## Service.md  
 
-Please find the Service.md file [here.](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/SERVICE.md)
+Please find the Service.md file [here.](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/SERVICE.md). This file contains all the required tasks for Milestone 3.
+
+## Task Sheet
+
+Please find the worksheet.md file [here](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/WORKSHEET.md) for all the trello cards and task distributions.
