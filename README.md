@@ -17,7 +17,7 @@ Please find the worksheet.md file [here](https://github.ncsu.edu/sbshete/CSC-510
 
 ## Screencast Link
 
-Please find the screencast [here]()
+Please find the screencast [here](https://youtu.be/49cG-783yqo)
 
 ## Bot Code
 
