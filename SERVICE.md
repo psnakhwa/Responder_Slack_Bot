@@ -10,26 +10,26 @@ owner.
 * Whenever any issue is closed for that repository, the skillset, userID and other details must be inserted into respective database-tables in order for bot to access entries while conversation.
 
 **Setup: Process:**  
-*Clone the repo  ```git clone https://github.ncsu.edu/sbshete/CSC-510-Project.git```  
-*Switch to milestone3 branch  ```git checkout milestone3```  
-*Change directory to js  ```cd js```  
-*Install packages  ```npm install```  
-*Set environment variables     
->*BOT_TOKEN (<your_slack_token>)  
->*GITHUB_TOKEN (<your_github_token>)  
->*USER_TOKEN (<bot_email_id>)  
->*PASS_TOKEN (<bot_email_password>)  
+* Clone the repo  ```git clone https://github.ncsu.edu/sbshete/CSC-510-Project.git```  
+* Switch to milestone3 branch  ```git checkout milestone3```  
+* Change directory to js  ```cd js```  
+* Install packages  ```npm install```  
+* Set environment variables     
+>* BOT_TOKEN (<your_slack_token>)  
+>* GITHUB_TOKEN (<your_github_token>)  
+>* USER_TOKEN (<bot_email_id>)  
+>* PASS_TOKEN (<bot_email_password>)  
+  
+* Start mysql database server (commands can be system specific)  
+* In mysql run the (database/db.sql) to create the schema **(Note: We are maintaining database tables [database.md]() that will be used by bot)**   
+* Run ```node traziBot.js``` to start slack bot  
+* Enter “hi” or “hello” to initiate the bot and follow instructions to set the “repo” and “owner” to work with.  
+* For the use case 1, command is: find assignee for issue <#issue number>  
+* For the use case 2, command is: find contributors for file <filename.ext>  
+* For the use case 2, command is: find reviewers for issue <#issue number>  
 
-*Start mysql database server (commands can be system specific)  
-*In mysql run the (database/db.sql) to create the schema **(Note: We are maintaining database tables [database.md]() that will be used by bot)**   
-*Run ```node traziBot.js``` to start slack bot  
-*Enter “hi” or “hello” to initiate the bot and follow instructions to set the “repo” and “owner” to work with.  
-*For the use case 1, command is: find assignee for issue <#issue number>  
-*For the use case 2, command is: find contributors for file <filename.ext>  
-*For the use case 2, command is: find reviewers for issue <#issue number>  
 
-
-**Implementation Descriptions:**
+## Implementation Descriptions:
 
 ### Use Case 1:
 Finding an employee for a new issue based on his/her skill set and deadline of issues they are currently working on : 
