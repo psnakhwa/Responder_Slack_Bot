@@ -1,16 +1,38 @@
 ## Milestone : SERVICE
 
-Following describes implementation flow for each usecases described in [DESIGN.md](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/DESIGN.md)
+This document the implementation and flow for each usecase described in previous milestone [DESIGN.md](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/DESIGN.md)  
 
 Note : We are maintaining following database tables that will be used by bot. 
 <img width="704" alt="screen shot 2017-10-25 at 8 06 44 pm" src="https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/images/Database-tables.png.PNG">
 
-**Setup :** 
+**Setup : Assumptions** 
 * Manager must have Slack and github tokens on the system. 
 * Manager must know the issue number for which an employee needs to be find. 
 * Bot must know repository to work with and also verify whether the repo exists for a given 
 owner.
 * Whenever any issue is closed for that repository, the skillset, userID and other details must be inserted into respective database-tables in order for bot to access entries while conversation.
+
+**Setup: Process:**  
+*Clone the repo  ```git clone https://github.ncsu.edu/sbshete/CSC-510-Project.git```  
+*Switch to milestone3 branch  ```git checkout milestone3```  
+*Change directory to js  ```cd js```  
+*Install packages  ```npm install```  
+*Set environment variables     
+>*BOT_TOKEN (<your_slack_token>)  
+>*GITHUB_TOKEN (<your_github_token>)  
+>*USER_TOKEN (<bot_email_id>)  
+>*PASS_TOKEN (<bot_email_password>)  
+
+*Start mysql database server (commands can be system specific)  
+*In mysql run the file database/db.sql to create the schema    
+*Run ```node traziBot.js``` to start slack bot  
+*Enter “hi” or “hello” to initiate the bot and follow instructions to set the “repo” and “owner” to work with.  
+*For the use case 1, command is: find assignee for issue <#issue number>  
+*For the use case 2, command is: find contributors for file <filename.ext>  
+*For the use case 2, command is: find reviewers for issue <#issue number>  
+
+
+**Implementation Descriptions:**
 
 ### Use Case 1:
 Finding an employee for a new issue based on his/her skill set and deadline of issues they are currently working on : 
@@ -64,14 +86,3 @@ Finding an employee for a new issue based on his/her skill set and deadline of i
 **Alternate Flow** : 
 * If the issue number given by manager doesn’t exist for a given repo.
 * If the manager chooses name (out of the 3 names listed by bot).
-
-
-
-
-
-
-
-
-
-
-
