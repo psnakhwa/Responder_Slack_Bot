@@ -6,53 +6,96 @@ var _ = require("underscore");
 var request = require("request");
 var querystring = require('querystring');
 var Promise = require("bluebird");
-var nodemailer = require('nodemailer');
-var Botkit = require('botkit');
 
-var repo = "";  //"Sample-mock-repo";
-var owner = ""; //"dupandit";
-
-var exbot;
-var checkRepo = '';
-var checkOwner = '';
+var repo = "";
+var owner = "";
 
 if (!process.env.BOT_TOKEN) {
     console.log('Error: Specify token in environment');
     process.exit(1);
 }
 
+var Botkit = require('botkit');
 var controller = Botkit.slackbot({
     debug: false
-//include "log: false" to disable logging
+
 });
 
-// connect the bot to a stream of messages
 controller.spawn({
     token: process.env.BOT_TOKEN,
-}).startRTM()
+  }).startRTM()
+  var checkRepo = '';
+  var checkOwner = '';
 
-// Start Conversation
-controller.hears(['hello','hi','Hello','Hi','Hey'],['mention','direct_mention','direct_message'],function(bot,message) {
-    console.log(" bot here is " + bot);  
-    
-    bot.api.users.info({user:message.user}, function(err, response) {
-      let {name, real_name} = response.user;
-      console.log("user: " + response.user);
-      bot.startConversation(message, function(response, convo){
-            convo.ask("Hi " + real_name + " Please enter the repository name to work with?", function(response, convo) {
-            convo.say("Awesome.");
-            checkRepo = response.text;
-            console.log("bot in ask: ", bot);
-            helper.askOwner(response, convo, checkRepo, bot, message);
-            convo.next();
-          });
-      });
-      });
-});
+  controller.hears(['hello','hi','Hello','Hi','Hey','hey'],['mention','direct_mention','direct_message'],function(bot,message) {
+    if(repo!="" && owner!=""){
+        bot.api.users.info({user:message.user}, function(err, response) {
+            bot.startConversation(message, function(response, convo){
+                convo.say("Hi, please type in 1 of the 3 usecases:\n"+
+                "1. find assignee for issue [issue number]]\n"+
+                "2. find contributors for file [file name]\n"+
+                "3. find reviewers for issue [issue number]");
+            });
+    });
+    }  
+    else{
+        findOwnerRepo(bot,message).then(function(flag){
+        });
+    }
+  });
 
-// USE CASE 1
-controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
-{   
+function findOwnerRepo(bot,message){
+    return new Promise(function (resolve, reject){
+        bot.api.users.info({user:message.user}, function(err, response) {
+              let {name, real_name} = response.user;
+              console.log("user: " + response.user);
+              bot.startConversation(message, function(response, convo){
+                    convo.ask("Hi " + real_name + " Please enter the repository name to work with?", function(response, convo) {
+                    convo.say("Awesome.");
+                    checkRepo = response.text;
+                    console.log("bot in ask: ", bot);
+                    askOwner(response, convo, checkRepo, bot, message);
+                    convo.next();
+                    resolve(true);
+                  });
+              });
+              });
+    });
+}
+
+function askOwner(response, convo, checkRepo, bot, message) {
+    console.log("bot is" + bot);
+    convo.ask("Please enter the owner name of the repo?", function(response, convo) {
+      checkOwner = response.text;
+      console.log("repo to check is: " + checkRepo);
+      console.log("Owner to check is: " + checkOwner);
+      helper.doesRepoAndOwnerExist(checkRepo,checkOwner).then(function (statusReport)
+      {
+          console.log("statusReport is: " + statusReport);
+          if(statusReport === 1 || statusReport == '1'){
+              repo = checkRepo;
+              owner = checkOwner;
+              console.log("repo: " + repo);
+              console.log("owner: " + owner); 
+              bot.reply(message, "The repo: " + repo + " and the owner: " + owner + " is set, please enter a use case");
+              convo.stop();        
+          }else{
+            convo.say("undefined");
+          }  
+      }).catch(function(err){
+          console.log("the function reaches here");
+          bot.reply(message, err);
+      });
+      convo.next();
+    });
+  }
+/**
+ * Use Case 1
+ * @desc Finding assignee for given issue
+ * @param issueNumber issue for which assinee suggestion is required
+ */
+controller.hears('find assignee for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
+{ 
     var issueNumber = message.match[1];
     controller.storage.users.get(message.user, function(err, user) {
         bot.startConversation(message, function(err, convo) {
@@ -62,9 +105,9 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
                 var result = Object.keys(assigneeList).sort(function(a, b) {
                     return assigneeList[b] - assigneeList[a];
                 });
+                convo.say("The list of users in the prefered order is:");
                 for(var i=0; i<result.length && i<3;i++){
                     userList.push(result[i]);
-                    console.log("Emp Id: " + result[i]);
                     convo.say("Emp Id: " + result[i]);
                 }
                 convo.ask("Whom do you want to assign this issue?", function(response, convo) {
@@ -114,7 +157,11 @@ controller.hears('find issue (.*)',['mention', 'direct_mention','direct_message'
     });
 });
 
-// USE CASE 2
+/**
+ * Use Case 2
+ * @desc Finding major contributors for a file
+ * @param filename for which contributors have to be found
+ */
 controller.hears('find contributors for file (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {   
     var fileName = message.match[1];    
@@ -146,18 +193,16 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                     console.log(dict);             
                 });
                 result += "\nSummary\n";
-                var res = []; // creating a temporary storage to summarize the total commits. 
+                var res = [];
                 for(var prop in dict){
                     res.push({user: prop, TotalCommits: dict[prop]});
                     result += "User: " + prop + " has: " + dict[prop] + " commits in all \n";
                 }
 
             bot.reply(message, "The major contributors are: "  + result);
-                
-            convo.ask("\nWhom do you want to send notif to ?", function(response, convo) {
-                console.log("Code entered this notif section");
+            convo.ask("\nWhom do you want to send a notification to ?", function(response, convo) {
                 helper.isValidUser(response.text, userList).then(function (userId){
-                    convo.ask('Do you want to send to ' + userId + '? Please confirm', [
+                    convo.ask('Do you want notify ' + userId + '? Please confirm', [
                     {
                         pattern: 'yes',
                         callback: function(response, convo) {
@@ -166,8 +211,9 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                                 if(e.author.name === userId && count ===0){
                                 count = 1;
                                 console.log ("finding email id");
-                                var subjectToSend = 'Error in one of your previous work files';
-                                var textToSend = 'Hi ' + e.author.name + ', This is TraziBot. You will be contacted for a file query soon.'
+                                var subjectToSend = 'Notification from Trazi bot';
+                                var textToSend = 'Hi ' + e.author.name + ', This is TraziBot. A file that you previously worked on is .'+
+                                'being modified by some other user. You may be contacted regarding it soon';
                                 var sendTo= e.author.email;
                                 helper.emailing(sendTo, subjectToSend, textToSend);
                                 bot.reply(message,"The email is sent to " + e.author.email);
@@ -198,12 +244,16 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
                 }); 
             });
         
-            }  // for the new else part of blank data
+            }
         });
     });
 });
 
-// USE CASE 3
+/**
+ * Use Case 3
+ * @desc Finding reviewers for given issue
+ * @param issueNumber issue for which reviewer suggestion is required
+ */
 controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
     var issueNumber = message.match[1];
@@ -221,7 +271,7 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
                     result_assignee_table = result_assignee_table.filter(function (item) {
                     return result_review_table.indexOf(item) === -1;
                     });
-                    convo.say("Users who have experience in reviewing similar types of issue");
+                    convo.say("Users who have experience in reviewing similar types of issue in order of preference");
                     for(var i=0; i<result_review_table.length && i<3;i++){
                         userList.push(result_review_table[i]);
                         convo.say("Emp Id: " + result_review_table[i]);
@@ -273,8 +323,7 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
                                 convo.next();
                             }).catch(function (e){
                                 bot.reply(message, "User "+e+" not from given recommendations, enter valid id.");
-                            });
-                                
+                            });       
                         });
                 });
             });
@@ -283,13 +332,12 @@ controller.hears('find reviewers for issue (.*)',['mention', 'direct_mention','d
     });
 });
 
-// Invalid User Input
 controller.hears(['.*'],['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
     console.log(message);
 
     bot.reply(message, "Wrong command! Valid commands are as follows:\n"+
-    "find assignees for issue [issue number]\n"+
+    "find assignee for issue [issue number]\n"+
     "find contributors for file [file name]\n"+
     "find reviewers for issue [issue number]");
 });
