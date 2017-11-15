@@ -42,7 +42,7 @@ app.post('/payload', function(req, res){
         	var assignee=arr_assignees[0]; // Considering only one assignee for our testcase
         
 		
-        helper.getIssueTagsListFromIssueName(dict["title"]).then(function(response){
+        helper.getIssueTags(dict["title"]+ " "+ dict["desc"]).then(function(response){
             
 	    // Entry in issue_assignee
             var issue_assignee_data = [issueNumber,assignee];
@@ -76,4 +76,3 @@ app.post('/payload', function(req, res){
 port = 8080;
 app.listen(port);
 console.log('Listening at : ' + port)
-
