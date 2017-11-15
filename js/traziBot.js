@@ -50,7 +50,7 @@ function findOwnerRepo(bot,message){
               let {name, real_name} = response.user;
               console.log("user: " + response.user);
               bot.startConversation(message, function(response, convo){
-                    convo.ask("Hi " + real_name + " Please enter the repository name to work with?", function(response, convo) {
+                    convo.ask("Hi " + real_name + " Please enter the repository name to work with.", function(response, convo) {
                     convo.say("Awesome.");
                     checkRepo = response.text;
                     console.log("bot in ask: ", bot);
