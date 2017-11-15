@@ -76,7 +76,10 @@ function askOwner(response, convo, checkRepo, bot, message) {
               owner = checkOwner;
               console.log("repo: " + repo);
               console.log("owner: " + owner); 
-              bot.reply(message, "The repo: " + repo + " and the owner: " + owner + " is set, please enter a use case");
+              bot.reply(message, "The repo: " + repo + " and the owner: " + owner + " is set, please type in 1 of the 3 usecases:\n"+
+                "1. find assignee for issue [issue number]]\n"+
+                "2. find contributors for file [file name]\n"+
+                "3. find reviewers for issue [issue number]");
               convo.stop();        
           }else{
             convo.say("undefined");
