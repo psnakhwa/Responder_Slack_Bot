@@ -18,3 +18,7 @@ Please find the worksheet.md file [here](https://github.ncsu.edu/sbshete/CSC-510
 ## Screencast Link
 
 Please find the screencast [here]()
+
+## Bot Code
+
+Please find the js folder [here](https://github.ncsu.edu/sbshete/CSC-510-Project/tree/milestone3/js)
