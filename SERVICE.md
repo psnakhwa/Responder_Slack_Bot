@@ -1,9 +1,6 @@
 ## Milestone : SERVICE
 
-This document the implementation and flow for each usecase described in previous milestone [DESIGN.md](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/DESIGN.md)  
-
-Note : We are maintaining following database tables that will be used by bot. 
-<img width="704" alt="screen shot 2017-10-25 at 8 06 44 pm" src="https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/images/Database-tables.png.PNG">
+This document describes the implementation and flow for each usecase written in previous milestones [DESIGN.md](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/DESIGN.md)  
 
 **Setup : Assumptions** 
 * Manager must have Slack and github tokens on the system. 
@@ -24,7 +21,7 @@ owner.
 >*PASS_TOKEN (<bot_email_password>)  
 
 *Start mysql database server (commands can be system specific)  
-*In mysql run the file database/db.sql to create the schema    
+*In mysql run the (database/db.sql) to create the schema **(Note: We are maintaining database tables [database.md]() that will be used by bot)**   
 *Run ```node traziBot.js``` to start slack bot  
 *Enter “hi” or “hello” to initiate the bot and follow instructions to set the “repo” and “owner” to work with.  
 *For the use case 1, command is: find assignee for issue <#issue number>  
