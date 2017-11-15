@@ -142,18 +142,6 @@ function insertIssueReviewers(users,issueNumber){
     });
 }
 
-function insertIssueTags(data){
-    //var query = 'insert into User_tags values(' + data.issueNumber + "'" + data.userId + "'" + data.issueTags + ')';
-    var query = {Issue_ID: 6, User_ID:'sbshete',Issue_tags:'Java, core java, Advanced java'};
-    connection.query('insert into issue_table SET ?',query, function(err, rows, fields) {
-        if (!err){
-            console.log('Record inserted successfully');
-        }
-        else
-            console.log(err);
-    });
-}
-
 function getEmail(users){
     return new Promise(function(resolve, reject){
         var emailID = [];
@@ -184,16 +172,37 @@ function findEmail(user){
     });
 }
 
-function insertUserTags(data){
-    //var query = 'insert into User_tags values(' + data.issueNumber + "'" + data.userId + "'" + data.issueTags + ')';
-    var query = {User_ID:'sample',User_tags:'Java, core java, Advanced java',Email_ID:'sample@ncsu.edu'};
-    connection.query('insert into user_table SET ?',query, function(err, rows, fields) {
-        if (!err){
-            console.log('Record inserted successfully');
-        }
-        else
+function insertIssueAssignee(data){
+    var query = 'insert into issue_assignee VALUES(' + data[0] + "," + "'" + data[1] + "'" + ')';
+    connection.query(query, function(err, rows, fields) {
+         if (!err){
+             console.log('Record inserted successfully');
+         }
+         else
             console.log(err);
     });
+}
+
+function insertUserTags(data){
+    var query = 'insert into user_tags VALUES(' + "'" + data[0] + "'" + "," + "'" + data[1] + "'" + ')';    
+     connection.query(query, function(err, rows, fields) {
+         if (!err){
+           console.log('Record inserted successfully');
+         }
+         else
+             console.log(err);
+    });
+}
+
+function insertIssueTags(data){
+    var query = 'insert into issue_tags VALUES(' + data[0] + "," + "'" + data[1] + "'" + ')';
+    connection.query(query, function(err, rows, fields) {
+         if (!err){
+             console.log('Record inserted successfully');
+         }
+         else
+             console.log(err);
+     });
 }
 
 function updateUserTags(data){
@@ -209,6 +218,9 @@ function updateUserTags(data){
     });
 }
 
+exports.insertIssueTags = insertIssueTags;
+exports.insertUserTags = insertUserTags;
+exports.insertIssueAssignee = insertIssueAssignee;
 exports.getEmail = getEmail;
 exports.getReviewerTagsCount = getReviewerTagsCount;
 exports.insertIssueReviewers = insertIssueReviewers;
