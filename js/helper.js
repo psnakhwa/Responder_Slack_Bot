@@ -234,7 +234,7 @@ function doesRepoAndOwnerExist(repo, owner){
                     resolve(1);
                 }
                 else {
-                    reject("repo does not exist");
+                    reject("repo and owner combination is not valid");
                 }
             });
         });
