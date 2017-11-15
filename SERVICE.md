@@ -1,7 +1,8 @@
+## Milestone : SERVICE
 
 Following describes implementation flow for each usecases described in [DESIGN.md](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/master/DESIGN.md)
 
-Setup :
+**Setup** :
 * Manager must have Slack and github tokens on the system. 
 * Manager must know the issue number for which an employee needs to be find. 
 * Bot must know repository to work with and also verify whether the repo exists for a given owner.
@@ -10,8 +11,9 @@ Setup :
 Note : We are maintaining following database tables that will be used by bot. 
 <img width="704" alt="screen shot 2017-10-25 at 8 06 44 pm" src="https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/images/Database-tables.png.PNG">
 
-Use Case 1: Finding an employee for a new issue based on his/her skill set and deadline of issues they are currently working on
+**Main Flow** : 
 
-2 Main Flow:
+###Use Case 1: Finding an employee for a new issue based on his/her skill set and deadline of issues they are currently working on
+
   * A manager requests for a list of employees that can best solve a particular issue. 
-  * Bot needs to get details for that issue. Particularly it tries to find language which is related to this issue via labels and issuename. 
+  * Bot needs to get details for that issue. Particularly it tries to find programming language which is related to this issue via labels and issue name.
