@@ -1,13 +1,21 @@
 var mysql = require("./mysql.js")
+var nock = require("nock");
 var request = require("request");
 var Promise = require("bluebird"); 
 var spawn = require("child_process").spawn;
 var token = "token " + process.env.GITHUB_TOKEN;
 var urlRoot = "https://github.ncsu.edu/api/v3";
-
-
-// Use Case 1
-function getIssueDetails(owner,repo,number){
+var nodemailer = require('nodemailer');
+var repo = "";
+var owner = "";
+/**
+ * @desc this will assign userId to issueNumber
+ * @param userId emp to whom we will assign an issue
+ * @param issueNumber issue to assigned
+ * @return 
+ */
+ // Use Case 1
+ function getIssueDetails(owner,repo,number){
     
         var options = {
             url: urlRoot + "/repos/" + owner + "/" + repo + "/issues/"+number,
@@ -28,7 +36,7 @@ function getIssueDetails(owner,repo,number){
                         console.log("Got issue details from API: " + obj.number);
                         if(obj.number == undefined){
                             console.log("in issue not found");
-                            reject("Issue does not found.")
+                            reject("Issue does not exist.")
                         }
                         else if(obj.state == 'closed'){
                             console.log("in closed");
@@ -43,12 +51,12 @@ function getIssueDetails(owner,repo,number){
                     }
                 });
         });
-}
-
+    }
 
 function getIssueTags(issueName){
     return new Promise(function (resolve, reject)
     {
+        //console.log('get tags start');
         var process = spawn('python',["../python/find_tags/issue_tags.py", issueName]);
         var tags;
         process.stdout.on('data', function (data){
@@ -62,11 +70,11 @@ function getIssueTags(issueName){
         });
     });
 }
-
-
+    
 function getPossibleAssignees(issueNumber, repo, owner){
     return new Promise(function(resolve, reject){
         getIssueDetails(owner, repo, issueNumber).then(function(response){
+            //console.log("IssueDetails: ",response); 
             getIssueTags(response.title + " " + response.body).then(function(issueTagsList){
                 console.log("tags: "+issueTagsList);   
                 getCollaborators(owner,repo).then(function(collabs){ 
@@ -88,7 +96,6 @@ function getPossibleAssignees(issueNumber, repo, owner){
         });   
     });
 }
-
 
 function assignIssueToEmp(userId, repo, owner, issueNumber){
     var options = {
@@ -112,9 +119,7 @@ function assignIssueToEmp(userId, repo, owner, issueNumber){
                 resolve("Issue " + issueNumber + " assigned to user " + userId);
             });
         });
-       
 }
-
 
 // Usecase 2 :
 function listOfCommits(owner,repo,fileName) {
@@ -131,12 +136,13 @@ function listOfCommits(owner,repo,fileName) {
         {
              // Send a http request to url and specify a callback that will be called upon its return.
              request(options, function (error, response, body) {
+                //console.log("body of msg is: "+ body); 
                 var obj = JSON.parse(body);
+                 //console.log("This is the pulled object" +obj);
                  resolve(obj);
              });
         });
 }
-
 
 // Usecase 3:
 function getPossibleReviewers1(issueNumber,repo,owner){
@@ -167,7 +173,6 @@ function getPossibleReviewers1(issueNumber,repo,owner){
     });
 }
 
-
 function getPossibleReviewers2(issueNumber,repo,owner){
     return new Promise(function(resolve, reject){
         getIssueDetails(owner, repo, issueNumber).then(function(response){
@@ -195,7 +200,6 @@ function getPossibleReviewers2(issueNumber,repo,owner){
         });   
     });
 }
-
 
 function assignReviewerForIssue(users, issueNumber){
     return new Promise(function(resolve, reject){
@@ -230,7 +234,7 @@ function doesRepoAndOwnerExist(repo, owner){
                     resolve(1);
                 }
                 else {
-                    reject("repo doesnt exist");
+                    reject("repo does not exist");
                 }
             });
         });
@@ -247,7 +251,6 @@ function isValidUser(userId, userList){
     });
 }
 
-
 function isValidReviwer(userId, userList){
     return new Promise(function (resolve, reject)
     {
@@ -260,7 +263,6 @@ function isValidReviwer(userId, userList){
         resolve(users);
     });
 }
-
 
 function getCollaborators(owner,repo){
     
@@ -284,50 +286,23 @@ function getCollaborators(owner,repo){
     });
 }
 
-
-function askOwner(response, convo, checkRepo, bot, message) {
-    console.log("bot is" + bot);
-    convo.ask("Please enter the owner name of the repo?", function(response, convo){
-        convo.say("Ok. Let me verify this")
-        //askWhereDeliver(response, convo);
-        checkOwner = response.text;
-        console.log("repo to check is: " + checkRepo);
-        console.log("Owner to check is: " + checkOwner);
-        doesRepoAndOwnerExist(checkRepo,checkOwner).then(function (statusReport)
-        {
-            console.log("statusReport is: " + statusReport);
-            if(statusReport === 1 || statusReport == '1'){
-                repo = checkRepo;
-                owner = checkOwner;
-                console.log("repo: " + repo);
-                console.log("owner: " + owner); 
-                bot.reply(message, "The repo: " + repo + " and the owner: " + owner + " is set, please enter a use case");
-                convo.stop();        
-            }else{
-                convo.say("undefined");
-            }  
-        });
-        convo.next();
-    });
-}
-
-
 function emailing(sendTo, subjectToSend, textToSend){
     var transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: process.env.USER_TOKEN, //'email.com',
-            pass: process.env.PASS_TOKEN //'pass'
+            user: process.env.USER_TOKEN, 
+            pass: process.env.PASS_TOKEN 
         }
     });
     transporter.sendMail({
-        from: process.env.USER_TOKEN, //'email.com',
-        to:   sendTo,  //req.body.email,
-        subject:  subjectToSend,//'Error in your previous work file',
-        text: textToSend //'Hi ' + e.author.name + ', This is your Bot. You will be contact for the the file soon.'
+        from: process.env.USER_TOKEN, 
+        to:   sendTo, 
+        subject:  subjectToSend,
+        text: textToSend 
     });
 }
 
+exports.emailing = emailing;
 exports.getCollaborators = getCollaborators;
 exports.assignIssueToEmp = assignIssueToEmp;
 exports.isValidUser = isValidUser;
@@ -340,5 +315,3 @@ exports.isValidReviwer = isValidReviwer;
 exports.getIssueDetails = getIssueDetails;
 exports.getIssueTags = getIssueTags;
 exports.doesRepoAndOwnerExist = doesRepoAndOwnerExist;
-exports.askOwner = askOwner;
-exports.emailing = emailing;
