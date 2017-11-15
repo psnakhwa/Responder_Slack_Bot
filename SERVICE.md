@@ -16,4 +16,8 @@ Note : We are maintaining following database tables that will be used by bot.
 ###Use Case 1: Finding an employee for a new issue based on his/her skill set and deadline of issues they are currently working on
 
   * A manager requests for a list of employees that can best solve a particular issue. 
-  * Bot needs to get details for that issue. Particularly it tries to find programming language which is related to this issue via labels and issue name.
+  * Bot needs to get details for that issue. Particularly it tries to find programming language (tag) which is related to this issue via labels and issue name. It simultaneously updates table 4 (issue_tags). 
+  * After getting tags, bot gets the list of collaborators and find the 3 users with highest tag count using table 2 (user_tags). 
+  *  Bot then asks the manager, whom to assign the issue from these 3 users.
+  *  Manager selects a user, bot assigns the issue to particular user, updates table 3 (issue_user) and notifies that user via email
+
