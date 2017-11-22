@@ -1,0 +1,25 @@
+---
+# Running main.js using forever
+- name: Stop all forever scripts
+  command: forever stopall
+
+- name: Start main.js using forever
+  command: forever start main.js 8080
+  args:
+    chdir: "{{ app_dest }}"
+
+# Ensuring latest version for security packages
+- name: Install packages
+  apt: 
+    pkg: "{{ item }}"
+    state: latest
+  with_items:
+    - bash
+    - openssl
+    - openssh-server
+    - openssh-client
+  
+# Cleaning tmp
+- name: Cleaning temp
+  # file: path=/tmp/* state=absent
+  shell: cd /tmp/ && rm -r *
