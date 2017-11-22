@@ -43,7 +43,7 @@
 # installing npm packages
 - name: Install local node modules
   npm:
-    path: "{{ app_dest }}"
+    path: "{{ app_dest }}/js"
 
 
 
