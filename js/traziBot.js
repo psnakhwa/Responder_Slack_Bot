@@ -341,10 +341,12 @@ function useCase3(bot,message){
                                 convo.say("There is not enough data in the database to make accurate predictions. I am sorry");
                             }
                             else{
-                                convo.say("Users who have experience in reviewing similar types of issue in order of preference");
-                                for(var i=0; i<result_review_table.length && i<3;i++){
-                                    userList.push(result_review_table[i]);
-                                    convo.say("Emp Id: " + result_review_table[i]);
+                                if(result_review_table.length!=0){
+                                    convo.say("Users who have experience in reviewing similar types of issue in order of preference");
+                                    for(var i=0; i<result_review_table.length && i<3;i++){
+                                        userList.push(result_review_table[i]);
+                                        convo.say("Emp Id: " + result_review_table[i]);
+                                    }
                                 }
                                 if(result_assignee_table.length!=0){
                                     convo.say("These users have not reviewed similar type of issues but have some experience in working with similar issues");
