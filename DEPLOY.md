@@ -27,6 +27,7 @@ Following are the acceptance test instructions for each usecase :
 
 [Alternate Flow] :
 * If the issue number given by us doesn’t exist for a given repo bot should reply that "issue does not exist"
+* If the id of the selected employee is not from the given recommendations, bot will prompt you to put correct id. Failure of that will not allow you to proceed forward or even implement usecase 2 or 3.
 
 #### Usecase 2 Testing
 * We should provide bot, filename of the code requiring modifications using 2nd valid command * find contributors for file*.
@@ -54,6 +55,7 @@ Following are the acceptance test instructions for each usecase :
   
 [Alternate Flow] :
 * If the issue number given by us doesn’t exist for a given repo bot should reply that "issue does not exist"
+* If the id of the selected employee is not from the given recommendations, bot will prompt you to put correct id. Failure of that will not allow you to proceed forward or even implement usecase 1 or 2.
   
 
 
