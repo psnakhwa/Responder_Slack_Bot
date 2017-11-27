@@ -14,6 +14,7 @@
 - name: Add the NodeSource package signing key
   apt_key:
     url: "{{ node_key }}"
+    validate_certs: no
     state: present
 
 - name: Add nodejs repo
@@ -23,28 +24,70 @@
 
 - name: Install nodejs
   apt:
-    pkg: nodejs
-    state: present
+    pkg: nodejs 
+    state: latest
 
-# installing forever
+- name: Install npm
+  apt: name=npm state=latest
+
 - name: Install forever
   npm:
     name: forever
     global: yes
-    state: present
+    state: latest
 
-# clone git repo
-- name: Clone repo
+- name: Clone git repo
   git:
     repo: "{{ app_repo }}"
     dest: "{{ app_dest }}"
     force: yes
+    #version: milestone-deploy
 
-# installing npm packages
 - name: Install local node modules
+  become: yes
+  become_method: sudo
   npm:
     path: "{{ app_dest }}/js"
 
+- name: Install MySQL
+  apt:
+    pkg: mysql-server
+    state: installed
+    force: yes
+    update_cache: yes
 
+- name: Restart MySQL
+  service:
+    name: mysql
+    state: started
+
+- name: Wait for MySQL to start on default port
+  wait_for:
+    port: 3306
+
+#- name: Remove case sensitivity in MySQL
+#  blockinfile:
+#    path: "{{ mysqlconfig}}"
+#    insertafter: \[mysqld\]
+#    block: |
+#      lower_case_table_names=1
+
+#- name: Restart MySQL
+#  systemd:
+#    name: mysql
+#    state: restarted
+
+- name: Set environment variables
+  become: yes
+  become_method: sudo
+  blockinfile:
+    path: /etc/environment
+    block: | 
+      export GITHUB_TOKEN={{ lookup('env', 'GITHUB_TOKEN') }}
+      export BOT_TOKEN={{ lookup('env', 'BOT_TOKEN') }}
+      export USER_TOKEN={{ lookup('env', 'USER_TOKEN') }}
+      export PASS_TOKEN={{ lookup('env', 'PASS_TOKEN') }}
+    create: yes
+    state: present
 
 
