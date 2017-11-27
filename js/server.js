@@ -7,7 +7,8 @@ var _ = require('underscore');
 var fs = require('fs');
 var app = express();
 
-ngrok.connect(8040, function (err, url) {
+ngrok.connect(4040, function (err, url) {
+    console.log(url);
     console.log(url);
 });
 
