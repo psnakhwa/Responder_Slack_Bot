@@ -7,7 +7,7 @@ var _ = require('underscore');
 var fs = require('fs');
 var app = express();
 
-ngrok.connect(4040, function (err, url) {
+ngrok.connect(8080, function (err, url) {
     console.log(url);
     console.log(url);
 });
@@ -74,6 +74,6 @@ app.post('/payload', function(req, res){
     res.end('thanks');
 });
 
-port = 8040;
+port = 8080;
 app.listen(port);
 console.log('Listening at : ' + port)
