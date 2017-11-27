@@ -2,7 +2,7 @@
 
 ### Acceptance Testing
 
-[This]() is a link to our slack team. You can get login credentials [here](). Start the conversation in #general using *'@Trazibot'*. <br />
+[This](https://projectteam510.slack.com/messages/C6VUEBQEM/) is a link to our slack team. You can get login credentials [here](). Start the conversation in #general using *'@Trazibot'*. <br />
 [This](https://github.ncsu.edu/dupandit/Sample-mock-repo) is a link to our sample repo for testing. It is recommended to create 2-3 issues with valid name(including skill as a word) as well as similar label before testing. 
 Following are the acceptance test instructions for each usecase :
 
