@@ -8,7 +8,7 @@ var fs = require('fs');
 var app = express();
 
 ngrok.connect(8080, function (err, url) {
-    console.log(url);
+    console.log(err);
     console.log(url);
 });
 
