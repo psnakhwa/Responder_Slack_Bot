@@ -22,3 +22,7 @@ Please find the screencast [here](https://youtu.be/49cG-783yqo)
 ## Bot Code
 
 Please find the js folder [here](https://github.ncsu.edu/sbshete/CSC-510-Project/tree/milestone3/js)
+
+## Deploy
+
+Please find DEPLOY.md [here](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/DEPLOY.md). It contains deployment scripts and acceptance testing instructions.
