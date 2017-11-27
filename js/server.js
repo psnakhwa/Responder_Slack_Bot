@@ -7,7 +7,7 @@ var _ = require('underscore');
 var fs = require('fs');
 var app = express();
 
-ngrok.connect(8080, function (err, url) {
+ngrok.connect(8040, function (err, url) {
     console.log(url);
 });
 
@@ -19,7 +19,7 @@ app.post('/payload', function(req, res){
     req.on('end', function(){
         var jsonObj = JSON.parse(body);  
 	dict = {};
-    arr_assignees = [];
+        arr_assignees = [];
 	arr_labels = [];
 	obj_labels = jsonObj.issue.labels;
 
@@ -73,6 +73,6 @@ app.post('/payload', function(req, res){
     res.end('thanks');
 });
 
-port = 8080;
+port = 8040;
 app.listen(port);
 console.log('Listening at : ' + port)
