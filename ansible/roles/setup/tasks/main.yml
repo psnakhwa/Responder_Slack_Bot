@@ -66,16 +66,13 @@
    block: |
      lower_case_table_names=1
 
-- name: Run db.sql
-  shell: "mysql < {{ app_dest }}/database/db.sql"
-
 - name: Restart MySQL
   systemd:
    name: mysql
    state: restarted
 
 - name: Run db.sql
-  shell: "mysql < {{ app_dest }}/database/dbauth.sql"
+  shell: "mysql < {{ app_dest }}/database/db.sql"
 
 - name: Restart MySQL
   systemd:
