@@ -10,3 +10,5 @@ insert into user_tags values ("asagarwa","python"),("asagarwa","java"),("sbshete
 insert into issue_assignee values ("1","sbshete"),("2","asagarwa"),("3","dupandit"),("4","sagupta"),("5","psnakhwa");
 insert into issue_tags values ("1","java"),("1","c++"),("2","python"),("3","javascript"),("4","ruby"),("5","swift"),("5","go");
 insert into issue_reviewer values ("1","asagarwa"),("1","sagupta"),("2","psnakhwa"),("2","dupandit"),("3","sagupta"),("3","asagarwa"),("4","sbshete"),("5","dupandit");
+use mysql;
+update user set authentication_string=password(''), plugin='mysql_native_password' where user='root';
