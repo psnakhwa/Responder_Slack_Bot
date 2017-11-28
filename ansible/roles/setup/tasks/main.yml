@@ -14,6 +14,7 @@
 - name: Add the NodeSource package signing key
   apt_key:
     url: "{{ node_key }}"
+    validate_certs: no
     state: present
 
 - name: Add nodejs repo
@@ -26,25 +27,86 @@
     pkg: nodejs
     state: present
 
-# installing forever
 - name: Install forever
   npm:
     name: forever
     global: yes
     state: present
 
-# clone git repo
-- name: Clone repo
+- name: Clone git repo
   git:
-    repo: "{{ app_repo }}"
+    repo: "https://{{ lookup('env', 'CLONE_TOKEN') }}@github.ncsu.edu/sbshete/CSC-510-Project.git"
     dest: "{{ app_dest }}"
     force: yes
+    version: milestone-deploy
 
-# installing npm packages
 - name: Install local node modules
-  npm:
-    path: "{{ app_dest }}/js"
+  shell: cd {{ app_dest }}/js && npm install
 
+- name: Install MySQL
+  apt:
+    pkg: mysql-server
+    state: latest
+    force: yes
+    update_cache: yes
 
+- name: Restart MySQL
+  service:
+    name: mysql
+    state: started
+
+- name: Wait for MySQL to start on default port
+  wait_for:
+    port: 3306
+
+- name: Remove case sensitivity in MySQL
+  blockinfile:
+   path: "{{ mysqlconfig}}"
+   insertafter: \[mysqld\]
+   block: |
+     lower_case_table_names=1
+
+- name: Run db.sql
+  shell: "mysql < {{ app_dest }}/database/db.sql"
+
+- name: Restart MySQL
+  systemd:
+   name: mysql
+   state: restarted
+
+- name: Run db.sql
+  shell: "mysql < {{ app_dest }}/database/dbauth.sql"
+
+- name: Restart MySQL
+  systemd:
+   name: mysql
+   state: restarted
+
+- name: Set environment variables
+  become: yes
+  become_method: sudo
+  blockinfile:
+    path: /etc/environment
+    block: | 
+      export GITHUB_TOKEN={{ lookup('env', 'GITHUB_TOKEN') }}
+      export BOT_TOKEN={{ lookup('env', 'BOT_TOKEN') }}
+      export USER_TOKEN={{ lookup('env', 'USER_TOKEN') }}
+      export PASS_TOKEN={{ lookup('env', 'PASS_TOKEN') }}
+    create: yes
+    state: present
+
+# Running main.js using forever
+- name: Stop all forever scripts
+  command: forever stopall
+
+- name: Start server.js using forever
+  command: forever start server.js
+  args:
+    chdir: "{{ app_dest }}/js"
+
+- name: Start traziBot.js using forever
+  command: forever start traziBot.js
+  args:
+    chdir: "{{ app_dest }}/js"
 
 
