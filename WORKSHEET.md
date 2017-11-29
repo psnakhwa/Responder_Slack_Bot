@@ -21,7 +21,7 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 |---|-----------------------|---------|--------------------------------------------------------|----------------|--------------|------------------|-------------|
 | 1 | Figure out corner cases of the Bot| catch excetions and handle them                       | List cases/ handle/ Done  | [#37](https://trello.com/c/C5XQzsuF)           | Aayush      | 20-Nov      | 27-Nov |
 | 2 | Put exit condition wherever user wants to opt - out | Write the full functional code for exit Services                       | Bot Interaction/ Done  | [#39](https://trello.com/c/XKCZBhUO) | ALL      | 20-Nov      | 26-Nov |
-| 3 | Ansible Scripts | Prepare ansible scripts for deployment at AWS                      | Scripting/ Done  | [#36](https://trello.com/c/ouRUi15i) | ALL      | 20-Nov      | 23-Nov |
+| 3 | Ansible Scripts | Prepare ansible scripts for deployment at AWS                      | Scripting/ Done  | [#36](https://trello.com/c/ouRUi15i) | Shrikant, Sushant and Parag      | 20-Nov      | 23-Nov |
   
 
 ## Week 3 : Nov 27 & Nov 28  
