@@ -4,7 +4,7 @@ This is the link to the Deployment Script: [scripts](https://github.ncsu.edu/sbs
 
 ### Acceptance Testing
 
-[This](https://projectteam510.slack.com/messages/C6VUEBQEM/) is a link to our slack team. Login credentials are [email: tatesting510@gmail.com password: trazibot]. Start the conversation in #general using *'@Trazibot'* or as a private chat with trazibot. <br />
+[This](https://projectteam510.slack.com/messages/C6VUEBQEM/) is a link to our slack team. Login credentials are [email: tatesting510@gmail.com password: trazibot]. Start the conversation as a private chat with trazibot. <br />
 [This](https://github.ncsu.edu/dupandit/Sample-mock-repo) is a link to our sample repo for testing. We have already created sample open issues. 
 
 Following are the acceptance test instructions for each usecase :
