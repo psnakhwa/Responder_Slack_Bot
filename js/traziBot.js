@@ -221,7 +221,7 @@ function useCase2(bot,message){
         helper.listOfCommits(owner,repo,fileName).then(function (commits_of_a_file)
             {
                 if(commits_of_a_file.length == 0){
-                    bot.reply(message, "Enter a valid file name with extention. It is case sensitive");
+                    bot.reply(message, "Enter a valid file name with extention. It is case sensitive."+useCaseOptions);
                     convo.stop();
 
                 }else {
@@ -422,7 +422,8 @@ function useCase3(bot,message){
                 });
                     }
                 }).catch(function(err){
-                    bot.reply(message, err); 
+                    bot.reply(message, err+useCaseOptions);
+                    convo.stop(); 
                     });        
             });
         });
