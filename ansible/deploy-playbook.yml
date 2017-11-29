@@ -9,6 +9,4 @@
     - setup:
 
   roles:
-    - setup
-    # - otherTasks
-    
+    - setup    
