@@ -85,8 +85,8 @@ Note :  This issue was already assigned to an employee previously, that's why wa
 ![alt flow](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2011.00.22%20PM.png)
 
 ### Screencast
-The link to the screencast for Deployment of TraziBot [link](https://youtu.be/z84uEk1zra8)
-The link to the screencast for TraziBot interaction [link](https://youtu.be/litSo4GG4Bo)
+* The link to the screencast for Deployment of TraziBot [link](https://youtu.be/z84uEk1zra8)
+* The link to the screencast for TraziBot interaction [link](https://youtu.be/litSo4GG4Bo)
 
 ### Task Tracking  
 
