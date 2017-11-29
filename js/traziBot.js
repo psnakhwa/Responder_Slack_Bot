@@ -9,8 +9,8 @@ var Promise = require("bluebird");
 
 var repo = "";
 var owner = "";
-var useCaseOptions = "Please type in 1 of the 3 usecases:\n"+
-                "1. find assignee for issue [issue number]]\n"+
+var useCaseOptions = " Please type in 1 of the 3 usecases:\n"+
+                "1. find assignee for issue [issue number]\n"+
                 "2. find contributors for file [file name]\n"+
                 "3. find reviewers for issue [issue number]";
 
@@ -90,7 +90,7 @@ function askOwner(checkRepo, bot, message, flag) {
                     convo.say("undefined");
                   }  
               }).catch(function(err){
-                  bot.reply(message, "Repo and owner combination is not valid. However let's move forward, we'll look for repo and owner name at"
+                  bot.reply(message, "Repo and owner combination is not valid. However let's move forward, we'll look for repo and owner name at "
                                         +"later time, "+useCaseOptions);
                   convo.stop();
               });
