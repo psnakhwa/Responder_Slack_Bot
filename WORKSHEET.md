@@ -28,7 +28,7 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
   
 |   | Deliverable           |  Sub Tasks     | Item/Status                    | Issues/Tasks | Team Members | Start Date        | Estimated Date | 
 |---|--------------------|------------------|-------------------------------------------|--------------|--------------|-----------------------|-------------|
-| 1 | Integrate and test for the bot working        | Functioning of the Bot on AWS         |In progress/ Done              | [#17](https://trello.com/c/FgK1q8ZI)           | ALL          | 20-Nov      | 27-Nov |
+| 1 | Integrate and test for the bot working        | Functioning of the Bot on AWS         | Done              | [#17](https://trello.com/c/FgK1q8ZI)           | ALL          | 20-Nov      | 27-Nov |
 | 2 | Screencast                           | Making screencast                          |  Done            | [#42](https://trello.com/c/3t9PfeKx)          | Aayush         | 28-Nov      | 28-Nov |
 | 3 | Prepare the Worksheet.md file and readme    | Integrate Trello and Worksheet.md | Done  | [#32](https://trello.com/c/BGZivNLH)          | Sushant, Parag and Darshit           | 27-Nov      | 28-Nov |
 | 4 | Deployment delivery                  |                                           |              | [#43](https://trello.com/c/XxDgzmjz)          | ALL                   | 28-Nov      | 28-Nov |
