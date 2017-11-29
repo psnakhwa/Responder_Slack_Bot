@@ -86,6 +86,7 @@ Note :  This issue was already assigned to an employee previously, that's why wa
 
 ### Screencast
 The link to the screencast for Deployment of TraziBot [link](https://youtu.be/z84uEk1zra8)
+The link to the screencast for TraziBot interaction [link](https://youtu.be/litSo4GG4Bo)
 
 ### Task Tracking  
 
