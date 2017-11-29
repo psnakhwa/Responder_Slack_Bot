@@ -27,7 +27,7 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 |  |  | Write code for Use-Case 3: Finding a code reviewer for the project                                         | use-case 3/ Done  | [#25](https://trello.com/c/i0ipkeMI)           | Darshit and Parag      | 08-Nov      | 12-Nov |
   
 
-## Week 3 : Nov 13 & Nov 12  
+### Week 3 : Nov 12 & Nov 13  
   
 |   | Deliverable           |  Sub Tasks     | Item/Status                    | Issues/Tasks | Team Members | Start Date        | Estimated Date | 
 |---|--------------------|------------------|-------------------------------------------|--------------|--------------|-----------------------|-------------|
