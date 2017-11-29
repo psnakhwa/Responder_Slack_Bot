@@ -12,7 +12,8 @@ var owner = "";
 var useCaseOptions = " Please type in 1 of the 3 usecases:\n"+
                 "1. find assignee for issue [issue number]\n"+
                 "2. find contributors for file [file name]\n"+
-                "3. find reviewers for issue [issue number]";
+                "3. find reviewers for issue [issue number]\n"+
+                "Or, please type 'unset' and start conversation again to work with other repo and owner";
 
 if (!process.env.BOT_TOKEN) {
     console.log('Error: Specify token in environment');
@@ -211,6 +212,11 @@ controller.hears('find contributors for file (.*)',['mention', 'direct_mention',
         useCase2(bot,message).then(function(flag){
             });
     }
+});
+
+controller.hears(['unset'],['mention', 'direct_mention','direct_message'], function(bot,message){
+    repo = "";
+    owner = "";
 });
 
 function useCase2(bot,message){
@@ -429,11 +435,6 @@ function useCase3(bot,message){
         });
     });
 }
-
-controller.hears(['unset'],['mention', 'direct_mention','direct_message'], function(bot,message){
-    repo = "";
-    owner = "";
-});
 
 controller.hears(['.*'],['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
