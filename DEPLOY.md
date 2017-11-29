@@ -18,12 +18,14 @@ Following are the acceptance test instructions for each usecase :
 
 Note : We are maintaining [following](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/database/database.md) database tables, we talked about updation of db in [Service.md](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/SERVICE.md). So  the tables issue_assignee, issue_tags, user_tags gets updated with a valid entry whenever an issue is closed. (we discussed about creation of hook for closed issue).
 
+
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.47.19%20PM.png)
+
 [Alternate Flow]:
 * Bot should throw an error when repo name and owner of the repo doesn't match.
 
-Example conversation : <br /> 
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.48.46%20PM.png)
 
-![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/1.png)
 
 #### Usecase 1 Testing
 * We will request for a list of employees that can best solve a particular issue using 1st valid command ```find assignee for issue <no>```
@@ -32,14 +34,17 @@ Example conversation : <br />
 * We select an employee by providing its name as one listed by bot previously and bot assigns the issue to that employee. We can check the corresponding issue manually and check the assignee in github.
 * Bot also updates table "issue_assignee" and notifies him via email.
 
+
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.51.14%20PM.png)
+
+
 [Alternate Flow] :
 * If the issue number given by us doesn’t exist for a given repo bot should reply that "issue does not exist"
 * If the id of the selected employee is not from the given recommendations, bot will prompt you to put correct id. Failure of that will not allow you to proceed forward or even implement usecase 2 or 3.
 
-Example Conversation : <br />
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.52.36%20PM.png)
 
-![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/2.png)
-
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.54.25%20PM.png)
 
 #### Usecase 2 Testing
 * We should provide bot, filename of the code requiring modifications using 2nd valid command ```find contributors for file```.
@@ -49,15 +54,15 @@ Example Conversation : <br />
 * We can select employee based on highest contribution or rather total number of commits by providing id as listed by the bot.Bot shoul confirm our selection.
 * Bot should then that contributor is notified through an email registered with his git account.
 
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.56.18%20PM.png)
+
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.56.34%20PM.png)
+
 [Alternate Flow]:
 * Bot should check for a valid file. It should return "No such file exists in the repository" if invalid filename provided.
 * Bot should checks if a valid user id is entered. It should reask if not from the recommendations.
 
-Example Conversation : <br />
-
-![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/4.png)
-
-![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/5.png)
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.57.08%20PM.png)
 
 #### Usecase 3 Testing
 * We can request for a list of reviewers that can best review a particular issue using ```find reviewers for issue <no>``` command.
@@ -69,16 +74,19 @@ Note :  This issue was already assigned to an employee previously, that's why wa
 * We select an employee or employees with comma separated ids, bot assigns the reviewing task for that issue to the selected employees.
 * Bot should then notify that reviewer via email.
   
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.58.41%20PM.png)
+
 [Alternate Flow] :
 * If the issue number given by us doesn’t exist for a given repo bot should reply that "issue does not exist"
 * If the id of the selected employee is not from the given recommendations, bot will prompt you to put correct id. Failure of that will not allow you to proceed forward or even implement usecase 1 or 2.
 
-Example Conversation : <br />
+![alt flow](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.59.30%20PM.png)
 
-![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/6.png)
+![alt flow](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2011.00.22%20PM.png)
 
 ### Screencast
- The link to the screencast for Deployment of TraziBot [link](https://youtu.be/z84uEk1zra8)
+The link to the screencast for Deployment of TraziBot [link](https://youtu.be/z84uEk1zra8)
+
 ### Task Tracking  
 
 Please find the tasks lists at [Worksheet.md](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/WORKSHEET.md)
