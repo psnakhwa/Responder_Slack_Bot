@@ -40,8 +40,6 @@ Example Conversation : <br />
 
 ![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/2.png)
 
-![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/3.png)
-
 
 #### Usecase 2 Testing
 * We should provide bot, filename of the code requiring modifications using 2nd valid command ```find contributors for file```.
