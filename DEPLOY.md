@@ -1,5 +1,6 @@
 ### Deployment
 
+This is the link to the Deployment Script: [scripts](https://github.ncsu.edu/sbshete/CSC-510-Project/tree/milestone-deploy/ansible)
 
 ### Acceptance Testing
 
