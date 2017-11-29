@@ -9,6 +9,10 @@ var Promise = require("bluebird");
 
 var repo = "";
 var owner = "";
+var useCaseOptions = "Please type in 1 of the 3 usecases:\n"+
+                "1. find assignee for issue [issue number]]\n"+
+                "2. find contributors for file [file name]\n"+
+                "3. find reviewers for issue [issue number]";
 
 if (!process.env.BOT_TOKEN) {
     console.log('Error: Specify token in environment');
@@ -31,10 +35,7 @@ controller.spawn({
     if(repo!="" || owner!=""){
         bot.api.users.info({user:message.user}, function(err, response) {
             bot.startConversation(message, function(response, convo){
-                convo.say("Hi, please type in 1 of the 3 usecases:\n"+
-                "1. find assignee for issue [issue number]]\n"+
-                "2. find contributors for file [file name]\n"+
-                "3. find reviewers for issue [issue number]");
+                convo.say(useCaseOptions);
             });
     });
     }  
@@ -81,10 +82,7 @@ function askOwner(checkRepo, bot, message, flag) {
                       console.log("repo: " + repo);
                       console.log("owner: " + owner);
                       if(flag){ 
-                          bot.reply(message, "The repo: " + repo + " and the owner: " + owner + " is set, please type in 1 of the 3 usecases:\n"+
-                            "1. find assignee for issue [issue number]]\n"+
-                            "2. find contributors for file [file name]\n"+
-                            "3. find reviewers for issue [issue number]");
+                          bot.reply(message, "The repo: " + repo + " and the owner: " + owner + " is set, "+useCaseOptions);
                       }
                       resolve(true);
                       convo.stop();        
@@ -92,10 +90,10 @@ function askOwner(checkRepo, bot, message, flag) {
                     convo.say("undefined");
                   }  
               }).catch(function(err){
-                  console.log("the function reaches here");
-                  bot.reply(message, err);
+                  bot.reply(message, "Repo and owner combination is not valid. However let's move forward, we'll look for repo and owner name at"
+                                        +"later time, "+useCaseOptions);
+                  convo.stop();
               });
-              //convo.next();
             });
         });
     });
@@ -131,7 +129,6 @@ function useCase1(bot,message){
                         return assigneeList[b] - assigneeList[a];
                     });
                     if(result.length==0){
-                        console.log("REACHING HERE")
                         convo.say("There is not enough data in the database to make accurate predictions. I am sorry");
                     }
                     else{
@@ -140,50 +137,58 @@ function useCase1(bot,message){
                             userList.push(result[i]);
                             convo.say("Emp Id: " + result[i]);
                         }
-                        convo.ask("Whom do you want to assign this issue?", function(response, convo) {
-                            helper.isValidUser(response.text, userList).then(function (userId){
-                                convo.ask('Do you want to assign issue to ' + userId + '? Please confirm', [
-                                {
-                                    pattern: 'yes',
-                                    callback: function(response, convo) {
-                                        helper.assignIssueToEmp(userId, repo, owner, issueNumber).then(function(response){
-                                            console.log("issue assign true");
-                                            bot.reply(message, response);
-                                            var subjectToSend = 'Notification from TraziBot';
-                                            var textToSend = 'Hi, This is TraziBot. Issue ' + issueNumber + ' in repo ' + repo + ' is assigned to you';
-                                            mysql.getEmail([userId]).then(function(emailId){
-                                                console.log("Email is: "+emailId[0])
-                                                helper.emailing(emailId[0], subjectToSend, textToSend);
+                        convo.ask("Whom do you want to assign this issue? (Please enter exit if you do not want to assign"
+                                    +" the issue to any of the above user)", function(response, convo) {
+                            if(response.text=="exit" || response.text=="Exit"){
+                                bot.reply(message,useCaseOptions);
+                                convo.stop();
+                            }
+                            else{
+                                helper.isValidUser(response.text, userList).then(function (userId){
+                                    convo.ask('Do you want to assign issue to ' + userId + '? Please confirm', [
+                                    {
+                                        pattern: 'yes',
+                                        callback: function(response, convo) {
+                                            helper.assignIssueToEmp(userId, repo, owner, issueNumber).then(function(response){
+                                                console.log("issue assign true");
+                                                bot.reply(message, response);
+                                                var subjectToSend = 'Notification from TraziBot';
+                                                var textToSend = 'Hi, This is TraziBot. Issue ' + issueNumber + ' in repo ' + repo + ' is assigned to you';
+                                                mysql.getEmail([userId]).then(function(emailId){
+                                                    console.log("Email is: "+emailId[0])
+                                                    helper.emailing(emailId[0], subjectToSend, textToSend);
+                                                });
+                                            }).catch(function(err){
+                                                bot.reply(message, error);
                                             });
-                                        }).catch(function(err){
-                                            bot.reply(message, error);
-                                        });
-                                        convo.next();
-                                    }
-                                },
-                                {
-                                    pattern: 'no',
-                                    callback: function(response, convo) {
-                                        bot.reply(message,"Ok! Ping me if you need anything!");
-                                        convo.stop();
-                                    }
-                                },
-                                {
-                                    default: true,
-                                    callback: function(response, convo) {
-                                        convo.repeat();
-                                        convo.next();
-                                    }
-                                }]);
-                                resolve(true);
-                                convo.next();
-                            }).catch(function (err){
-                                bot.reply(message, err);
-                            }); 
+                                            convo.next();
+                                        }
+                                    },
+                                    {
+                                        pattern: 'no',
+                                        callback: function(response, convo) {
+                                            bot.reply(message,"Ok! Ping me if you need anything!");
+                                            convo.stop();
+                                        }
+                                    },
+                                    {
+                                        default: true,
+                                        callback: function(response, convo) {
+                                            convo.repeat();
+                                            convo.next();
+                                        }
+                                    }]);
+                                    resolve(true);
+                                    convo.next();
+                                }).catch(function (err){
+                                    bot.reply(message, err);
+                                }); 
+                            }
                         });
                     }
                 }).catch(function(err){
-                    bot.reply(message, err);
+                    bot.reply(message, err+useCaseOptions);
+                    convo.stop();
                 });
             });
         });
@@ -246,48 +251,55 @@ function useCase2(bot,message){
                     }
 
                 bot.reply(message, "The major contributors are: "  + result);
-                convo.ask("\nWhom do you want to send a notification to ?", function(response, convo) {
-                    helper.isValidUser(response.text, userList).then(function (userId){
-                        convo.ask('Do you want notify ' + userId + '? Please confirm', [
-                        {
-                            pattern: 'yes',
-                            callback: function(response, convo) {
-                                var count = 0;
-                                comm.forEach(function(e){
-                                    if(e.author.name === userId && count ===0){
-                                    count = 1;
-                                    console.log ("finding email id");
-                                    var subjectToSend = 'Notification from Trazi bot';
-                                    var textToSend = 'Hi ' + e.author.name + ', This is TraziBot. A file that you previously worked on is .'+
-                                    'being modified by some other user. You may be contacted regarding it soon';
-                                    var sendTo= e.author.email;
-                                    helper.emailing(sendTo, subjectToSend, textToSend);
-                                    bot.reply(message,"The email is sent to " + e.author.email);
-                                    }
-                                }, this);
-                                count =0;
-                                
-                                convo.next();
-                            }
-                        },
-                        {
-                            pattern: 'no',
-                            callback: function(response, convo) {
-                                bot.reply(message,"Ok! Ping me if you need anything!");
+                convo.ask("\nWhom do you want to send a notification to ?(Please enter exit if you do not want to send a notification"
+                            +" to any of the above user)", function(response, convo) {
+                    if(response.text=="exit" || response.text=="Exit"){
+                                bot.reply(message,useCaseOptions);
                                 convo.stop();
-                            }
-                        },
-                        {
-                            default: true,
-                            callback: function(response, convo) {
-                                convo.repeat();
-                                convo.next();
-                            }
-                        }]);
-                        convo.next();
-                    }).catch(function (e){
-                        bot.reply(message, "User not from given recommendations, enter valid user id.");
-                    }); 
+                    }
+                    else{
+                        helper.isValidUser(response.text, userList).then(function (userId){
+                            convo.ask('Do you want notify ' + userId + '? Please confirm', [
+                            {
+                                pattern: 'yes',
+                                callback: function(response, convo) {
+                                    var count = 0;
+                                    comm.forEach(function(e){
+                                        if(e.author.name === userId && count ===0){
+                                        count = 1;
+                                        console.log ("finding email id");
+                                        var subjectToSend = 'Notification from Trazi bot';
+                                        var textToSend = 'Hi ' + e.author.name + ', This is TraziBot. A file that you previously worked on is .'+
+                                        'being modified by some other user. You may be contacted regarding it soon';
+                                        var sendTo= e.author.email;
+                                        helper.emailing(sendTo, subjectToSend, textToSend);
+                                        bot.reply(message,"The email is sent to " + e.author.email);
+                                        }
+                                    }, this);
+                                    count =0;
+                                    
+                                    convo.next();
+                                }
+                            },
+                            {
+                                pattern: 'no',
+                                callback: function(response, convo) {
+                                    bot.reply(message,"Ok! Ping me if you need anything!");
+                                    convo.stop();
+                                }
+                            },
+                            {
+                                default: true,
+                                callback: function(response, convo) {
+                                    convo.repeat();
+                                    convo.next();
+                                }
+                            }]);
+                            convo.next();
+                        }).catch(function (e){
+                            bot.reply(message, "User not from given recommendations, enter valid user id.");
+                        });
+                    } 
                 });
             
                 }
@@ -355,7 +367,13 @@ function useCase3(bot,message){
                                         convo.say("Emp Id: " + result_assignee_table[i]);
                                     }
                                 }
-                                convo.ask("Whom do you want to select as a reviewer? Provide comma separated ids", function(response, convo) {
+                                convo.ask("Whom do you want to select as a reviewer? Provide comma separated ids (Please enter exit if you do not want to assign"
+                                    +" anyone as reviewer for this issue)", function(response, convo) {
+                                if(response.text=="exit" || response.text=="Exit"){
+                                bot.reply(message,useCaseOptions);
+                                convo.stop();
+                                }
+                                else{
                                     helper.isValidReviwer(response.text, userList).then(function (users){
                                         console.log("assigning issue");
                                         convo.ask('Do you want to assign ' + users + ' as a reviewer for issue #?' + issueNumber + ' Please confirm', [
@@ -395,13 +413,17 @@ function useCase3(bot,message){
                                         convo.next();
                                     }).catch(function (e){
                                         bot.reply(message, "User "+e+" not from given recommendations, enter valid id.");
-                                    });       
+                                    });
+                                }       
                                 });
+                            
                     }
                     });
                 });
                     }
-                });         
+                }).catch(function(err){
+                    bot.reply(message, err); 
+                    });        
             });
         });
     });
