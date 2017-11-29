@@ -24,7 +24,7 @@ We have used Trello for worksheet and teamwork. Kindly find trello cards at this
 | 3 | Ansible Scripts | Prepare ansible scripts for deployment at AWS                      | Scripting/ Done  | [#36](https://trello.com/c/ouRUi15i) | Shrikant, Sushant and Parag      | 20-Nov      | 23-Nov |
   
 
-## Week 3 : Nov 27 & Nov 28  
+### Week 3 : Nov 27 & Nov 28  
   
 |   | Deliverable           |  Sub Tasks     | Item/Status                    | Issues/Tasks | Team Members | Start Date        | Estimated Date | 
 |---|--------------------|------------------|-------------------------------------------|--------------|--------------|-----------------------|-------------|
