@@ -430,6 +430,11 @@ function useCase3(bot,message){
     });
 }
 
+controller.hears(['unset'],['mention', 'direct_mention','direct_message'], function(bot,message){
+    repo = "";
+    owner = "";
+});
+
 controller.hears(['.*'],['mention', 'direct_mention','direct_message'], function(bot,message) 
 {
     console.log(message);
