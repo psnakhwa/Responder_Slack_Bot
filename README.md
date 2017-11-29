@@ -7,21 +7,7 @@ Team Members:
 4. Parag Nakhwa (psnakhwa)
 5. Darshit Pandit (dupandit)
 
-## Service.md  
-
-Please find the Service.md file [here.](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/SERVICE.md). This file contains all the required tasks for Milestone 3.
-
-## Task Sheet
-
-Please find the worksheet.md file [here](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/WORKSHEET.md) for all the trello cards and task distributions.  
-
-## Screencast Link
-
-Please find the screencast [here](https://youtu.be/49cG-783yqo)
-
-## Bot Code
-
-Please find the js folder [here](https://github.ncsu.edu/sbshete/CSC-510-Project/tree/milestone3/js)
+# Milestone 4
 
 ## Deploy
 
