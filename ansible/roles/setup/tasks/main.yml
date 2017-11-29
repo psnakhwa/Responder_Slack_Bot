@@ -92,7 +92,6 @@
     create: yes
     state: present
 
-# Running main.js using forever
 - name: Stop all forever scripts
   command: forever stopall
 
