@@ -11,7 +11,7 @@ Following are the acceptance test instructions for each usecase :
 
 #### Initial Testing
 
-* Say "hi/hello @traziBot", so bot will know you are the manager with whom he will work with.
+* Say "hi/hello", so bot will know you are the manager with whom he will work with.
 * Wait for bot to respond and then give the repo name to work with as "Sample-mock-repo". 
 * As a simple step of authentication, bot will ask the owner of this repo. Owner of "Sample-mock-repo" is "dupandit".
 * If they match, bot will list all the commands for each usecase it can perform.
