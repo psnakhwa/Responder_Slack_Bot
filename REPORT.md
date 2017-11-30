@@ -10,8 +10,25 @@ Thirdly, it is hard to find the right developer who can review the code written 
 
 #### Primary features and screenshots.
 
+One can find our Trazibot code [here](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-report/js/traziBot.js) and its helper file [here](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-report/js/helper.js). Primary features that are implemented are : 
 
+Finding an employee for a new issue based on his/her skill set. 
 
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.51.14%20PM.png)
+ 
+Finding major contributor who is responsible for past modifications in the code
+
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.56.18%20PM.png)
+
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.56.34%20PM.png)
+  
+Finding a code reviewer for an issue. 
+
+![alt text](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-deploy/images/Screen%20Shot%202017-11-28%20at%2010.58.41%20PM.png)
+ 
+We are maintaining [following](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone3/database/database.md) database tables in order to find employees based on her skillset and in a similar way for reviewer. We are also maintaining database table with email id of each employee in order to notify him/her.
+
+For insertion of entries in the database tables, we have created a [webhook](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-report/js/server.js) which triggers whenever an issue is closed.
 
 
 #### Reflection on the development process
