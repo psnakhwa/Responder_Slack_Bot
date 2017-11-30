@@ -9,4 +9,4 @@ Team Members:
 
 ## REPORT
 
-Please find REPORT.md [here]https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-report/REPORT.md).
+Please find REPORT.md [here](https://github.ncsu.edu/sbshete/CSC-510-Project/blob/milestone-report/REPORT.md).
