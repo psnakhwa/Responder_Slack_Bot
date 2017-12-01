@@ -43,6 +43,20 @@ For insertion of entries in the database tables, we have created a [webhook](htt
 
 #### Limitations and Future Work
 
+Because of time constraints and course based project requirements, we were only able to solve primary problem of finding people for issues for manager. However in Software Engineering world, there is much more that needs to be considered for trazibot while finding people and assigning issues to them. <br/>
+<br />
+Following are the Limitations : <br /> 
+* Trazibot only supports Github as repository hosting service for assigning issues.
+* Only skillset is considered while choosing an assignee. So if two different issues have similar name and description, trazibot will still recommend the same person who was assigned the first issue, which is actually a major problem. 
+* Trazibot assumes that issue created always have skill or technology or rather programming language mentioned in either its name or description, which is user controlled. So if user doesn’t mention programming language or technology used while raising the issue, trazibot might not be able to suggest possible assignees.
+* For user details in trazibot’s database, it relies on the webhook that was created when issue is closed. So initially if the repository have no issues raised bot will have no details and will not be able to recommend assignees. For that case, we assume it already has some static entries to recommend assignees to user initially. <br />
+<br />
+There are lot of factors that can improve efficiency and performance of trazibot. Some of them are listed below : <br />
+* As mentioned in limitations considering only skillset while assigning issues creates problem. So trazibot can be made to assign issue based on more number of factors, like time or calendar of the possible assignees. So this will require separate database table for trazibot to track deadlines of each assignee.
+* Trazibot can be made to fetch user’s skills from its linkedin profile using LinkedIN api. This will make it efficient as it will not have to rely on webhook to get user details.
+* Trazibot can also be integrated with task tracking tools/website like trello or JIRA to ease the software development process. .
+
+
 
 
 
